@@ -1,0 +1,31 @@
+server:
+  port: 8080
+spring:
+  devtools:
+    restart:
+      enabled: true # 소스파일에 변화가 있을 때 자동으로 서버 재 시작 설정
+    livereload:
+      enabled: true # 정적 리소스에 변화가 있을 때 바로 반영한다.
+  output:
+    ansi:
+      enabled: always
+  profiles:
+    include: oracle # include application-oracle.yml (오라클 접속정보 숨김)
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      enabled: true
+
+jpa:
+  hibernate:
+    ddl-auto: none # create -- 서버 restart시 table정보가 reset 됨
+      # 로컬에서 초기 개발시 사용. 일반적으로는 none옵션 권장
+  show-sql: true
+  properties:
+    hibernate.format_sql: true
