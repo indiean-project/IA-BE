@@ -1,13 +1,10 @@
 package com.ia.indieAn;
 
-import com.ia.indieAn.model.Member;
-import com.ia.indieAn.repository.UserRepository;
-import org.assertj.core.api.Assertions;
+import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 

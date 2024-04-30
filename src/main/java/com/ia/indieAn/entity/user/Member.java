@@ -1,10 +1,9 @@
-package com.ia.indieAn.model;
+package com.ia.indieAn.entity.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.io.Serializable;
 import java.sql.Date;

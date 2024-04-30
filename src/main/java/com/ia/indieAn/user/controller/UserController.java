@@ -1,9 +1,8 @@
-package com.ia.indieAn.controller;
+package com.ia.indieAn.user.controller;
 
-import com.ia.indieAn.model.Member;
-import com.ia.indieAn.service.UserService;
+import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

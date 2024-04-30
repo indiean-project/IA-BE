@@ -1,10 +1,9 @@
-package com.ia.indieAn.service;
+package com.ia.indieAn.user.service;
 
-import com.ia.indieAn.model.Member;
-import com.ia.indieAn.repository.UserRepository;
+import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
