@@ -20,6 +20,6 @@ public class ColoLog {
     private int userNo;
     private String vote; // R인지 L인지
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String cancelYn;
 }

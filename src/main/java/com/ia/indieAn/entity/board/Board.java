@@ -25,7 +25,7 @@ public class Board {
     private LocalDateTime enrollDate;
     private LocalDateTime updateDate;
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String deleteYn;
 
     private int viewCount;

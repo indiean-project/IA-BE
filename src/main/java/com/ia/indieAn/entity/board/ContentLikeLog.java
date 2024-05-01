@@ -18,7 +18,7 @@ public class ContentLikeLog {
 
     private int userNo;
 
-    @ColumnDefault("Y")
+    @ColumnDefault("'Y'")
     private String likeYn;
 
     private int contentNo;

@@ -21,7 +21,7 @@ public class ContentReportLog {
     private int userNo;
     private int reportTypeNo;
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String solveYn;
 
     private LocalDateTime reportDate;

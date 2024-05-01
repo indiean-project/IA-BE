@@ -22,7 +22,7 @@ public class Reply {
     private int boardNo;
     private LocalDateTime createDate;
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String deleteYn;
 
     private String replyContent;

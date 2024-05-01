@@ -21,7 +21,7 @@ public class Question {
     private int userNo;
     private String questionContent;
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String ansYn;
 
     private String ansContent;

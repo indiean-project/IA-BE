@@ -24,7 +24,7 @@ public class Concert {
     private String concertInfo;
     private LocalDateTime createDate;
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String deleteYn;
 
     private LocalDateTime updateDate;

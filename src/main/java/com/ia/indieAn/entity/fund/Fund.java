@@ -24,11 +24,11 @@ public class Fund {
     private LocalDateTime createDate;
     private LocalDateTime deleteDate;
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String deleteYn;
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String endYn;
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String compYn;
 
     private LocalDateTime startDate;

@@ -11,6 +11,13 @@ spring:
       enabled: always
   profiles:
     include: oracle # include application-oracle.yml (오라클 접속정보 숨김)
+  jpa:
+    hibernate:
+      ddl-auto: create # create -- 서버 restart시 table정보가 reset 됨
+      # 로컬에서 초기 개발시 사용. 일반적으로는 none옵션 권장
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
 
 management:
   endpoints:
@@ -22,10 +29,7 @@ management:
     health:
       enabled: true
 
-jpa:
-  hibernate:
-    ddl-auto: none # create -- 서버 restart시 table정보가 reset 됨
-      # 로컬에서 초기 개발시 사용. 일반적으로는 none옵션 권장
-  show-sql: true
-  properties:
-    hibernate.format_sql: true
+
+
+
+

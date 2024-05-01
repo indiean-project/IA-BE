@@ -21,7 +21,7 @@ public class Reward {
     private int rewardPrice;
     private String rewardInfo;
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String deliveryYn;
 
     private String limitYn;

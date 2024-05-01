@@ -17,4 +17,9 @@ public class UserService {
 
         return result;
     }
+
+    public Member signUpUser(Member member){
+        System.out.println(member);
+        return userRepository.save(member);
+    }
 }

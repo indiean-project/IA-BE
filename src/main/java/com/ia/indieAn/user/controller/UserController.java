@@ -24,4 +24,11 @@ public class UserController {
 
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping("/signUp")
+    public Member signUpUser(@RequestBody Member member){
+        
+        return userService.signUpUser(member);
+    }
 }
