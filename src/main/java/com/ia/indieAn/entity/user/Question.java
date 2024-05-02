@@ -1,30 +1,41 @@
 package com.ia.indieAn.entity.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.sql.Date;
 
 @DynamicInsert
 @Entity
 @Table(name = "question")
 @Data
-public class Question {
+public class Question implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int questionNo; //getter, setter 메소드 camelCase 때문에 qNo -> questionNo로 바꿨습니다.
 
-    private int userNo;
-    private String questionContent;
+    @ManyToOne
+    @JoinColumn(name = "user_no")
+    private Member member;
 
-    @ColumnDefault("'N'")
+    @Column(columnDefinition = "char(1) default 'N'")
     private String ansYn;
 
+    @CreationTimestamp
+    @Temporal(TemporalType.DATE)
+    private Date questionDate;
+
+    @Temporal(TemporalType.DATE)
+    private Date ansDate;
+
+    @Column(nullable = false)
+    private String questionContent;
+
     private String ansContent;
-    private LocalDateTime questionDate;
-    private LocalDateTime ansDate;
+
 }

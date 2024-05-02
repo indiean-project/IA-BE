@@ -1,12 +1,13 @@
 package com.ia.indieAn;
 
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.type.converter.FundTypeConverter;
+import com.ia.indieAn.type.enumType.FundTypeEnum;
+import com.ia.indieAn.type.enumType.UserRoleEnum;
 import com.ia.indieAn.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDateTime;
 
 @SpringBootTest
 class IndieAnApplicationTests {
@@ -21,15 +22,17 @@ class IndieAnApplicationTests {
 		member.setUserId("comet2667");
 		member.setUserPwd("123123");
 		member.setUserName("박혜성");
-		member.setNickname("옥암동불꽃낙지");
+		member.setNickName("옥암동불꽃낙지");
 		member.setPhone("01077052667");
-		member.setAddress("광진구 화양동");
-		member.setCreateDate(LocalDateTime.now());
-		member.setRoleNo(2);
+		member.setUserRole(UserRoleEnum.ARTIST);
 
 		Member result = userRepository.save(member);
-
 		System.out.println(result);
+
+
+
+		System.out.println();
+
 	}
 
 }

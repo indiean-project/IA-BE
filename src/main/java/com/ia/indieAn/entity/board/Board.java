@@ -1,34 +1,61 @@
 package com.ia.indieAn.entity.board;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.ia.indieAn.entity.artist.Artist;
+import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.type.converter.ContentTypeConverter;
+import com.ia.indieAn.type.enumType.ContentTypeEnum;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.ManyToAny;
 
+import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @DynamicInsert
 @Entity
 @Table(name = "board")
 @Data
-public class Board {
+public class Board implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int boardNo;
 
-    private int userNo;
-    private int contentTypeNo;
-    private String boardTitle;
-    private String boardContent;
-    private LocalDateTime enrollDate;
-    private LocalDateTime updateDate;
+    @ManyToOne
+    @JoinColumn(name = "user_no")
+    private Member member;
 
-    @ColumnDefault("'N'")
+    @Convert(converter = ContentTypeConverter.class)
+    @Column(nullable = false)
+    private ContentTypeEnum contentTypeNo;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.DATE)
+    private Date enrollDate;
+
+    @Temporal(TemporalType.DATE)
+    private Date updateDate;
+
+    @Column(nullable = false)
+    private String boardTitle;
+
+    @Column(nullable = false)
+    private String boardContent;
+
+    @Column(columnDefinition = "char(1) default 'N'")
     private String deleteYn;
 
     private int viewCount;
-    private int artistNo;
+
+    @ManyToOne
+    @JoinColumn(name = "artist_no", nullable = true)
+    private Artist artist;
+
+    @OneToOne(mappedBy = "board")
+    private BoardColo boardColo;
 
 }

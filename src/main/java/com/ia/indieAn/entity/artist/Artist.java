@@ -1,25 +1,41 @@
 package com.ia.indieAn.entity.artist;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.ia.indieAn.entity.board.Board;
+import com.ia.indieAn.entity.user.Member;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @DynamicInsert
 @Entity
 @Table(name = "artist")
 @Data
-public class Artist {
+public class Artist implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int artistNo;
 
-    private int userNo;
+    @OneToOne
+    @JoinColumn(name = "user_no")
+    private Member member;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date debutDate;
+
+    @Column(nullable = false, unique = true)
     private String artistName;
+
     private String musicCategory;
     private String artistInfo;
-    private LocalDateTime debutDate;
+
+    @OneToMany(mappedBy = "artist")
+    private List<Board> boards = new ArrayList<>();
 }

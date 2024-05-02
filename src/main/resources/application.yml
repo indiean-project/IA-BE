@@ -11,6 +11,8 @@ spring:
       enabled: always
   profiles:
     include: oracle # include application-oracle.yml (오라클 접속정보 숨김)
+
+
   jpa:
     hibernate:
       ddl-auto: create # create -- 서버 restart시 table정보가 reset 됨
