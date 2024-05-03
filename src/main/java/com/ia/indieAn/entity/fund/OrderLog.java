@@ -1,27 +1,48 @@
 package com.ia.indieAn.entity.fund;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.ia.indieAn.entity.user.Member;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @DynamicInsert
 @Entity
 @Table(name = "order_log")
 @Data
-public class OrderLog {
+public class OrderLog implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderLogNo;
-    private int userNo;
-    private int fundNo;
+
+    @ManyToOne
+    @JoinColumn(name = "user_no", nullable = false)
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "fund_no")
+    private Fund fund;
+
+    @Column(nullable = false)
     private int totalPrice;
+
+    @Column(nullable = false)
     private String receiptId;
+
+    @Column(nullable = false)
     private String billingKey;
-    private LocalDateTime orderDate;
-    private LocalDateTime paymentDate;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.DATE)
+    private Date orderDate;
+
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    private Date paymentDate;
 
 }

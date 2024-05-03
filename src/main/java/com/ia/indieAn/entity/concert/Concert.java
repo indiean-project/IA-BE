@@ -1,32 +1,49 @@
 package com.ia.indieAn.entity.concert;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @DynamicInsert
 @Entity
 @Table(name = "concert")
 @Data
-public class Concert {
+public class Concert implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int concertNo;
 
+    @Column(nullable = false)
     private String location;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    private String concertInfo;
-    private LocalDateTime createDate;
 
-    @ColumnDefault("'N'")
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
+
+    @Column(nullable = false)
+    private String concertInfo;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.DATE)
+    private Date createDate;
+
+    @Column(columnDefinition = "char(1) default 'N'")
     private String deleteYn;
 
-    private LocalDateTime updateDate;
+    @Temporal(TemporalType.DATE)
+    private Date updateDate;
 
+    @OneToMany(mappedBy = "concert")
+    private List<ConcertLineup> concertLineupList = new ArrayList<>();
 }

@@ -1,5 +1,11 @@
 package com.ia.indieAn.entity.user;
 
+import com.ia.indieAn.entity.board.Board;
+import com.ia.indieAn.entity.board.ContentLikeLog;
+import com.ia.indieAn.entity.board.ContentReportLog;
+import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.entity.fund.FundLog;
+import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.type.converter.UserRoleConverter;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
 import jakarta.persistence.*;
@@ -11,7 +17,6 @@ import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +27,7 @@ import java.util.List;
 public class Member implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //자동으로 시퀀스 생성 및 할당
     private int userNo;
 
     @Convert(converter = UserRoleConverter.class)
@@ -39,7 +44,7 @@ public class Member implements Serializable {
     private String userName;
 
     @Column(unique = true, nullable = false)
-    private String nickName;
+    private String nickname;
 
     @Column(unique = true, nullable = false)
     private String phone;
@@ -65,9 +70,32 @@ public class Member implements Serializable {
     private String userFavoriteMusic;
 
     //참조하는 엔티티에 대한 매핑
+    //컬럼이 생성되지는 않음(조회용)
 
     //문의
-    @OneToMany(mappedBy = "member")
-    private List<Question> questions = new ArrayList<>();
+    @OneToMany(mappedBy = "member") //mappedBy 해당 테이블의 member 객체에만 권한을 갖겠다
+    private List<Question> questionList = new ArrayList<>(); //member 테이블에서 question 테이블을 수정할 수 없도록 방지
 
+    //좋아요
+    @OneToMany(mappedBy = "member")
+    private List<ContentLikeLog> contentLikeLogList = new ArrayList<>();
+
+    //펀딩 신청 내역
+    @OneToMany(mappedBy = "member")
+    private List<Fund> fundList = new ArrayList<>();
+
+    //펀딩 참가 내역
+    @OneToMany(mappedBy = "member")
+    private List<FundLog> fundLogList = new ArrayList<>();
+
+    //주문 내역
+    @OneToMany(mappedBy = "member")
+    private List<OrderLog> orderLogList = new ArrayList<>();
+
+    //신고 내역
+    @OneToMany(mappedBy = "member")
+    private List<ContentReportLog> contentReportLogList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Board> boardList = new ArrayList<>();
 }

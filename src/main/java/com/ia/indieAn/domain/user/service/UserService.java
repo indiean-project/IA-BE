@@ -1,7 +1,7 @@
-package com.ia.indieAn.user.service;
+package com.ia.indieAn.domain.user.service;
 
 import com.ia.indieAn.entity.user.Member;
-import com.ia.indieAn.user.repository.UserRepository;
+import com.ia.indieAn.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

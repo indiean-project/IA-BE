@@ -1,7 +1,7 @@
-package com.ia.indieAn.user.controller;
+package com.ia.indieAn.domain.user.controller;
 
 import com.ia.indieAn.entity.user.Member;
-import com.ia.indieAn.user.service.UserService;
+import com.ia.indieAn.domain.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

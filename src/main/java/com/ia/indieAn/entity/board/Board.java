@@ -14,6 +14,8 @@ import org.hibernate.annotations.ManyToAny;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @DynamicInsert
 @Entity
@@ -26,7 +28,7 @@ public class Board implements Serializable {
     private int boardNo;
 
     @ManyToOne
-    @JoinColumn(name = "user_no")
+    @JoinColumn(name = "user_no", nullable = false)
     private Member member;
 
     @Convert(converter = ContentTypeConverter.class)
@@ -58,4 +60,6 @@ public class Board implements Serializable {
     @OneToOne(mappedBy = "board")
     private BoardColo boardColo;
 
+    @OneToMany(mappedBy = "board")
+    private List<Reply> replies = new ArrayList<>();
 }
