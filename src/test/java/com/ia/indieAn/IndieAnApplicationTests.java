@@ -1,10 +1,10 @@
 package com.ia.indieAn;
 
+import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.converter.FundTypeConverter;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
-import com.ia.indieAn.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,7 @@ class IndieAnApplicationTests {
 		member.setUserId("comet2667");
 		member.setUserPwd("123123");
 		member.setUserName("박혜성");
-		member.setNickName("옥암동불꽃낙지");
+		member.setNickname("옥암동불꽃낙지");
 		member.setPhone("01077052667");
 		member.setUserRole(UserRoleEnum.ARTIST);
 
