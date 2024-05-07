@@ -38,4 +38,11 @@ public class UserService {
         }
         userRepository.save(member);
     }
+
+    public void checkUserIdNPwd(Member member) {
+        if (userRepository.existsByUserId(member.getUserId())){
+            throw new CustomException(ErrorCode.HAS_ID);
+        }
+        userRepository.findByUserId(member.getUserId());
+    }
 }
