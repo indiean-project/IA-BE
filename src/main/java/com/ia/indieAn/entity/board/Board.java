@@ -51,6 +51,7 @@ public class Board implements Serializable {
     @Column(columnDefinition = "char(1) default 'N'")
     private String deleteYn;
 
+    @Column(columnDefinition = "default 0")
     private int viewCount;
 
     @ManyToOne

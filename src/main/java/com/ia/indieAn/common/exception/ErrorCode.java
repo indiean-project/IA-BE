@@ -15,6 +15,8 @@ public enum ErrorCode {
     HAS_NICKNAME(HttpStatus.BAD_REQUEST, "account-004", "존재하는 닉네임입니다."),
     HAS_PHONE(HttpStatus.BAD_REQUEST, "account-005", "존재하는 휴대폰번호입니다.");
 
+
+
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;
