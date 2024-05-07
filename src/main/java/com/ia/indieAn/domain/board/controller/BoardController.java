@@ -35,9 +35,9 @@ public class BoardController {
         board.setContentTypeNo(ContentTypeEnum.FREE);
         System.out.println(board);
 
-        boardService.boardEnroll(board);
+        Board b = boardService.boardEnroll(board);
         response.setStatus(StatusEnum.SUCCESS);
-
+        response.setData(b.getBoardNo());
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 }

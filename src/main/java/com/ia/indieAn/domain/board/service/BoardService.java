@@ -20,9 +20,9 @@ public class BoardService {
     UserRepository userRepository;
 
     @Transactional(rollbackFor = CustomException.class)
-    public void boardEnroll(Board board) {
+    public Board boardEnroll(Board board) {
         Member member = userRepository.findByUserNo(board.getMember().getUserNo());
         board.setMember(member);
-        boardRepository.save(board);
+        return boardRepository.save(board);
     }
 }
