@@ -5,6 +5,7 @@ import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.user.dto.LoginUserDto;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.Charset;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/apis/user")
 @CrossOrigin
 public class UserController {
 
@@ -25,15 +26,22 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/login")
     public ResponseEntity<ResponseTemplate> loginUser(@RequestBody Member member){
+        System.out.println(member);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
         LoginUserDto result = userService.loginUser(member);
-        response.setStatus(StatusEnum.SUCCESS);
-        response.setData(result);
+        System.out.println(result);
+        if(result != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(result);
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
     @ResponseBody
@@ -47,5 +55,19 @@ public class UserController {
         response.setStatus(StatusEnum.SUCCESS);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping("/signUp/checkInfo")
+    public ResponseEntity<ResponseTemplate> checkUserIdNPwd(@RequestBody @Valid Member member) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        userService.checkUserIdNPwd(member);
+        response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+
     }
 }
