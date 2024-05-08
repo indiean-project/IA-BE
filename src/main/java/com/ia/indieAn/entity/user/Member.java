@@ -9,6 +9,7 @@ import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.type.converter.UserRoleConverter;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,6 +35,7 @@ public class Member implements Serializable {
     private UserRoleEnum userRole;
 
     @Column(unique = true, nullable = false)
+    @Email
     private String userId;
 
     @Column(nullable = false)

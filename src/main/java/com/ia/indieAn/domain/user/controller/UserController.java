@@ -6,6 +6,7 @@ import com.ia.indieAn.domain.user.dto.LoginUserDto;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import java.nio.charset.Charset;
 @RestController
 @RequestMapping("/apis/user")
 @CrossOrigin
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -58,13 +60,28 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping("/signUp/checkInfo")
-    public ResponseEntity<ResponseTemplate> checkUserIdNPwd(@RequestBody @Valid Member member) {
+    @RequestMapping("/signUp/checkId")
+    public ResponseEntity<ResponseTemplate> checkUserId(@RequestBody @Valid Member member) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        userService.checkUserIdNPwd(member);
+        userService.checkUserId(member);
+        response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+
+    }
+
+    @ResponseBody
+    @RequestMapping("/signUp/checkPwd")
+    public ResponseEntity<ResponseTemplate> checkUserPwd(@RequestBody @Valid Member member) {
+//        log.info("enter /signUp/checkPwd {}", member);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
         response.setStatus(StatusEnum.SUCCESS);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);

@@ -31,6 +31,7 @@ public class Board implements Serializable {
     @JoinColumn(name = "user_no", nullable = false)
     private Member member;
 
+
     @Convert(converter = ContentTypeConverter.class)
     @Column(nullable = false)
     private ContentTypeEnum contentTypeNo;
