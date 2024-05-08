@@ -59,6 +59,7 @@ public class FreeBoardController {
         log.info("currentPage : {}", currentPage);
         ArrayList<FreeBoardDto> list = boardService.freeBoardList();
 
+        log.info("list : {}", list);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }

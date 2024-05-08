@@ -1,8 +1,8 @@
 package com.ia.indieAn.domain.board.service;
 
 import com.ia.indieAn.common.exception.CustomException;
-import com.ia.indieAn.domain.board.dto.BoardDto;
-import com.ia.indieAn.domain.board.repository.BoardRepository;
+import com.ia.indieAn.domain.board.dto.FreeBoardDto;
+import com.ia.indieAn.domain.board.repository.FreeBoardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.user.Member;
@@ -14,10 +14,10 @@ import java.util.ArrayList;
 
 @Service
 @Transactional(readOnly = true)
-public class BoardService {
+public class FreeBoardService {
 
     @Autowired
-    BoardRepository boardRepository;
+    FreeBoardRepository boardRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -29,11 +29,11 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public ArrayList<BoardDto> freeBoardList() {
+    public ArrayList<FreeBoardDto> freeBoardList() {
         ArrayList<Board> boardArrayList = (ArrayList<Board>) boardRepository.findAll();
-        ArrayList<BoardDto> boardDtoArrayList = new ArrayList<>();
+        ArrayList<FreeBoardDto> boardDtoArrayList = new ArrayList<>();
         for (int i = 0 ; i < boardArrayList.size(); i++){
-            boardDtoArrayList.add(new BoardDto(boardArrayList.get(i)));
+            boardDtoArrayList.add(new FreeBoardDto(boardArrayList.get(i)));
         }
         return boardDtoArrayList;
     }

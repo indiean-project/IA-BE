@@ -1,8 +1,10 @@
 package com.ia.indieAn;
 
 import com.ia.indieAn.domain.user.repository.UserRepository;
+import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.converter.FundTypeConverter;
+import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
 import org.junit.jupiter.api.Test;
@@ -28,7 +30,6 @@ class IndieAnApplicationTests {
 
 		Member result = userRepository.save(member);
 		System.out.println(result);
-
 
 
 		System.out.println();
