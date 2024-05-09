@@ -2,16 +2,19 @@ package com.ia.indieAn.entity.board;
 
 import com.ia.indieAn.entity.user.Member;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "colo_log")
-@Data
 public class ColoLog implements Serializable {
 
     @Id
@@ -31,4 +34,15 @@ public class ColoLog implements Serializable {
 
     @Column(columnDefinition = "char(1) default 'N'")
     private String cancelYn;
+
+    @Override
+    public String toString() {
+        return "ColoLog{" +
+                "coloLogNo=" + coloLogNo +
+                ", coloNo=" + boardColo.getColoNo() +
+                ", userNo=" + member.getUserNo() +
+                ", vote='" + vote + '\'' +
+                ", cancelYn='" + cancelYn + '\'' +
+                '}';
+    }
 }

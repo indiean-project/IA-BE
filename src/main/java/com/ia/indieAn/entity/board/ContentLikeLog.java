@@ -4,16 +4,19 @@ import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.converter.BrTypeConverter;
 import com.ia.indieAn.type.enumType.BrTypeEnum;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "content_like_log")
-@Data
 public class ContentLikeLog implements Serializable {
 
     @Id
@@ -38,4 +41,14 @@ public class ContentLikeLog implements Serializable {
     @Column(nullable = false)
     private BrTypeEnum brType; //게시글(B)인지 댓글(R)인지 구분
 
+    @Override
+    public String toString() {
+        return "ContentLikeLog{" +
+                "likeLog=" + likeLog +
+                ", userNo=" + member.getUserNo() +
+                ", likeYn='" + likeYn + '\'' +
+                ", contentNo=" + contentNo +
+                ", brType=" + brType +
+                '}';
+    }
 }

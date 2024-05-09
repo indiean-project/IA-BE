@@ -2,7 +2,7 @@ package com.ia.indieAn.entity.fund;
 
 import com.ia.indieAn.entity.user.Member;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -10,10 +10,13 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "order_log")
-@Data
 public class OrderLog implements Serializable {
 
     @Id
@@ -45,4 +48,17 @@ public class OrderLog implements Serializable {
     @Column(nullable = false)
     private Date paymentDate;
 
+    @Override
+    public String toString() {
+        return "OrderLog{" +
+                "orderLogNo=" + orderLogNo +
+                ", userNo=" + member.getUserNo() +
+                ", fundNo=" + fund.getFundNo() +
+                ", totalPrice=" + totalPrice +
+                ", receiptId='" + receiptId + '\'' +
+                ", billingKey='" + billingKey + '\'' +
+                ", orderDate=" + orderDate +
+                ", paymentDate=" + paymentDate +
+                '}';
+    }
 }
