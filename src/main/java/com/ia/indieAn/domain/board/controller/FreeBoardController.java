@@ -5,6 +5,7 @@ import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.dto.FreeBoardDto;
 import com.ia.indieAn.domain.board.service.FreeBoardService;
 import com.ia.indieAn.entity.board.Board;
+import com.ia.indieAn.type.enumType.BrTypeEnum;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,16 @@ public class FreeBoardController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        List<FreeBoardDto> list = boardService.freeBoardList(pageable);
+
+
+        ArrayList<FreeBoardDto> list = boardService.freeBoardList(pageable);
+
+        for (int i = 0; i < list.size(); i++) {
+            int result = boardService.boardlike(list.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
+            log.info("list : {}",list);
+            list.get(i).setLikeCount(result);
+        }
+
         response.setData(list);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);

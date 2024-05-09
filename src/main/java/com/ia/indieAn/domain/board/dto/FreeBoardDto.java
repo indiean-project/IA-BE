@@ -16,7 +16,8 @@ public class FreeBoardDto {
     private String boardTitle;
     private String boardContent;
     private int viewCount;
-    private List<Reply> replies;
+    private int likeCount;
+    private int replies;
 
     public FreeBoardDto(Board board) {
         this.boardNo = board.getBoardNo();
@@ -26,6 +27,6 @@ public class FreeBoardDto {
         this.boardTitle = board.getBoardTitle();
         this.boardContent = board.getBoardContent();
         this.viewCount = board.getViewCount();
-        this.replies = board.getReplies();
+        this.replies = board.getReplies().size();
     }
 }
