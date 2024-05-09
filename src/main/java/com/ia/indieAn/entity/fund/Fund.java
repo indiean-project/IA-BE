@@ -40,6 +40,12 @@ public class Fund implements Serializable {
     @Column(nullable = false)
     private String fundTitle;
 
+    @Column(nullable = false)
+    private String fundDescription;
+
+    @Column(nullable = false)
+    private int target;
+
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
     private Date createDate;
