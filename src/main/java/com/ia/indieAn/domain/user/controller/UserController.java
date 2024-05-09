@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.Charset;
 
 @RestController
-@RequestMapping("/apis/user")
+@RequestMapping("/api/user")
 @CrossOrigin
 @Slf4j
 public class UserController {
