@@ -87,4 +87,47 @@ public class UserController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
 
     }
+/*
+    @ResponseBody
+    @RequestMapping("/myPage")
+    public ResponseEntity<ResponseTemplate> userPage(@RequestBody Member member){
+        System.out.println(member);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        LoginUserDto result = userService.loginUser(member);
+        System.out.println(result);
+        if(result != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(result);
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @ResponseBody
+    @RequestMapping("/myPage/update")
+    public ResponseEntity<ResponseTemplate> updateUser(@RequestBody Member member){
+        System.out.println(member);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        LoginUserDto result = userService.loginUser(member);
+        System.out.println(result);
+        if(result != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(result);
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+ */
 }
