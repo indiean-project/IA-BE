@@ -27,6 +27,9 @@ public class Concert implements Serializable {
     private int concertNo;
 
     @Column(nullable = false)
+    private String concertTitle;
+
+    @Column(nullable = false)
     private String location;
 
     @Temporal(TemporalType.DATE)
