@@ -11,4 +11,5 @@ public class IndieAnApplication {
 		SpringApplication.run(IndieAnApplication.class, args);
 	}
 
+
 }

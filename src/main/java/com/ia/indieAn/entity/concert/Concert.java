@@ -21,6 +21,9 @@ public class Concert implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int concertNo;
+    //title 추가
+    @Column(nullable = false)
+    private String concertTitle;
 
     @Column(nullable = false)
     private String location;
