@@ -1,23 +1,44 @@
 package com.ia.indieAn.admin.user.controller;
 
 
-import com.ia.indieAn.admin.user.service.FundingService;
+import com.ia.indieAn.admin.user.dto.FundingAdminUserDto;
+import com.ia.indieAn.admin.user.service.FundingAdminService;
+import com.ia.indieAn.common.responseEntity.ResponseTemplate;
+import com.ia.indieAn.common.responseEntity.StatusEnum;
+import com.ia.indieAn.entity.fund.Fund;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin
-public class FundingController {
+public class FundingAdminController {
 
     @Autowired
-    FundingService fundingService;
+    FundingAdminService fundingService;
 
     @ResponseBody
-    @RequestMapping("login")
+    @RequestMapping("/fundList")
+    public ResponseEntity<ResponseTemplate> fundList(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        ArrayList<FundingAdminUserDto> result = fundingService.selectAllFundList();
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(result);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+
+
+    }
 
 
 
