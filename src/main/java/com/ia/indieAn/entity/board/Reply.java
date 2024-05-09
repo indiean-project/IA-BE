@@ -2,7 +2,7 @@ package com.ia.indieAn.entity.board;
 
 import com.ia.indieAn.entity.user.Member;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -11,10 +11,13 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "reply")
-@Data
 public class Reply implements Serializable {
 
     @Id
@@ -38,4 +41,16 @@ public class Reply implements Serializable {
 
     @Column(nullable = false)
     private String replyContent;
+
+    @Override
+    public String toString() {
+        return "Reply{" +
+                "replyNo=" + replyNo +
+                ", userNo=" + member.getUserNo() +
+                ", boardNo=" + board.getBoardNo() +
+                ", createDate=" + createDate +
+                ", deleteYn='" + deleteYn + '\'' +
+                ", replyContent='" + replyContent + '\'' +
+                '}';
+    }
 }

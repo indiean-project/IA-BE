@@ -1,7 +1,7 @@
 package com.ia.indieAn.entity.user;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -9,10 +9,13 @@ import org.hibernate.annotations.DynamicInsert;
 import java.io.Serializable;
 import java.sql.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "question")
-@Data
 public class Question implements Serializable {
 
     @Id
@@ -38,4 +41,16 @@ public class Question implements Serializable {
 
     private String ansContent;
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "questionNo=" + questionNo +
+                ", userNo=" + member.getUserNo() +
+                ", ansYn='" + ansYn + '\'' +
+                ", questionDate=" + questionDate +
+                ", ansDate=" + ansDate +
+                ", questionContent='" + questionContent + '\'' +
+                ", ansContent='" + ansContent + '\'' +
+                '}';
+    }
 }

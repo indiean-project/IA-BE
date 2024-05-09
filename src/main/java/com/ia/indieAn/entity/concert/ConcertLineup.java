@@ -1,15 +1,18 @@
 package com.ia.indieAn.entity.concert;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "concert_lineup")
-@Data
 public class ConcertLineup implements Serializable {
 
     @Id
@@ -21,4 +24,13 @@ public class ConcertLineup implements Serializable {
 
     @Column(nullable = false)
     private String artistName;
+
+    @Override
+    public String toString() {
+        return "ConcertLineup{" +
+                "lineupNo=" + lineupNo +
+                ", concertNo=" + concert.getConcertNo() +
+                ", artistName='" + artistName + '\'' +
+                '}';
+    }
 }
