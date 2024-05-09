@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class FreeBoardDto {
     private int boardNo;
-    private int userNo;
+    private String Nickname;
     private Date enrollDate;
     private Date updateDate;
     private String boardTitle;
@@ -20,7 +20,7 @@ public class FreeBoardDto {
 
     public FreeBoardDto(Board board) {
         this.boardNo = board.getBoardNo();
-        this.userNo = board.getMember().getUserNo();
+        this.Nickname = board.getMember().getNickname();
         this.enrollDate = board.getEnrollDate();
         this.updateDate = board.getUpdateDate();
         this.boardTitle = board.getBoardTitle();

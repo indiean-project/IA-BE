@@ -1,4 +1,4 @@
-package com.ia.indieAn.domain.imgfilter.controller;
+package com.ia.indieAn.domain.common.controller;
 
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
