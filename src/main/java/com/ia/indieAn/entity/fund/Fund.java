@@ -108,6 +108,8 @@ public class Fund implements Serializable {
                 ", userNo=" + member.getUserNo() +
                 ", fundTypeNo=" + fundTypeNo +
                 ", fundTitle='" + fundTitle + '\'' +
+                ", fundDescription='" + fundDescription + '\'' +
+                ", target=" + target +
                 ", createDate=" + createDate +
                 ", deleteDate=" + deleteDate +
                 ", deleteYn='" + deleteYn + '\'' +
