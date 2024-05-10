@@ -2,7 +2,7 @@ package com.ia.indieAn.domain.fund.controller;
 
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
-import com.ia.indieAn.domain.dto.FundListDto;
+import com.ia.indieAn.domain.fund.dto.FundListDto;
 import com.ia.indieAn.domain.fund.service.FundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

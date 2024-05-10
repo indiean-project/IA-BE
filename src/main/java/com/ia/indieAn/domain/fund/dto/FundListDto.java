@@ -1,4 +1,4 @@
-package com.ia.indieAn.domain.dto;
+package com.ia.indieAn.domain.fund.dto;
 
 import com.ia.indieAn.entity.fund.Fund;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class FundListDto {
     //펀딩액 현황
     private int revenue;
 
-    public FundListDto(Fund fund) {
+    public FundListDto(Fund fund, int revenue) {
         this.fundNo = fund.getFundNo();
         this.userNo = fund.getMember().getUserNo();
         this.fundTitle = fund.getFundTitle();
@@ -31,8 +31,11 @@ public class FundListDto {
         this.fundType = fund.getFundTypeNo().getValue();
         this.fundDescription = fund.getFundDescription();
         this.target = fund.getTarget();
-        for (int i = 0; i < fund.getOrderLogList().size(); i++) {
-            this.revenue += fund.getOrderLogList().get(i).getTotalPrice();
-        }
+        this.revenue = revenue;
+
+        // 선생님이 경악한 방식, 생성자 안에서 for문은 돌리지 말 것.
+//        for (int i = 0; i < fund.getOrderLogList().size(); i++) {
+//            this.revenue += fund.getOrderLogList().get(i).getTotalPrice();
+//        }
     }
 }
