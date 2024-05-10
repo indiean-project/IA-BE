@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.user.service;
 
 import com.ia.indieAn.domain.user.dto.LoginUserDto;
+import com.ia.indieAn.domain.user.dto.UserPageDto;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.common.exception.CustomException;
@@ -76,5 +77,24 @@ public class UserService {
                                                 "끌리는", "행복한", "멋진", "즐거운");
         Collections.shuffle(adjectives);
         return adjectives.get(0);
+    }
+
+    public UserPageDto userPageInfo(Member member) {
+
+        Member result = userRepository.findByNickname(member.getNickname());
+
+        return new UserPageDto(result);
+    }
+
+    @Transactional(rollbackFor = CustomException.class)
+    public void updateUser(Member member){
+        //null 값에 대한 검증은 controller에서
+        if (userRepository.existsByNickname(member.getNickname())) {
+            throw new CustomException(ErrorCode.HAS_NICKNAME);
+        } else if (userRepository.existsByPhone(member.getPhone())) {
+            throw new CustomException(ErrorCode.HAS_PHONE);
+        }
+
+        userRepository.save(member);
     }
 }

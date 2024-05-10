@@ -3,6 +3,7 @@ package com.ia.indieAn.domain.user.controller;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.user.dto.LoginUserDto;
+import com.ia.indieAn.domain.user.dto.UserPageDto;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.service.UserService;
 import jakarta.validation.Valid;
@@ -87,7 +88,7 @@ public class UserController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
 
     }
-/*
+
     @ResponseBody
     @RequestMapping("/myPage")
     public ResponseEntity<ResponseTemplate> userPage(@RequestBody Member member){
@@ -96,7 +97,7 @@ public class UserController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        LoginUserDto result = userService.loginUser(member);
+        UserPageDto result = userService.userPageInfo(member);
         System.out.println(result);
         if(result != null) {
             response.setStatus(StatusEnum.SUCCESS);
@@ -117,17 +118,11 @@ public class UserController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        LoginUserDto result = userService.loginUser(member);
-        System.out.println(result);
-        if(result != null) {
-            response.setStatus(StatusEnum.SUCCESS);
-            response.setData(result);
-            return new ResponseEntity<>(response, headers, HttpStatus.OK);
-        } else {
-            response.setStatus(StatusEnum.FAIL);
-            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
-        }
+        userService.updateUser(member);
+
+        response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
 
     }
- */
 }
