@@ -11,6 +11,10 @@ spring:
       enabled: always
   profiles:
     include: oracle # include application-oracle.yml (오라클 접속정보 숨김)
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
 
 
   jpa:

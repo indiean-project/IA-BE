@@ -26,12 +26,15 @@ public class ConcertDto {
 
     private Date createDate;
 
+    private String deleteYn;
+
     public ConcertDto(Concert concert){
         this.concertNo = concert.getConcertNo();
         this.location = concert.getLocation();
         this.startDate = concert.getStartDate();
         this.endDate = concert.getCreateDate();
         this.concertTitle = concert.getConcertTitle();
+        this.deleteYn = concert.getDeleteYn();
     }
 
     @Override
@@ -40,6 +43,7 @@ public class ConcertDto {
                 + "concertTitle =" + concertTitle
                 + "location =" + location
                 + "startDate =" + startDate
-                + "endDate = " + endDate;
+                + "endDate = " + endDate
+                + "deleteYn = "+ deleteYn;
     }
 }

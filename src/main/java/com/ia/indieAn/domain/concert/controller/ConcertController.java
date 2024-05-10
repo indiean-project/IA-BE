@@ -31,12 +31,13 @@ public class ConcertController {
     ConcertService concertService;
 
     @RequestMapping("/concertList")
-    public ResponseEntity<ResponseTemplate> concertList(@PageableDefault (page = 0, size=8, sort="concertNo", direction = Sort.Direction.DESC) Pageable pageable){
+    public ResponseEntity<ResponseTemplate> concertList(@PageableDefault ( size=8, sort="concertNo", direction = Sort.Direction.DESC) Pageable pageable){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        log.info("pageable {}",pageable);
+
         ArrayList<ConcertDto> result = concertService.concertList(pageable);
+        log.info("result = {}",result);
         response.setData(result);
         response.setStatus(StatusEnum.SUCCESS);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
