@@ -1,10 +1,11 @@
 package com.ia.indieAn.entity.fund;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.converter.FundTypeConverter;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -15,10 +16,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "fund")
-@Data
 public class Fund implements Serializable {
 
     @Id
@@ -35,6 +39,12 @@ public class Fund implements Serializable {
 
     @Column(nullable = false)
     private String fundTitle;
+
+    @Column(nullable = false)
+    private String fundDescription;
+
+    @Column(nullable = false)
+    private int target;
 
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
@@ -79,12 +89,42 @@ public class Fund implements Serializable {
     @Column(nullable = false)
     private String fundStatus; //임시저장, 승인대기, 반려, 승인 Enum 작업 필요
 
+    @JsonIgnoreProperties({"fund"})
     @OneToMany(mappedBy = "fund")
     private List<FundLog> fundLogList = new ArrayList<>();
 
+    @JsonIgnoreProperties({"fund"})
     @OneToMany(mappedBy = "fund")
     private List<OrderLog> orderLogList = new ArrayList<>();
 
+    @JsonIgnoreProperties({"fund"})
     @OneToMany(mappedBy = "fund")
     private List<Reward> rewardList = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Fund{" +
+                "fundNo=" + fundNo +
+                ", userNo=" + member.getUserNo() +
+                ", fundTypeNo=" + fundTypeNo +
+                ", fundTitle='" + fundTitle + '\'' +
+                ", createDate=" + createDate +
+                ", deleteDate=" + deleteDate +
+                ", deleteYn='" + deleteYn + '\'' +
+                ", endYn='" + endYn + '\'' +
+                ", compYn='" + compYn + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", paymentDate=" + paymentDate +
+                ", fundInfo='" + fundInfo + '\'' +
+                ", artistInfo='" + artistInfo + '\'' +
+                ", rewardInfo='" + rewardInfo + '\'' +
+                ", budgetManage='" + budgetManage + '\'' +
+                ", schedule='" + schedule + '\'' +
+                ", fundStatus='" + fundStatus + '\'' +
+                ", fundLogList=" + fundLogList.size() +
+                ", orderLogList=" + orderLogList.size() +
+                ", rewardList=" + rewardList.size() +
+                '}';
+    }
 }

@@ -2,7 +2,7 @@ package com.ia.indieAn.entity.board;
 
 import com.ia.indieAn.entity.user.Member;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -11,10 +11,13 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "notice")
-@Data
 public class Notice implements Serializable {
 
     @Id
@@ -44,4 +47,17 @@ public class Notice implements Serializable {
     @Column(columnDefinition = "integer default 0")
     private int viewCount;
 
+    @Override
+    public String toString() {
+        return "Notice{" +
+                "noticeNo=" + noticeNo +
+                ", userNo=" + member.getUserNo() +
+                ", noticeTitle='" + noticeTitle + '\'' +
+                ", noticeContent='" + noticeContent + '\'' +
+                ", enrollDate=" + enrollDate +
+                ", updateDate=" + updateDate +
+                ", deleteYn='" + deleteYn + '\'' +
+                ", viewCount=" + viewCount +
+                '}';
+    }
 }

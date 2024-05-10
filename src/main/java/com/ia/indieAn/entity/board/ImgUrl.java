@@ -5,15 +5,18 @@ import com.ia.indieAn.type.converter.KcTypeConverter;
 import com.ia.indieAn.type.enumType.FabcTypeEnum;
 import com.ia.indieAn.type.enumType.KcTypeEnum;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "img_url")
-@Data
 public class ImgUrl implements Serializable {
 
     @Id
@@ -38,4 +41,15 @@ public class ImgUrl implements Serializable {
      * board_no, reply_no에 해당 되지만 2개 테이블의 기본키를 외래키로
      * 지정할 수 없기 때문에 물리적으론 외래키 지정하지 않음
      */
+
+    @Override
+    public String toString() {
+        return "ImgUrl{" +
+                "imgNo=" + imgNo +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", fabcType=" + fabcType +
+                ", kcType=" + kcType +
+                ", contentNo=" + contentNo +
+                '}';
+    }
 }

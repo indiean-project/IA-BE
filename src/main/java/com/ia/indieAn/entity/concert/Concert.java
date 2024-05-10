@@ -1,7 +1,8 @@
 package com.ia.indieAn.entity.concert;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -12,15 +13,21 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "concert")
-@Data
 public class Concert implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int concertNo;
+
+    @Column(nullable = false)
+    private String concertTitle;
 
     @Column(nullable = false)
     private String location;
@@ -44,6 +51,22 @@ public class Concert implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date updateDate;
 
+    @JsonIgnoreProperties({"concert"})
     @OneToMany(mappedBy = "concert")
     private List<ConcertLineup> concertLineupList = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Concert{" +
+                "concertNo=" + concertNo +
+                ", location='" + location + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", concertInfo='" + concertInfo + '\'' +
+                ", createDate=" + createDate +
+                ", deleteYn='" + deleteYn + '\'' +
+                ", updateDate=" + updateDate +
+                ", concertLineupList=" + concertLineupList.size() +
+                '}';
+    }
 }
