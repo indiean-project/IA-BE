@@ -10,7 +10,9 @@ import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
