@@ -15,7 +15,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create # create -- 서버 restart시 table정보가 reset 됨
+      ddl-auto: update # create -- 서버 restart시 table정보가 reset 됨
       # 로컬에서 초기 개발시 사용. 일반적으로는 none옵션 권장
     show-sql: true
     properties:

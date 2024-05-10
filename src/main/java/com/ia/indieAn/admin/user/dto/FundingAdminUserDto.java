@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 public class FundingAdminUserDto {
 
-
-
     private int fundNo;
     private int userNo;
     private int fundTypeNo;

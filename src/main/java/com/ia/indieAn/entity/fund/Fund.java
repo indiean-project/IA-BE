@@ -61,19 +61,19 @@ public class Fund implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date paymentDate;   // 결제 예정일
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String fundInfo;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String artistInfo;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String rewardInfo;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String budgetManage;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String schedule;
 
     @Column(nullable = false)
