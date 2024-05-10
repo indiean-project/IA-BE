@@ -118,6 +118,17 @@ class IndieAnApplicationTests {
 				orderLogRepository.save(orderLog1);
 			}
 		}
+		Member member = new Member();
+		member.setUserId("zest@naver.com");
+		member.setUserPwd("1q2w3e4r!@");
+		member.setUserName("박혜성");
+		member.setNickname("대세는제스트");
+		member.setPhone("01012349698");
+		member.setUserRole(UserRoleEnum.ARTIST);
+
+		Member result = userRepository.save(member);
+
+
 	}
 
 }

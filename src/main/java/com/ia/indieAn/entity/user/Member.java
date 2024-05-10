@@ -12,6 +12,9 @@ import com.ia.indieAn.type.enumType.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -38,9 +41,11 @@ public class Member implements Serializable {
     private UserRoleEnum userRole;
 
     @Column(unique = true, nullable = false)
+    @Email
     private String userId;
 
     @Column(nullable = false)
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&+=])(?!.*\\s).{6,16}$", message = "비밀번호는 최소 6자 이상이어야 하며, 알파벳, 숫자, 특수 문자를 포함해야 합니다.")
     private String userPwd;
 
     @Column(nullable = false)
