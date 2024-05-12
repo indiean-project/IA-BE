@@ -25,7 +25,7 @@ public class ConcertService {
        int totalPage = page.getTotalPages(); //전체 페이지 개수
        int currentPage = page.getNumber();     //현재 페이지 번호
        long totalCount = page.getTotalElements(); //전체 테이블 건수
-        log.info("");
+       log.info("totalPage : {} currentPage : {} totalCount : {}",totalPage,currentPage,totalCount);
         List<Concert> list = page.getContent();
 
 
