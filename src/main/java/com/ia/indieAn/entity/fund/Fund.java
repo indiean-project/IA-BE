@@ -89,6 +89,9 @@ public class Fund implements Serializable {
     @Column(nullable = false)
     private String fundStatus; //임시저장, 승인대기, 반려, 승인 Enum 작업 필요
 
+    @Transient
+    private int revenue;
+
     @JsonIgnoreProperties({"fund"})
     @OneToMany(mappedBy = "fund")
     private List<FundLog> fundLogList = new ArrayList<>();

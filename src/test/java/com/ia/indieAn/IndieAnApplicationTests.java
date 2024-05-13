@@ -38,8 +38,8 @@ class IndieAnApplicationTests {
 
 		for (int i = 0; i < 20; i++) {
 			Member member = new Member();
-			member.setUserId("comet2667"+i);
-			member.setUserPwd("123123"+i);
+			member.setUserId("comet2667"+i+"@naver.com");
+			member.setUserPwd("phs1470!@");
 			member.setUserName("박혜성"+i);
 			member.setNickname("옥암동불꽃낙지"+i);
 			member.setPhone("0107705266"+i);
@@ -66,9 +66,9 @@ class IndieAnApplicationTests {
 			fund.setFundTypeNo(FundTypeEnum.CONCERT);
 			fund.setFundTitle("이것은 펀딩이다 이말이여"+i);
 			fund.setFundDescription("펀딩을 약식으로 서술 하겠다 이말이여");
-			fund.setStartDate(Date.valueOf("2024-05-10"));
+			fund.setStartDate(Date.valueOf("2024-05-"+(1+i)));
 			fund.setEndDate(Date.valueOf("2024-06-10"));
-			fund.setPaymentDate(Date.valueOf("2024-06-11"));
+			fund.setPaymentDate(Date.valueOf("2024-06-"+(2+i)));
 			fund.setTarget(10000000 * i);
 			fund.setFundInfo(content);
 			fund.setArtistInfo(content);
@@ -120,15 +120,6 @@ class IndieAnApplicationTests {
 				orderLogRepository.save(orderLog1);
 			}
 		}
-		Member member = new Member();
-		member.setUserId("zest@naver.com");
-		member.setUserPwd("1q2w3e4r!@");
-		member.setUserName("박혜성");
-		member.setNickname("대세는제스트");
-		member.setPhone("01012349698");
-		member.setUserRole(UserRoleEnum.ARTIST);
-
-		Member result = userRepository.save(member);
 
 
 	}
