@@ -21,25 +21,25 @@ public class ConcertService {
     @Autowired
     ConcertRepository concertRepository;
 
-    public ConcertListDto concertList(Pageable pageable){
+    public ConcertListDto concertList(Pageable pageable) {
 
-        Page<Concert> page = concertRepository.findAllByDeleteYn(pageable,"N");
-       int totalPage = page.getTotalPages(); //전체 페이지 개수
-       int currentPage = page.getNumber()+1;     //현재 페이지 번호
-       int totalCount = (int)page.getTotalElements(); //전체 테이블 건수
-       int boardLimit = 5;
-        PageInfo pageInfo = new PageInfo(totalPage,currentPage,totalCount,boardLimit);
-       List<Concert> list = page.getContent();
-        log.info("pageinfo = {}",pageInfo);
+        Page<Concert> page = concertRepository.findAllByDeleteYn(pageable, "n");
+        int totalPage = page.getTotalPages(); //전체 페이지 개수
+        int currentPage = page.getNumber() + 1;     //현재 페이지 번호
+        int totalCount = (int) page.getTotalElements(); //전체 테이블 건수
+        int boardLimit = 5;
+        PageInfo pageInfo = new PageInfo(totalPage, currentPage, totalCount, boardLimit);
+        List<Concert> list = page.getContent();
+        log.info("pageinfo = {}", pageInfo);
 
         ArrayList<ConcertDto> listDto = new ArrayList<>();
-        for(int i =0 ; i < list.size();i++){
-                listDto.add(new ConcertDto(list.get(i)));
+        for (int i = 0; i < list.size(); i++) {
+            listDto.add(new ConcertDto(list.get(i)));
         }
         ConcertListDto concertListDto = ConcertListDto.builder()
-                                        .listDto(listDto)
-                                        .pageinfo(pageInfo)
-                                        .build();
+                .listDto(listDto)
+                .pageinfo(pageInfo)
+                .build();
         return concertListDto;
     }
 

@@ -28,7 +28,7 @@ public class ConcertDto {
 
     private String deleteYn;
 
-    public ConcertDto(Concert concert){
+    public ConcertDto(Concert concert) {
         this.concertNo = concert.getConcertNo();
         this.location = concert.getLocation();
         this.startDate = concert.getStartDate();
@@ -44,6 +44,6 @@ public class ConcertDto {
                 + "location =" + location
                 + "startDate =" + startDate
                 + "endDate = " + endDate
-                + "deleteYn = "+ deleteYn;
+                + "deleteYn = " + deleteYn;
     }
 }

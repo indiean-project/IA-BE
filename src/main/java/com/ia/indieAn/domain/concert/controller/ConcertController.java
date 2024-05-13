@@ -7,6 +7,7 @@ import com.ia.indieAn.domain.concert.dto.ConcertDto;
 import com.ia.indieAn.domain.concert.dto.ConcertListDto;
 import com.ia.indieAn.domain.concert.service.ConcertService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,18 +26,19 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/api/concert")
 @CrossOrigin
+@RequiredArgsConstructor
 public class ConcertController {
 
-    @Autowired
-    ConcertService concertService;
+
+    private final ConcertService concertService;
 
     @RequestMapping("/concertList")
-    public ResponseEntity<ResponseTemplate> concertList(@RequestBody BoardInfoDto bInfo){
+    public ResponseEntity<ResponseTemplate> concertList(@RequestBody BoardInfoDto bInfo) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        log.info("sort = {} page = {}",bInfo.getSort(),bInfo.getPage());
-        Pageable pageable = PageRequest.of(bInfo.getPage()-1,8,Sort.by(Sort.Direction.DESC,"concertNo"));
+        log.info("sort = {} page = {} search = {}", bInfo.getSort(), bInfo.getPage(),bInfo.getSearch());
+        Pageable pageable = PageRequest.of(bInfo.getPage() - 1, 8, Sort.by(Sort.Direction.DESC, "concertNo"));
         ConcertListDto result = concertService.concertList(pageable);
 
         response.setData(result);
