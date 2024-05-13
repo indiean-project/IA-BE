@@ -1,13 +1,18 @@
 package com.ia.indieAn;
 
-import com.ia.indieAn.domain.concert.repository.ConcertRepository;
+import com.ia.indieAn.domain.fund.repository.FundRepository;
+import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
+import com.ia.indieAn.domain.fund.repository.RewardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
-import com.ia.indieAn.entity.concert.Concert;
+import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.entity.fund.OrderLog;
+import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
-import com.ia.indieAn.type.converter.FundTypeConverter;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

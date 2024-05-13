@@ -1,5 +1,6 @@
 package com.ia.indieAn.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.ContentLikeLog;
 import com.ia.indieAn.entity.board.ContentReportLog;
@@ -9,9 +10,11 @@ import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.type.converter.UserRoleConverter;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -20,10 +23,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "member")
-@Data
 public class Member implements Serializable {
 
     @Id
@@ -35,9 +41,11 @@ public class Member implements Serializable {
     private UserRoleEnum userRole;
 
     @Column(unique = true, nullable = false)
+    @Email
     private String userId;
 
     @Column(nullable = false)
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&+=])(?!.*\\s).{6,16}$", message = "비밀번호는 최소 6자 이상이어야 하며, 알파벳, 숫자, 특수 문자를 포함해야 합니다.")
     private String userPwd;
 
     @Column(nullable = false)
@@ -73,29 +81,65 @@ public class Member implements Serializable {
     //컬럼이 생성되지는 않음(조회용)
 
     //문의
+    @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member") //mappedBy 해당 테이블의 member 객체에만 권한을 갖겠다
     private List<Question> questionList = new ArrayList<>(); //member 테이블에서 question 테이블을 수정할 수 없도록 방지
 
     //좋아요
+    @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member")
     private List<ContentLikeLog> contentLikeLogList = new ArrayList<>();
 
     //펀딩 신청 내역
+    @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member")
     private List<Fund> fundList = new ArrayList<>();
 
     //펀딩 참가 내역
+    @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member")
     private List<FundLog> fundLogList = new ArrayList<>();
 
     //주문 내역
+    @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member")
     private List<OrderLog> orderLogList = new ArrayList<>();
 
     //신고 내역
+    @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member")
     private List<ContentReportLog> contentReportLogList = new ArrayList<>();
 
+    @JsonIgnoreProperties({"member"})
     @OneToMany(mappedBy = "member")
     private List<Board> boardList = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "userNo=" + userNo +
+                ", userRole=" + userRole +
+                ", userId='" + userId + '\'' +
+                ", userPwd='" + userPwd + '\'' +
+                ", userName='" + userName + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", createDate=" + createDate +
+                ", deleteDate=" + deleteDate +
+                ", deleteYn='" + deleteYn + '\'' +
+                ", reportStatus='" + reportStatus + '\'' +
+                ", userProfileImg='" + userProfileImg + '\'' +
+                ", userContent='" + userContent + '\'' +
+                ", userFavoriteArtist='" + userFavoriteArtist + '\'' +
+                ", userFavoriteMusic='" + userFavoriteMusic + '\'' +
+                ", questionList=" + questionList +
+                ", contentLikeLogList=" + contentLikeLogList +
+                ", fundList=" + fundList.size() +
+                ", fundLogList=" + fundLogList.size() +
+                ", orderLogList=" + orderLogList.size() +
+                ", contentReportLogList=" + contentReportLogList.size() +
+                ", boardList=" + boardList.size() +
+                '}';
+    }
 }

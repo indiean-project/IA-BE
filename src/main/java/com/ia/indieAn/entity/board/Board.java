@@ -1,11 +1,12 @@
 package com.ia.indieAn.entity.board;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ia.indieAn.entity.artist.Artist;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.converter.ContentTypeConverter;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -17,10 +18,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "board")
-@Data
 public class Board implements Serializable {
 
     @Id
@@ -30,6 +34,7 @@ public class Board implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_no", nullable = false)
     private Member member;
+
 
     @Convert(converter = ContentTypeConverter.class)
     @Column(nullable = false)
@@ -60,6 +65,25 @@ public class Board implements Serializable {
     @OneToOne(mappedBy = "board")
     private BoardColo boardColo;
 
+    @JsonIgnoreProperties({"board"})
     @OneToMany(mappedBy = "board")
     private List<Reply> replies = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "boardNo=" + boardNo +
+                ", userNo=" + member.getUserNo() +
+                ", contentTypeNo=" + contentTypeNo +
+                ", enrollDate=" + enrollDate +
+                ", updateDate=" + updateDate +
+                ", boardTitle='" + boardTitle + '\'' +
+                ", boardContent='" + boardContent + '\'' +
+                ", deleteYn='" + deleteYn + '\'' +
+                ", viewCount=" + viewCount +
+                ", artistNo=" + artist.getArtistNo() +
+                ", boardColo=" + boardColo +
+                ", replies=" + replies.size() +
+                '}';
+    }
 }

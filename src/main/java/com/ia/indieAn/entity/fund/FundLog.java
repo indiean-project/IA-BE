@@ -2,7 +2,7 @@ package com.ia.indieAn.entity.fund;
 
 import com.ia.indieAn.entity.user.Member;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -10,10 +10,13 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "fund_log")
-@Data
 public class FundLog implements Serializable {
 
     @Id
@@ -39,4 +42,15 @@ public class FundLog implements Serializable {
     @Column(nullable = false)
     private int rewardAmount;   //선택한 리워드 수량
 
+    @Override
+    public String toString() {
+        return "FundLog{" +
+                "fundLogNo=" + fundLogNo +
+                ", userNo=" + member.getUserNo() +
+                ", fundNo=" + fund.getFundNo() +
+                ", rewardNo=" + reward.getRewardNo() +
+                ", fundDate=" + fundDate +
+                ", rewardAmount=" + rewardAmount +
+                '}';
+    }
 }

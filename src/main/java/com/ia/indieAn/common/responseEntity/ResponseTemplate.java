@@ -7,4 +7,5 @@ public class ResponseTemplate {
 
     private StatusEnum status;
     private Object data;
+    private String message;
 }

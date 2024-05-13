@@ -21,4 +21,5 @@ public class LoginUserDto {
         this.phone = member.getPhone();
         this.address = member.getAddress();
     }
+
 }

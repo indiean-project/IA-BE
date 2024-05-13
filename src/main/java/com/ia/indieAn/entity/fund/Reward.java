@@ -1,7 +1,8 @@
 package com.ia.indieAn.entity.fund;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -9,10 +10,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @DynamicInsert
 @Entity
 @Table(name = "reward")
-@Data
 public class Reward implements Serializable {
 
     @Id
@@ -40,6 +44,22 @@ public class Reward implements Serializable {
 
     private int limitAmount;
 
+    @JsonIgnoreProperties({"reward"})
     @OneToMany(mappedBy = "reward")
     private List<FundLog> fundLogList = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Reward{" +
+                "rewardNo=" + rewardNo +
+                ", fundNo=" + fund.getFundNo() +
+                ", rewardName='" + rewardName + '\'' +
+                ", rewardPrice=" + rewardPrice +
+                ", rewardInfo='" + rewardInfo + '\'' +
+                ", deliveryYn='" + deliveryYn + '\'' +
+                ", limitYn='" + limitYn + '\'' +
+                ", limitAmount=" + limitAmount +
+                ", fundLogList=" + fundLogList.size() +
+                '}';
+    }
 }
