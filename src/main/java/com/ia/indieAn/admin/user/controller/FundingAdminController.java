@@ -43,6 +43,20 @@ public class FundingAdminController {
 
     }
 
+//    @ResponseBody
+//    @RequestMapping("/fundSearch")
+//    public ResponseEntity<ResponseTemplate> fundSearch(@RequestBody FundingAdminUserDto userDto){
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        ResponseTemplate response = new ResponseTemplate();
+//
+//        ArrayList<FundingAdminUserDto> result = fundingService.selectFundListByUserId(userDto.getFundTypeNo(), userDto.getFundStatus(), userDto.getFundTitle());
+//        response.setStatus(StatusEnum.SUCCESS);
+//        response.setData(result);
+//
+//        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+
+//    }
 
 
 }

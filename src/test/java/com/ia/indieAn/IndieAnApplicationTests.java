@@ -38,8 +38,8 @@ class IndieAnApplicationTests {
 
 		for (int i = 0; i < 20; i++) {
 			Member member = new Member();
-			member.setUserId("comet2667"+i);
-			member.setUserPwd("123123"+i);
+			member.setUserId("comet2667"+i+"@naver.com");
+			member.setUserPwd("leeodongh!@"+i);
 			member.setUserName("박혜성"+i);
 			member.setNickname("옥암동불꽃낙지"+i);
 			member.setPhone("0107705266"+i);
@@ -69,7 +69,7 @@ class IndieAnApplicationTests {
 			fund.setStartDate(Date.valueOf("2024-05-10"));
 			fund.setEndDate(Date.valueOf("2024-06-10"));
 			fund.setPaymentDate(Date.valueOf("2024-06-11"));
-			fund.setTarget(10000000 * i);
+//			fund.setTarget(10000000 * i);
 			fund.setFundInfo(content);
 			fund.setArtistInfo(content);
 			fund.setRewardInfo(content);

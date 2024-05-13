@@ -25,4 +25,14 @@ public class FundingAdminService {
         }
         return fundingAdminUserDtoArrayList;
     }
+//    public ArrayList<FundingAdminUserDto> selectFundListByUserId(int fundTypeNo, String fundTitle, String fundStatus){
+//        ArrayList<Fund> fundSearchList = (ArrayList<Fund>) fundingAdminUserRepository.findByFundTypeNoAndFundStatusAndFundTitle(fundTypeNo, fundStatus, fundTitle);
+//        ArrayList<FundingAdminUserDto> fundingAdminUserDtoArrayList = new ArrayList<>();
+//        for(int i=0; i<fundSearchList.size(); i++){
+//            fundingAdminUserDtoArrayList.add(new FundingAdminUserDto(fundSearchList.get(i)));
+//        }
+//        return fundingAdminUserDtoArrayList;
+//    }
+
+
 }
