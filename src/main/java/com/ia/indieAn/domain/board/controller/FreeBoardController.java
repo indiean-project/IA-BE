@@ -9,6 +9,7 @@ import com.ia.indieAn.type.enumType.BrTypeEnum;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -56,18 +57,17 @@ public class FreeBoardController {
     }
 
     @RequestMapping("/boardlist")
-    public ResponseEntity<ResponseTemplate> freeBoardList(@PageableDefault(sort = "boardNo", direction = Sort.Direction.DESC, size = 20) Pageable pageable) {
+    public ResponseEntity<ResponseTemplate> freeBoardList(int page, @RequestBody String sort) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
+        Pageable pr = PageRequest.of(page-1, 20, Sort.by(Sort.Direction.DESC, sort.replaceAll("\"","")));
 
-
-        ArrayList<FreeBoardDto> list = boardService.freeBoardList(pageable);
+        ArrayList<FreeBoardDto> list = boardService.freeBoardList(pr);
 
         for (int i = 0; i < list.size(); i++) {
             int result = boardService.boardlike(list.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
-            log.info("list : {}",list);
             list.get(i).setLikeCount(result);
         }
 
