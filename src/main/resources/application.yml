@@ -10,7 +10,9 @@ spring:
     ansi:
       enabled: always
   profiles:
-    include: oracle # include application-oracle.yml (오라클 접속정보 숨김)
+    include: oracle, oauth # include application-oracle.yml (오라클 접속정보 숨김)
+    # include oauth 를 통해 application-oauth 정보를 숨긴다
+
   data:
     web:
       pageable:

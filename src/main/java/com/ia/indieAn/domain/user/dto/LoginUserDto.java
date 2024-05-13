@@ -1,7 +1,6 @@
 package com.ia.indieAn.domain.user.dto;
 
 import com.ia.indieAn.entity.user.Member;
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
@@ -16,10 +15,12 @@ public class LoginUserDto {
     private String address;
     private String deleteYn;
     private String reportStatus;
+    private String socialStatus;
     private String userProfileImg;
     private String userContent;
     private String userFavoriteArtist;
     private String userFavoriteMusic;
+
 
     public LoginUserDto(Member member){
         this.userNo = member.getUserNo();
@@ -31,6 +32,7 @@ public class LoginUserDto {
         this.address = member.getAddress();
         this.deleteYn = member.getDeleteYn();
         this.reportStatus = member.getReportStatus();
+        this.socialStatus = member.getSocialStatus();
         this.userProfileImg = member.getUserProfileImg();
         this.userContent = member.getUserContent();
         this.userFavoriteArtist = member.getUserFavoriteArtist();

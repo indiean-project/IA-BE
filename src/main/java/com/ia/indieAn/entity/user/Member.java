@@ -11,10 +11,8 @@ import com.ia.indieAn.type.converter.UserRoleConverter;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -71,6 +69,9 @@ public class Member implements Serializable {
 
     @Column(columnDefinition = "char(1) default 'N'")
     private String reportStatus;
+
+    @Column(columnDefinition = "char(1) default 'N'")
+    private String socialStatus;
 
     private String userProfileImg;
     private String userContent;
@@ -129,6 +130,7 @@ public class Member implements Serializable {
                 ", deleteDate=" + deleteDate +
                 ", deleteYn='" + deleteYn + '\'' +
                 ", reportStatus='" + reportStatus + '\'' +
+                ", socialStatus='" + socialStatus + '\'' +
                 ", userProfileImg='" + userProfileImg + '\'' +
                 ", userContent='" + userContent + '\'' +
                 ", userFavoriteArtist='" + userFavoriteArtist + '\'' +
