@@ -16,7 +16,7 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
     Fund findByFundNo(int fundNo);
 
     @Query(
-            value = "SELECT F.FUND_NO AS fundNo, TARGET, O.REVENUE AS REVENUE, USER_NO AS userNo, FUND_TITLE AS fundTitle, START_DATE AS startDate, END_DATE AS endDate, FUND_INFO as fundInfo, FUND_TYPE_NO as fundTypeNo, FUND_DESCRIPTION as fundDescription\n" +
+            value = "SELECT F.FUND_NO AS fundNo, target, O.REVENUE AS revenue, O.REVENUE/target AS rate, USER_NO AS userNo, FUND_TITLE AS fundTitle, START_DATE AS startDate, END_DATE AS endDate, FUND_INFO as fundInfo, FUND_TYPE_NO as fundTypeNo, FUND_DESCRIPTION as fundDescription\n" +
                     "FROM FUND F\n" +
                     "JOIN (SELECT FUND_NO, SUM(TOTAL_PRICE) AS REVENUE\n" +
                     "FROM ORDER_LOG\n" +

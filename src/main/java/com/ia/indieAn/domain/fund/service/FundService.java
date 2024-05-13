@@ -27,9 +27,13 @@ public class FundService {
     OrderLogRepository orderLogRepository;
 
     public Page<FundListDto> selectAllFund(String value, String sort, String standard){
-        System.out.println(standard);
+        Pageable pageable = null;
+        if (sort.equals("ASC")){
+            pageable = PageRequest.of(0, 8, Sort.by(Sort.Direction.ASC, standard));
+        } else {
+            pageable = PageRequest.of(0, 8, Sort.by(Sort.Direction.DESC, standard));
+        }
 
-        Pageable pageable = PageRequest.of(0, 6, Sort.by(Sort.Direction.DESC, standard));
 
         return fundRepository.findAllFundList(pageable).map(FundListDto::convertToPage);
     }

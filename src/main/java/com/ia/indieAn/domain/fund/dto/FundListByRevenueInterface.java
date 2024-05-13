@@ -15,4 +15,6 @@ public interface FundListByRevenueInterface {
     String getFundDescription();
     Integer getTarget();
     Integer getRevenue();
+
+    Integer getRate();
 }

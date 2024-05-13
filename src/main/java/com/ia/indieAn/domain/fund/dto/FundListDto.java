@@ -22,6 +22,7 @@ public class FundListDto {
 
     //펀딩액 현황
     private Integer revenue;
+    private Integer rate;
 
 //    public FundListDto(FundListByRevenueInterface fund) {
 //        this.fundNo = fund.getFundNo();
@@ -52,6 +53,7 @@ public class FundListDto {
                 .fundDescription(fi.getFundDescription())
                 .target(fi.getTarget())
                 .revenue(fi.getRevenue())
+                .rate(fi.getRate())
                 .build();
     }
 }
