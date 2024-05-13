@@ -21,7 +21,7 @@ public class ConcertService {
 
     public ArrayList<ConcertDto> concertList(Pageable pageable){
 
-        Page<Concert> page = concertRepository.findAllByDeleteYn(pageable,"n");
+        Page<Concert> page = concertRepository.findAllByDeleteYn(pageable,"N");
        int totalPage = page.getTotalPages(); //전체 페이지 개수
        int currentPage = page.getNumber();     //현재 페이지 번호
        long totalCount = page.getTotalElements(); //전체 테이블 건수

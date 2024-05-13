@@ -36,6 +36,7 @@ public class ConcertController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
+
         ArrayList<ConcertDto> result = concertService.concertList(pageable);
         log.info("result = {}",result);
         response.setData(result);
