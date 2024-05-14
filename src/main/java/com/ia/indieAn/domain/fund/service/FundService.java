@@ -2,6 +2,7 @@ package com.ia.indieAn.domain.fund.service;
 
 import com.ia.indieAn.domain.fund.dto.FundListByRevenueInterface;
 import com.ia.indieAn.domain.fund.dto.FundListDto;
+import com.ia.indieAn.domain.fund.dto.FundSearchDto;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,13 @@ public class FundService {
     @Autowired
     OrderLogRepository orderLogRepository;
 
-    public Page<FundListDto> selectAllFund(String value, String sort, String standard){
+    public Page<FundListDto> selectAllFund(FundSearchDto fundSearchDto){
         Pageable pageable = null;
-        if (sort.equals("ASC")){
-            pageable = PageRequest.of(0, 8, Sort.by(Sort.Direction.ASC, standard));
+        if (fundSearchDto.getSort().equals("ASC")){
+            pageable = PageRequest.of(0, fundSearchDto.getPage(), Sort.by(Sort.Direction.ASC, fundSearchDto.getSortValue()));
         } else {
-            pageable = PageRequest.of(0, 8, Sort.by(Sort.Direction.DESC, standard));
+            pageable = PageRequest.of(0, fundSearchDto.getPage(), Sort.by(Sort.Direction.DESC, fundSearchDto.getSortValue()));
         }
-
-
         return fundRepository.findAllFundList(pageable).map(FundListDto::convertToPage);
     }
 }

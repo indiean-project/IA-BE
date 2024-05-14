@@ -60,16 +60,18 @@ class IndieAnApplicationTests {
 				"    <li>펀딩?</li>\n" +
 				"    <li>펀딩?</li>\n" +
 				"</ul>";
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 50; i++) {
 			Fund fund = new Fund();
 			fund.setMember(userRepository.findByUserNo(i+1));
 			fund.setFundTypeNo(FundTypeEnum.CONCERT);
 			fund.setFundTitle("이것은 펀딩이다 이말이여"+i);
 			fund.setFundDescription("펀딩을 약식으로 서술 하겠다 이말이여");
-			fund.setStartDate(Date.valueOf("2024-05-"+(1+i)));
-			fund.setEndDate(Date.valueOf("2024-06-10"));
-			fund.setPaymentDate(Date.valueOf("2024-06-"+(2+i)));
-			fund.setTarget(10000000 * i);
+			int random1 = (int)(Math.random() * 10);
+			int random2 = (int)(Math.random() * 2) + 1;
+			fund.setStartDate(Date.valueOf(String.format("2024-05-%d%d", random2, random1)));
+			fund.setEndDate(Date.valueOf(String.format("2024-06-%d%d", random2, random1)));
+			fund.setPaymentDate(Date.valueOf("2024-07-10"));
+			fund.setTarget(((int)(Math.random() * 100) + 1) * 10000000);
 			fund.setFundInfo(content);
 			fund.setArtistInfo(content);
 			fund.setRewardInfo(content);
@@ -107,7 +109,7 @@ class IndieAnApplicationTests {
 
 			rewardRepository.save(reward3);
 		}
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 50; i++) {
 			int ranNum = (int)(Math.random() * 100) + 1;
 			for (int j = 0; j < ranNum; j++) {
 				OrderLog orderLog1 = new OrderLog();

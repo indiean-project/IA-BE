@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.fund.dto;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public interface FundListByRevenueInterface {
@@ -8,8 +9,8 @@ public interface FundListByRevenueInterface {
     Integer getFundNo();
     Integer getUserNo();
     String getFundTitle();
-    Date getStartDate();
-    Date getEndDate();
+    LocalDateTime getStartDate();
+    LocalDateTime getEndDate();
     String getFundInfo();
     String getFundTypeNo();
     String getFundDescription();

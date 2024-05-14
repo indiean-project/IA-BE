@@ -4,6 +4,7 @@ import com.ia.indieAn.type.enumType.FundTypeEnum;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -13,8 +14,8 @@ public class FundListDto {
     private Integer fundNo;
     private Integer userNo;
     private String fundTitle;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private String fundInfo;
     private String fundType;
     private String fundDescription;
