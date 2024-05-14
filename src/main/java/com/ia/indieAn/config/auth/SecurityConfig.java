@@ -27,7 +27,7 @@ public class SecurityConfig {
         http.csrf().disable();
         http.authorizeHttpRequests(config -> config.anyRequest().permitAll());
         http.oauth2Login(oauth2Configurer -> oauth2Configurer
-                .loginPage("/login")
+                .loginPage("/api/user/login")
                 .successHandler(successHandler())
                 .userInfoEndpoint()
                 .userService(oAuth2UserService));

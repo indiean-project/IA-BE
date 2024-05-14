@@ -36,16 +36,6 @@ class IndieAnApplicationTests {
 	@Test
 	void contextLoads() throws Exception{
 
-		for (int i = 0; i < 20; i++) {
-			Member member = new Member();
-			member.setUserId("comet2667"+i);
-			member.setUserPwd("123123"+i);
-			member.setUserName("박혜성"+i);
-			member.setNickname("옥암동불꽃낙지"+i);
-			member.setPhone("0107705266"+i);
-			member.setUserRole(UserRoleEnum.ARTIST);
-			userRepository.save(member);
-		}
 		String content = "<p>\n" +
 				"    반갑습니다.\n" +
 				"</p>\n" +

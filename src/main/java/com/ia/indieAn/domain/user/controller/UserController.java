@@ -44,12 +44,12 @@ public class UserController {
             response.setStatus(StatusEnum.FAIL);
             return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @ResponseBody
     @RequestMapping("/signUp")
     public ResponseEntity<ResponseTemplate> signUpUser(@RequestBody Member member){
+        log.info("enter /signUp {}", member);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();

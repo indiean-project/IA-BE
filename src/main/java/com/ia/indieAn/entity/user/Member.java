@@ -42,8 +42,8 @@ public class Member implements Serializable {
     @Email
     private String userId;
 
-    @Column(nullable = false)
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&+=])(?!.*\\s).{6,16}$", message = "비밀번호는 최소 6자 이상이어야 하며, 알파벳, 숫자, 특수 문자를 포함해야 합니다.")
+    @Column
+    @Pattern(regexp = "^$|^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&+=])(?!.*\\s).{6,16}$", message = "비밀번호는 최소 6자 이상이어야 하며, 알파벳, 숫자, 특수 문자를 포함해야 합니다.")
     private String userPwd;
 
     @Column(nullable = false)
