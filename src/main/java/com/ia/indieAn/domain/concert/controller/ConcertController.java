@@ -20,7 +20,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -37,12 +41,25 @@ public class ConcertController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        log.info("sort = {} page = {} search = {}", bInfo.getSort(), bInfo.getPage(),bInfo.getSearch());
-        Pageable pageable = PageRequest.of(bInfo.getPage() - 1, 8, Sort.by(Sort.Direction.DESC, "concertNo"));
-        ConcertListDto result = concertService.concertList(pageable);
 
+        ConcertListDto result = concertService.concertList(bInfo);
         response.setData(result);
         response.setStatus(StatusEnum.SUCCESS);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @RequestMapping("/calendarList")
+    public ResponseEntity<ResponseTemplate> calendarList() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        Date firstDate = Date.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+        Date LastDate = Date.valueOf(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
+
+        List<ConcertDto> result = concertService.calendarList(firstDate,LastDate);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }
+

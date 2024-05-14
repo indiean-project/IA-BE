@@ -10,6 +10,6 @@ import java.util.ArrayList;
 @Getter
 public class ConcertListDto {
 
-    private ArrayList<ConcertDto> listDto;
+    private Object listDto;
     private PageInfo pageinfo;
 }
