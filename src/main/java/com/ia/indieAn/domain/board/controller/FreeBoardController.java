@@ -30,31 +30,7 @@ import java.util.List;
 public class FreeBoardController {
 
     @Autowired
-    FreeBoardService boardService;
-
-    @RequestMapping("/enroll")
-    public ResponseEntity<ResponseTemplate> freeBoardEnroll(@RequestBody Board board) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        ResponseTemplate response = new ResponseTemplate();
-        board.setContentTypeNo(ContentTypeEnum.FREE);
-
-        if (board.getBoardTitle() == null) {
-            log.info("TitleNullException : {} ", board.getBoardTitle());
-            response.setStatus(StatusEnum.FAIL);
-        } else if (board.getBoardContent() == null) {
-            log.info("ContentNullException : {} ", board.getBoardContent());
-            response.setStatus(StatusEnum.FAIL);
-        } else if (board.getMember() == null) {
-            log.info("UserNoNullException : {} ", board.getMember());
-            response.setStatus(StatusEnum.FAIL);
-        }
-
-        Board b = boardService.boardEnroll(board);
-        response.setStatus(StatusEnum.SUCCESS);
-        response.setData(b.getBoardNo());
-        return new ResponseEntity<>(response, headers, HttpStatus.OK);
-    }
+    FreeBoardService freeBoardList;
 
     @RequestMapping("/boardlist")
     public ResponseEntity<ResponseTemplate> freeBoardList(int page, @RequestBody String sort) {
@@ -62,12 +38,12 @@ public class FreeBoardController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        Pageable pr = PageRequest.of(page-1, 20, Sort.by(Sort.Direction.DESC, sort.replaceAll("\"","")));
+        Pageable pageable = PageRequest.of(page-1, 20, Sort.by(Sort.Direction.DESC, sort.replaceAll("\"","")));
 
-        ArrayList<FreeBoardDto> list = boardService.freeBoardList(pr);
+        ArrayList<FreeBoardDto> list = freeBoardList.freeBoardList(pageable, "N");
 
         for (int i = 0; i < list.size(); i++) {
-            int result = boardService.boardlike(list.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
+            int result = freeBoardList.boardlike(list.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
             list.get(i).setLikeCount(result);
         }
 

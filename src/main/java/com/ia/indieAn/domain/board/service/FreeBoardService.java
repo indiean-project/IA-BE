@@ -2,6 +2,7 @@ package com.ia.indieAn.domain.board.service;
 
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.domain.board.dto.FreeBoardDto;
+import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
 import com.ia.indieAn.domain.board.repository.FreeBoardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
@@ -23,24 +24,17 @@ import java.util.List;
 public class FreeBoardService {
 
     @Autowired
-    FreeBoardRepository boardRepository;
-
-    @Autowired
-    UserRepository userRepository;
+    FreeBoardRepository freeBoardRepository;
 
     @Autowired
     ContentLikeLogRepository contentLikeLogRepository;
 
-    @Transactional(rollbackFor = CustomException.class)
-    public Board boardEnroll(Board board) {
-        Member member = userRepository.findByUserNo(board.getMember().getUserNo());
-        board.setMember(member);
-        return boardRepository.save(board);
-    }
+    @Autowired
+    BoardRepository boardRepository;
 
-    public ArrayList<FreeBoardDto> freeBoardList(Pageable pageable) {
+    public ArrayList<FreeBoardDto> freeBoardList(Pageable pageable, String deleteYn) {
 
-        Page<Board> pages = boardRepository.findAll(pageable);
+        Page<Board> pages = boardRepository.findAllByDeleteYn(pageable, deleteYn);
         List<Board> boardList = pages.getContent();
 
         ArrayList<FreeBoardDto> listDto = new ArrayList<>();

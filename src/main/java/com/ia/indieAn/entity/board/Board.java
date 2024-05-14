@@ -81,7 +81,7 @@ public class Board implements Serializable {
                 ", boardContent='" + boardContent + '\'' +
                 ", deleteYn='" + deleteYn + '\'' +
                 ", viewCount=" + viewCount +
-                ", artistNo=" + artist.getArtistNo() +
+//                ", artistNo=" + artist.getArtistNo() +
                 ", boardColo=" + boardColo +
                 ", replies=" + replies.size() +
                 '}';
