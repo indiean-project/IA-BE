@@ -10,4 +10,8 @@ public class FundSearchDto {
     private int page;
     private String keyword;
     private String searchValue;
+    private String artistKeyword;
+    private String titleKeyword;
+    private String contentKeyword;
+    private String allKeyword;
 }
