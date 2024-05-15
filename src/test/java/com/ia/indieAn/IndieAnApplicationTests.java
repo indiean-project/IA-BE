@@ -33,16 +33,16 @@ class IndieAnApplicationTests {
 
 	@Test
 	void contextLoads() throws Exception{
-//		for (int i = 0; i < 20; i++) {
-//			Member member = new Member();
-//			member.setUserId("comet2667@"+i);
-//			member.setUserPwd("1231@as23"+i);
-//			member.setUserName("박혜성"+i);
-//			member.setNickname("옥암동불꽃낙지"+i);
-//			member.setPhone("0107705266"+i);
-//			member.setUserRole(UserRoleEnum.ARTIST);
-//			userRepository.save(member);
-//		}
+		for (int i = 0; i < 20; i++) {
+			Member member = new Member();
+			member.setUserId("comet2667@"+i);
+			member.setUserPwd("1231@as23"+i);
+			member.setUserName("박혜성"+i);
+			member.setNickname("옥암동불꽃낙지"+i);
+			member.setPhone("0107705266"+i);
+			member.setUserRole(UserRoleEnum.ARTIST);
+			userRepository.save(member);
+		}
 
 		for(int i = 1; i < 20; i++){
 			Concert concert = new Concert();

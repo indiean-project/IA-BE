@@ -12,4 +12,6 @@ public class ConcertListDto {
 
     private Object listDto;
     private PageInfo pageinfo;
+
+
 }

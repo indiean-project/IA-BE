@@ -7,6 +7,7 @@ import com.ia.indieAn.domain.concert.dto.ConcertDto;
 import com.ia.indieAn.domain.concert.dto.ConcertListDto;
 import com.ia.indieAn.domain.concert.service.ConcertService;
 
+import com.ia.indieAn.entity.concert.Concert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class ConcertController {
         ConcertListDto result = concertService.concertList(bInfo);
         response.setData(result);
         response.setStatus(StatusEnum.SUCCESS);
+
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
@@ -57,8 +59,10 @@ public class ConcertController {
         Date firstDate = Date.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
         Date LastDate = Date.valueOf(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
 
-        List<ConcertDto> result = concertService.calendarList(firstDate,LastDate);
+        List<Concert> result = concertService.calendarList(firstDate,LastDate);
 
+        response.setData(result);
+        response.setStatus(StatusEnum.SUCCESS);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 }

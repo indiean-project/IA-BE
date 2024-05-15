@@ -31,7 +31,7 @@ public class ConcertService {
     public ConcertListDto concertList(BoardInfoDto bInfo) {
         if (bInfo.getSort().equals("createDate")) {
             Pageable pageable = PageRequest.of(bInfo.getPage() - 1, 8, Sort.by(Sort.Direction.DESC, "createDate"));
-            Page<Concert> page = concertRepository.findByDeleteYnAndConcertTitleContaining(pageable, "N", bInfo.getSearch());
+            Page<Concert> page = concertRepository.findByDeleteYnAndConcertTitleContaining(pageable, "N", bInfo.getKeyword());
             int totalPage = page.getTotalPages(); //전체 페이지 개수
             int currentPage = page.getNumber() + 1;     //현재 페이지 번호
             int totalCount = (int) page.getTotalElements(); //전체 테이블 건수
@@ -42,14 +42,16 @@ public class ConcertService {
             for (int i = 0; i < list.size(); i++) {
                 listDto.add(new ConcertDto(list.get(i)));
             }
+
             ConcertListDto concertListDto = ConcertListDto.builder()
                     .listDto(listDto)
                     .pageinfo(pageInfo)
                     .build();
+            log.info("concertListDto={}",concertListDto);
             return concertListDto;
         } else {
             Pageable pageable = PageRequest.of(bInfo.getPage() - 1, 8);
-            Page<ConcertProjection> page = concertRepository.findAllBySysDate(pageable, bInfo.getSearch());
+            Page<ConcertProjection> page = concertRepository.findAllBySysDate(pageable, bInfo.getKeyword());
             Page<ConcertDto> concertDtoPage = page.map(ConcertDto::convertToPage);
             int totalPage = page.getTotalPages(); //전체 페이지 개수
             int currentPage = page.getNumber() + 1;     //현재 페이지 번호
@@ -64,11 +66,10 @@ public class ConcertService {
         }
     }
 
-    public List<ConcertDto> calendarList(Date firstDate, Date lastDate) {
-        log.info("여기야!!!");
+    public List<Concert> calendarList(Date firstDate, Date lastDate) {
+
        List<Concert> calendar = concertRepository.findByStartDateBetween(firstDate,lastDate);
 
-       log.info("calendar={}",calendar);
-       return  null;
+       return  calendar;
     }
 }

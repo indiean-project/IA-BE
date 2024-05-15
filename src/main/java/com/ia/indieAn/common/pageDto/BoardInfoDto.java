@@ -7,6 +7,6 @@ public class BoardInfoDto {
 
     private int page;
     private String sort;
-    private String search;
+    private String keyword;
 
 }
