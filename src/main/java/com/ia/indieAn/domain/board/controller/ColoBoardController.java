@@ -1,5 +1,6 @@
 package com.ia.indieAn.domain.board.controller;
 
+import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.dto.ColoBoardDto;
@@ -50,12 +51,12 @@ public class ColoBoardController {
     }
 
     @RequestMapping("boardlist")
-    public ResponseEntity<ResponseTemplate> coloBoardList(int page, @RequestBody String sort) {
+    public ResponseEntity<ResponseTemplate> coloBoardList(@RequestBody BoardInfoDto boardInfoDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        Pageable pageable = PageRequest.of(page-1, 5, Sort.by(Sort.Direction.DESC, sort.replaceAll("\"","")));
+        Pageable pageable = PageRequest.of(boardInfoDto.getPage()-1, 5, Sort.by(Sort.Direction.DESC, boardInfoDto.getSort()));
 
         ArrayList<ColoBoardDto> list = coloBoardService.coloBoardList(pageable, "N");
 
