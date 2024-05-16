@@ -1,6 +1,7 @@
 package com.ia.indieAn;
 
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
+import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
 import com.ia.indieAn.domain.fund.repository.RewardRepository;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @SpringBootTest
 class IndieAnApplicationTests {
@@ -27,10 +29,7 @@ class IndieAnApplicationTests {
 	UserRepository userRepository;
 
 	@Autowired
-	FundRepository fundRepository;
-
-	@Autowired
-	RewardRepository rewardRepository;
+	ConcertRepository concertRepository;
 
 	@Autowired
 	OrderLogRepository orderLogRepository;

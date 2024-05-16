@@ -1,5 +1,6 @@
 package com.ia.indieAn.entity.concert;
 
+import com.ia.indieAn.entity.artist.Artist;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -24,6 +25,10 @@ public class ConcertLineup implements Serializable {
 
     @Column(nullable = false)
     private String artistName;
+
+    @ManyToOne
+    @JoinColumn(name = "artist_no")
+    private Artist artist;
 
     @Override
     public String toString() {

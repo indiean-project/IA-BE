@@ -2,6 +2,7 @@ package com.ia.indieAn.entity.artist;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ia.indieAn.entity.board.Board;
+import com.ia.indieAn.entity.concert.ConcertLineup;
 import com.ia.indieAn.entity.user.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,6 +42,7 @@ public class Artist implements Serializable {
     @JsonIgnoreProperties({"artist"})
     @OneToMany(mappedBy = "artist")
     private List<Board> boards = new ArrayList<>();
+
 
     @Override
     public String toString() {

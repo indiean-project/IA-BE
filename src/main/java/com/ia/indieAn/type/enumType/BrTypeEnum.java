@@ -15,12 +15,8 @@ public enum BrTypeEnum implements StrCodeValue {
     }
 
     @Override
-    public String getCode() {
-        return code;
-    }
+    public String getCode(){return code;}
 
     @Override
-    public String getValue() {
-        return value;
-    }
+    public String getValue() {return value;}
 }

@@ -25,7 +25,7 @@ public class FundController {
     FundService fundService;
 
     @RequestMapping("/allList")
-    public ResponseEntity<ResponseTemplate> selectAllFund(){
+    public ResponseEntity<ResponseTemplate> selectAllFund() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
