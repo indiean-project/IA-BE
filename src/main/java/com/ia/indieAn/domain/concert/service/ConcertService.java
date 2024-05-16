@@ -4,7 +4,7 @@ import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.concert.dto.ConcertDetailDto;
 import com.ia.indieAn.domain.concert.dto.ConcertDto;
-import com.ia.indieAn.domain.concert.dto.ConcertListDto;
+import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.domain.concert.dto.ConcertProjection;
 import com.ia.indieAn.domain.concert.repository.ConcertLineupRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
@@ -12,7 +12,6 @@ import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.concert.ConcertLineup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +31,7 @@ public class ConcertService {
     private final ConcertRepository concertRepository;
     private final ConcertLineupRepository concertLineupRepository;
 
-    public ConcertListDto concertList(BoardInfoDto bInfo) {
+    public ListDto concertList(BoardInfoDto bInfo) {
         if (bInfo.getSort().equals("createDate")) {
             Pageable pageable = PageRequest.of(bInfo.getPage() - 1, 8, Sort.by(Sort.Direction.DESC, "createDate"));
             Page<Concert> page = concertRepository.findByDeleteYnAndConcertTitleContaining(pageable, "N", bInfo.getKeyword());
@@ -47,7 +46,7 @@ public class ConcertService {
                 listDto.add(new ConcertDto(list.get(i)));
             }
 
-            ConcertListDto concertListDto = ConcertListDto.builder()
+            ListDto concertListDto = ListDto.builder()
                     .listDto(listDto)
                     .pageinfo(pageInfo)
                     .build();
@@ -61,11 +60,11 @@ public class ConcertService {
             int totalCount = (int) page.getTotalElements(); //전체 테이블 건수
             int boardLimit = 5;                             //
             PageInfo pageInfo = new PageInfo(totalPage, currentPage, totalCount, boardLimit);
-            ConcertListDto concertListDto = ConcertListDto.builder()
+            ListDto listDto = ListDto.builder()
                     .listDto(concertDtoPage.getContent())
                     .pageinfo(pageInfo)
                     .build();
-            return concertListDto;
+            return listDto;
         }
     }
 
@@ -90,6 +89,8 @@ public class ConcertService {
                 .endDate(concert.getEndDate())
                 .concertInfo(concert.getConcertInfo())
                 .concertLineupList(lineups)
+                .ticketUrl(concert.getTicketUrl())
+                .concertPrice(concert.getConcertPrice())
                 .build();
 
         return concertDetailDto;

@@ -138,8 +138,11 @@ class IndieAnApplicationTests {
 			concert.setLocation("주소123");
 			concert.setStartDate(Date.valueOf("2024-05-"+(i+1)));
 			concert.setEndDate(Date.valueOf("2024-05-"+(i+2)));
-			concert.setConcertInfo("이런 저런이야기");
+			concert.setConcertInfo("<p>이런 저런이야기<p>");
 			concert.setDeleteYn("N");
+			concert.setTicketUrl("https://tickets.interpark.com/goods/24006691");
+			concert.setConcertPrice(20000);
+			concert.setRuntime("100분");
 			concertRepository.save(concert);
 		}
 	}

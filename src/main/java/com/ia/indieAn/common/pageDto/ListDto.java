@@ -1,14 +1,12 @@
-package com.ia.indieAn.domain.concert.dto;
+package com.ia.indieAn.common.pageDto;
 
 import com.ia.indieAn.common.pageDto.PageInfo;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.ArrayList;
-
 @Builder
 @Getter
-public class ConcertListDto {
+public class ListDto {
 
     private Object listDto;
     private PageInfo pageinfo;

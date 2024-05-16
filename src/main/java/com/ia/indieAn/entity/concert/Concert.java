@@ -35,6 +35,13 @@ public class Concert implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date startDate;
 
+    @Column(nullable = false)
+    private int concertPrice;
+
+    private String runtime;
+
+    private String ticketUrl;
+
     @Temporal(TemporalType.DATE)
     private Date endDate;
 

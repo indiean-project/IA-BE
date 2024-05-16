@@ -37,11 +37,17 @@ public class Artist implements Serializable {
     private String artistName;
 
     private String musicCategory;
+
     private String artistInfo;
 
     @JsonIgnoreProperties({"artist"})
     @OneToMany(mappedBy = "artist")
     private List<Board> boards = new ArrayList<>();
+
+    @JsonIgnoreProperties({"artist"})
+    @OneToMany(mappedBy = "artist")
+    private List<ConcertLineup> ConcertLineups = new ArrayList<>();
+
 
 
     @Override
