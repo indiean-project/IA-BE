@@ -1,11 +1,14 @@
 package com.ia.indieAn.domain.user.service;
 
+import com.ia.indieAn.config.email.EmailService;
 import com.ia.indieAn.domain.user.dto.LoginUserDto;
+import com.ia.indieAn.domain.user.dto.UpdatePageDto;
 import com.ia.indieAn.domain.user.dto.UserPageDto;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +19,14 @@ import java.util.*;
 @Service
 @Transactional(readOnly = true)
 @Slf4j
+@RequiredArgsConstructor
 public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    private final EmailService emailService;
+
 
     public LoginUserDto loginUser(Member member) {
 
@@ -102,14 +109,19 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = CustomException.class)
-    public void updateUser(Member member){
+    public void updateUser(UpdatePageDto result) {
         //null 값에 대한 검증은 controller에서
-        if (userRepository.existsByNickname(member.getNickname())) {
+        Member mem = userRepository.findByUserNo(result.getUserNo());
+
+        if (userRepository.existsByNicknameAndUserNoNot(result.getNickname(), mem.getUserNo())) {
             throw new CustomException(ErrorCode.HAS_NICKNAME);
-        } else if (userRepository.existsByPhone(member.getPhone())) {
+        } else if (userRepository.existsByPhoneAndUserNoNot(result.getPhone(), mem.getUserNo())) {
             throw new CustomException(ErrorCode.HAS_PHONE);
         }
 
-        userRepository.save(member);
+        mem.setNickname(result.getNickname());
+        mem.setPhone(result.getPhone());
+        mem.setUserContent(result.getUserContent());
+        mem.setAddress(result.getAddress());
     }
 }

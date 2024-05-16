@@ -15,6 +15,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -26,6 +27,7 @@ import java.util.List;
 @Getter
 @Setter
 @DynamicInsert
+@DynamicUpdate
 @Entity
 @Table(name = "member")
 public class Member implements Serializable {
