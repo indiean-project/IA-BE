@@ -1,6 +1,8 @@
 package com.ia.indieAn.domain.board.service;
 
 import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.pageDto.ListDto;
+import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.board.dto.FreeBoardDto;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
@@ -33,21 +35,31 @@ public class FreeBoardService {
     @Autowired
     BoardRepository boardRepository;
 
-    public ArrayList<FreeBoardDto> freeBoardList(Pageable pageable, String deleteYn) {
+    public ListDto freeBoardList(Pageable pageable, String deleteYn) {
 
         Page<Board> pages = boardRepository.findAllByDeleteYnAndContentTypeNo(pageable, deleteYn, ContentTypeEnum.FREE);
         List<Board> boardList = pages.getContent();
+        int totalPage = pages.getTotalPages(); //전체 페이지 개수
+        int currentPage = pages.getNumber() + 1;     //현재 페이지 번호
+        int totalCount = (int) pages.getTotalElements(); //전체 테이블 건수
+        int boardLimit = 10;
+        PageInfo pageInfo = new PageInfo(totalPage, currentPage, totalCount, boardLimit);
 
-        ArrayList<FreeBoardDto> listDto = new ArrayList<>();
+        ArrayList<FreeBoardDto> freeBoardListDto = new ArrayList<>();
 
         for(int i = 0; i < boardList.size(); i++) {
-            listDto.add(new FreeBoardDto(boardList.get(i)));
+            freeBoardListDto.add(new FreeBoardDto(boardList.get(i)));
         }
 
-        for(int i = 0; i < listDto.size(); i++) {
-            int result = contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(listDto.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
-            listDto.get(i).setLikeCount(result);
+        for(int i = 0; i < freeBoardListDto.size(); i++) {
+            int result = contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(freeBoardListDto.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
+            freeBoardListDto.get(i).setLikeCount(result);
         }
+
+        ListDto listDto  = ListDto.builder()
+                .listDto(freeBoardListDto)
+                .pageinfo(pageInfo)
+                .build();
 
         return listDto;
     }
