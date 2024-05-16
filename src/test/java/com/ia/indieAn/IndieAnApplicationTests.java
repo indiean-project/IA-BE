@@ -35,7 +35,10 @@ class IndieAnApplicationTests {
 	OrderLogRepository orderLogRepository;
 
 	@Autowired
-	ConcertRepository concertRepository;
+	FundRepository fundRepository;
+
+	@Autowired
+	RewardRepository rewardRepository;
 
 	@Test
 	void contextLoads() throws Exception{
