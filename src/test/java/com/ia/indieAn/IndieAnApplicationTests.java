@@ -142,8 +142,5 @@ class IndieAnApplicationTests {
 			concert.setDeleteYn("N");
 			concertRepository.save(concert);
 		}
-
-
 	}
-
 }
