@@ -1,10 +1,7 @@
 package com.ia.indieAn.domain.concert.dto;
 
 import com.ia.indieAn.entity.concert.Concert;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 
@@ -12,6 +9,7 @@ import java.sql.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ConcertDto {
 
     private int concertNo;
@@ -26,13 +24,17 @@ public class ConcertDto {
 
     private Date createDate;
 
-    public ConcertDto(Concert concert){
+    private String deleteYn;
+
+    public ConcertDto(Concert concert) {
         this.concertNo = concert.getConcertNo();
         this.location = concert.getLocation();
         this.startDate = concert.getStartDate();
-        this.endDate = concert.getCreateDate();
+        this.endDate = concert.getEndDate();
         this.concertTitle = concert.getConcertTitle();
+        this.deleteYn = concert.getDeleteYn();
     }
+
 
     @Override
     public String toString() {
@@ -40,6 +42,19 @@ public class ConcertDto {
                 + "concertTitle =" + concertTitle
                 + "location =" + location
                 + "startDate =" + startDate
-                + "endDate = " + endDate;
+                + "endDate = " + endDate
+                + "deleteYn = " + deleteYn;
+    }
+
+    public static ConcertDto convertToPage(ConcertProjection cp) {
+
+        return builder()
+                .concertNo(cp.getConcertNo())
+                .concertTitle(cp.getConcertTitle())
+                .location(cp.getLocation())
+                .startDate(Date.valueOf(cp.getStartDate()))
+                .endDate(Date.valueOf(cp.getEndDate()))
+                .deleteYn(cp.getDeleteYn())
+                .build();
     }
 }
