@@ -6,6 +6,7 @@ import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
 import com.ia.indieAn.domain.fund.repository.RewardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.concert.Concert;
+import com.ia.indieAn.entity.concert.ConcertLineup;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.entity.fund.Reward;
@@ -55,7 +56,6 @@ class IndieAnApplicationTests {
 			concert.setDeleteYn("N");
 			concertRepository.save(concert);
 		}
-
 
 
 	}

@@ -3,7 +3,6 @@ package com.ia.indieAn.domain.concert.repository;
 
 import com.ia.indieAn.domain.concert.dto.ConcertProjection;
 import com.ia.indieAn.entity.concert.Concert;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,6 +28,8 @@ public interface ConcertRepository extends JpaRepository<Concert, Integer> {
     )
     Page<ConcertProjection> findAllBySysDate(Pageable pageable, @Param(value = "title") String title);
 
-
     List<Concert> findByStartDateBetween(Date firstDate, Date lastDate);
+
+
+    Concert findByConcertNo(int concertNo);
 }

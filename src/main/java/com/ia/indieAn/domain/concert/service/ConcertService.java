@@ -2,11 +2,14 @@ package com.ia.indieAn.domain.concert.service;
 
 import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.pageDto.PageInfo;
+import com.ia.indieAn.domain.concert.dto.ConcertDetailDto;
 import com.ia.indieAn.domain.concert.dto.ConcertDto;
 import com.ia.indieAn.domain.concert.dto.ConcertListDto;
 import com.ia.indieAn.domain.concert.dto.ConcertProjection;
+import com.ia.indieAn.domain.concert.repository.ConcertLineupRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.entity.concert.Concert;
+import com.ia.indieAn.entity.concert.ConcertLineup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ public class ConcertService {
 
 
     private final ConcertRepository concertRepository;
+    private final ConcertLineupRepository concertLineupRepository;
 
     public ConcertListDto concertList(BoardInfoDto bInfo) {
         if (bInfo.getSort().equals("createDate")) {
@@ -47,7 +51,6 @@ public class ConcertService {
                     .listDto(listDto)
                     .pageinfo(pageInfo)
                     .build();
-            log.info("concertListDto={}",concertListDto);
             return concertListDto;
         } else {
             Pageable pageable = PageRequest.of(bInfo.getPage() - 1, 8);
@@ -56,7 +59,7 @@ public class ConcertService {
             int totalPage = page.getTotalPages(); //전체 페이지 개수
             int currentPage = page.getNumber() + 1;     //현재 페이지 번호
             int totalCount = (int) page.getTotalElements(); //전체 테이블 건수
-            int boardLimit = 5;
+            int boardLimit = 5;                             //
             PageInfo pageInfo = new PageInfo(totalPage, currentPage, totalCount, boardLimit);
             ConcertListDto concertListDto = ConcertListDto.builder()
                     .listDto(concertDtoPage.getContent())
@@ -71,5 +74,24 @@ public class ConcertService {
        List<Concert> calendar = concertRepository.findByStartDateBetween(firstDate,lastDate);
 
        return  calendar;
+    }
+
+    public ConcertDetailDto concertDetail(int concertNo) {
+
+        Concert concert = concertRepository.findByConcertNo(concertNo);
+
+        List<ConcertLineup> lineups = concertLineupRepository.findByConcert_ConcertNo(concertNo);
+
+        ConcertDetailDto concertDetailDto = ConcertDetailDto.builder()
+                .concertNo(concert.getConcertNo())
+                .concertTitle(concert.getConcertTitle())
+                .location(concert.getLocation())
+                .startDate(concert.getStartDate())
+                .endDate(concert.getEndDate())
+                .concertInfo(concert.getConcertInfo())
+                .concertLineupList(lineups)
+                .build();
+
+        return concertDetailDto;
     }
 }
