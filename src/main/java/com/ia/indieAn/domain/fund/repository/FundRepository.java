@@ -18,6 +18,7 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
             "JOIN (SELECT FUND_NO, SUM(TOTAL_PRICE) AS REVENUE\n" +
             "FROM ORDER_LOG\n" +
             "GROUP BY FUND_NO) O  ON (F.FUND_NO = O.FUND_NO)\n";
+
     Fund findByFundNo(int fundNo);
 
     @Query(
@@ -35,4 +36,6 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
             nativeQuery = true
     )
     Page<FundListByRevenueInterface> findSoonFundList(Pageable pageable);
+
+
 }
