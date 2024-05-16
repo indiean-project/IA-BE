@@ -9,6 +9,7 @@ import java.sql.Date;
 @Data
 public class ColoBoardDto {
     private int boardNo;
+    private int coloNo;
     private String Nickname;
     private Date enrollDate;
     private Date updateDate;
@@ -19,9 +20,12 @@ public class ColoBoardDto {
     private int replies;
     private String colLeftTitle;
     private String colRightTitle;
+    private int colLeftCount;
+    private int colRightCount;
 
     public ColoBoardDto(Board board) {
         this.boardNo = board.getBoardNo();
+        this.coloNo = board.getBoardColo().getColoNo();
         this.Nickname = board.getMember().getNickname();
         this.enrollDate = board.getEnrollDate();
         this.updateDate = board.getUpdateDate();
@@ -31,5 +35,7 @@ public class ColoBoardDto {
         this.replies = board.getReplies().size();
         this.colLeftTitle = board.getBoardColo().getColLeftTitle();
         this.colRightTitle = board.getBoardColo().getColRightTitle();
+        this.colLeftCount = board.getBoardColo().getColoLogList().size();
+        this.colRightCount = board.getBoardColo().getColoLogList().size();
     }
 }

@@ -3,9 +3,11 @@ package com.ia.indieAn.domain.board.controller;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.dto.ColoBoardDto;
+import com.ia.indieAn.domain.board.service.BoardService;
 import com.ia.indieAn.domain.board.service.ColoBoardService;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.BoardColo;
+import com.ia.indieAn.type.enumType.BrTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,9 @@ public class ColoBoardController {
 
     @Autowired
     ColoBoardService coloBoardService;
+
+    @Autowired
+    BoardService boardService;
 
     @RequestMapping("enroll")
     public ResponseEntity<ResponseTemplate> coloBoardEnroll(@RequestBody BoardColo boardColo) {

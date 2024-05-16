@@ -4,9 +4,13 @@ import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.domain.board.dto.ColoBoardDto;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
+import com.ia.indieAn.domain.board.repository.ColoLogRepository;
+import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.BoardColo;
+import com.ia.indieAn.type.enumType.BrTypeEnum;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
+import com.ia.indieAn.type.enumType.RlTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +34,12 @@ public class ColoBoardService {
     @Autowired
     BoardRepository boardRepository;
 
+    @Autowired
+    ContentLikeLogRepository contentLikeLogRepository;
+
+    @Autowired
+    ColoLogRepository coloLogRepository;
+
     @Transactional(rollbackFor = CustomException.class)
     public void coloBoardEnroll(BoardColo boardColo) {
         coloBoardRepository.save(boardColo);
@@ -47,7 +57,17 @@ public class ColoBoardService {
             }
         }
 
-        log.info("listDto = {}", listDto);
+        for(int i = 0; i < listDto.size(); i++) {
+            int result = contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(listDto.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
+            listDto.get(i).setLikeCount(result);
+        }
+
+        for(int i = 0; i < listDto.size(); i++) {
+            int left = coloLogRepository.countByBoardColo_ColoNoAndVoteAndCancelYn(listDto.get(i).getColoNo(), RlTypeEnum.LEFT, "N");
+            int right = coloLogRepository.countByBoardColo_ColoNoAndVoteAndCancelYn(listDto.get(i).getColoNo(), RlTypeEnum.RIGHT, "N");
+            listDto.get(i).setColLeftCount(left);
+            listDto.get(i).setColRightCount(right);
+        }
 
         return listDto;
     }

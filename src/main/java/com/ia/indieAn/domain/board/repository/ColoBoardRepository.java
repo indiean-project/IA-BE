@@ -7,4 +7,5 @@ import java.util.ArrayList;
 
 public interface ColoBoardRepository extends JpaRepository<BoardColo, Integer> {
     ArrayList<BoardColo> findAll();
+    BoardColo findByColoNo(int coloNo);
 }

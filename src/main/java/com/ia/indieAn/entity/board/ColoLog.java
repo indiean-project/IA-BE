@@ -1,6 +1,8 @@
 package com.ia.indieAn.entity.board;
 
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.type.converter.RlTypeConverter;
+import com.ia.indieAn.type.enumType.RlTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -29,8 +31,9 @@ public class ColoLog implements Serializable {
     @JoinColumn(name = "user_no")
     private Member member;
 
+    @Convert(converter = RlTypeConverter.class)
     @Column(nullable = false)
-    private String vote; // R인지 L인지
+    private RlTypeEnum vote; // R인지 L인지
 
     @Column(columnDefinition = "char(1) default 'N'")
     private String cancelYn;

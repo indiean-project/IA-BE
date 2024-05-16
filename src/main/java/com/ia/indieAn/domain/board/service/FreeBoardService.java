@@ -10,6 +10,7 @@ import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.ContentLikeLog;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.enumType.BrTypeEnum;
+import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +35,7 @@ public class FreeBoardService {
 
     public ArrayList<FreeBoardDto> freeBoardList(Pageable pageable, String deleteYn) {
 
-        Page<Board> pages = boardRepository.findAllByDeleteYn(pageable, deleteYn);
+        Page<Board> pages = boardRepository.findAllByDeleteYnAndContentTypeNo(pageable, deleteYn, ContentTypeEnum.FREE);
         List<Board> boardList = pages.getContent();
 
         ArrayList<FreeBoardDto> listDto = new ArrayList<>();
@@ -42,11 +43,12 @@ public class FreeBoardService {
         for(int i = 0; i < boardList.size(); i++) {
             listDto.add(new FreeBoardDto(boardList.get(i)));
         }
+
+        for(int i = 0; i < listDto.size(); i++) {
+            int result = contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(listDto.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
+            listDto.get(i).setLikeCount(result);
+        }
+
         return listDto;
     }
-
-    public int boardlike(int boardNo, BrTypeEnum brType, String likeYn) {
-        return contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(boardNo, brType, likeYn);
-    }
-
 }

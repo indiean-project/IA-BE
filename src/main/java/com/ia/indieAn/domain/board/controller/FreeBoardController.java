@@ -3,6 +3,7 @@ package com.ia.indieAn.domain.board.controller;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.dto.FreeBoardDto;
+import com.ia.indieAn.domain.board.service.BoardService;
 import com.ia.indieAn.domain.board.service.FreeBoardService;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.type.enumType.BrTypeEnum;
@@ -32,6 +33,9 @@ public class FreeBoardController {
     @Autowired
     FreeBoardService freeBoardList;
 
+    @Autowired
+    BoardService boardService;
+
     @RequestMapping("/boardlist")
     public ResponseEntity<ResponseTemplate> freeBoardList(int page, @RequestBody String sort) {
         HttpHeaders headers = new HttpHeaders();
@@ -41,11 +45,6 @@ public class FreeBoardController {
         Pageable pageable = PageRequest.of(page-1, 20, Sort.by(Sort.Direction.DESC, sort.replaceAll("\"","")));
 
         ArrayList<FreeBoardDto> list = freeBoardList.freeBoardList(pageable, "N");
-
-        for (int i = 0; i < list.size(); i++) {
-            int result = freeBoardList.boardlike(list.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
-            list.get(i).setLikeCount(result);
-        }
 
         response.setData(list);
 
