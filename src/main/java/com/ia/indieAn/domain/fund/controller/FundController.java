@@ -5,7 +5,11 @@ import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.fund.dto.FundDetailDto;
 import com.ia.indieAn.domain.fund.dto.FundListDto;
 import com.ia.indieAn.domain.fund.dto.FundSearchDto;
+import com.ia.indieAn.domain.fund.dto.OrderReserveDto;
 import com.ia.indieAn.domain.fund.service.FundService;
+import com.ia.indieAn.domain.user.service.UserService;
+import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.entity.user.Member;
 import kr.co.bootpay.Bootpay;
 import kr.co.bootpay.model.request.SubscribePayload;
 import org.json.JSONObject;
@@ -20,10 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.TimeZone;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/fund")
@@ -88,21 +89,21 @@ public class FundController {
     }
 
     @RequestMapping("/order")
-    public ResponseEntity<ResponseTemplate> orderReward() throws Exception {
+    public ResponseEntity<ResponseTemplate> orderReward(@RequestBody OrderReserveDto orderReserveDto) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
+
+        Fund fund = fundService.selectFund(orderReserveDto.getFundNo());
 
         Bootpay bootpay = new Bootpay(bootPay_key, private_key);
         bootpay.getAccessToken();
         HashMap res = null;
         try {
-            res = bootpay.lookupBillingKey("ReceipId//변경예정");
+            res = bootpay.lookupBillingKey(orderReserveDto.getReceiptId());
             JSONObject json = new JSONObject(res);
             if (res.get("error_code") == null){
-                System.out.println("성공" + res);
             } else {
-                System.out.println("실패" + res);
                 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             }
         } catch (Exception e){
@@ -111,25 +112,30 @@ public class FundController {
 
         SubscribePayload payload = new SubscribePayload();
         payload.billingKey = (String)res.get("billing_key");
-        payload.orderName = "펀딩";
-        payload.price = 1000;
-        payload.orderId = "123456";
+        payload.orderName = "리워드 결제";
+        payload.price = orderReserveDto.getTotalPrice();
+        payload.orderId = orderReserveDto.getFundNo() + "/" + orderReserveDto.getUserNo();
 
-        Date now = new Date();
-        now.setTime(now.getTime() + 20 * 1000); //20초 뒤 결제
+        SimpleDateFormat trans = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date endDate = trans.parse(String.valueOf(fund.getEndDate()));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(endDate);
+        cal.add(Calendar.DATE, 1);
+
+        Date paymentDate = new Date(cal.getTimeInMillis());
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss XXX");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        payload.reserveExecuteAt = sdf.format(now);
+        payload.reserveExecuteAt = sdf.format(paymentDate);
 
         try {
             HashMap postRes = bootpay.reserveSubscribe(payload);
             JSONObject postJson = new JSONObject(postRes);
-            System.out.println("예약결제" + postJson);
-
             if (postRes.get("error_code") == null){
-                System.out.println("예약결제 성공" + postRes);
+                //성공
+
             } else {
-                System.out.println("예약결제 실패" + postRes);
+                //실패
             }
         } catch (Exception e){
             e.printStackTrace();

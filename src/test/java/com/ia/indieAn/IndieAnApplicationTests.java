@@ -154,6 +154,7 @@ class IndieAnApplicationTests {
 			concert.setDeleteYn("N");
 			concertRepository.save(concert);
 		}
+		// 자유게시판 및 콜로세움 게시판
 		ArrayList coloNo = new ArrayList();
 		for(int i = 0; i < 100; i++) {
 			Board board = new Board();

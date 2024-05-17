@@ -59,4 +59,8 @@ public class FundService {
                         .mapToInt(OrderLog::getTotalPrice).sum()
                 );
     }
+
+    public Fund selectFund(int fundNo){
+        return fundRepository.findByFundNo(fundNo);
+    }
 }
