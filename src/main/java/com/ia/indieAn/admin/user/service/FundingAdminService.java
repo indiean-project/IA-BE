@@ -27,14 +27,47 @@ public class FundingAdminService {
         }
         return fundingAdminUserDtoArrayList;
     }
+//
+//    public ArrayList<FundingAdminUserDto> selectFundListByUserId(FundingAdminSearchOptionDto fo){
+//        ArrayList<Fund> fundSearchList = (ArrayList<Fund>) fundingAdminUserRepository.findByFundTypeNoContainingAndFundStatusContainingAndFundTitleContaining(fo.getType(), "Y" ,fo.getKeyword());
+//        ArrayList<FundingAdminUserDto> fundingAdminUserDtoArrayList = new ArrayList<>();
+//        for(int i=0; i<fundSearchList.size(); i++){
+//            fundingAdminUserDtoArrayList.add(new FundingAdminUserDto(fundSearchList.get(i)));
+//        }
+//        return fundingAdminUserDtoArrayList;
+//    }
 
-    public ArrayList<FundingAdminUserDto> selectFundListByUserId(FundingAdminSearchOptionDto fo){
-        ArrayList<Fund> fundSearchList = (ArrayList<Fund>) fundingAdminUserRepository.findByFundTypeNoContainingAndFundStatusContainingAndFundTitleContaining(fo.getType(), "Y" ,fo.getKeyword());
-        ArrayList<FundingAdminUserDto> fundingAdminUserDtoArrayList = new ArrayList<>();
-        for(int i=0; i<fundSearchList.size(); i++){
-            fundingAdminUserDtoArrayList.add(new FundingAdminUserDto(fundSearchList.get(i)));
+    public ArrayList<FundingAdminUserDto> selectFundListByFundType(FundTypeEnum fundType){
+        ArrayList<Fund> fundArrayList = fundingAdminUserRepository.findByFundTypeNo(fundType);
+
+        ArrayList<FundingAdminUserDto> fundingAdminUserDtos = new ArrayList<>();
+        for(Fund fund : fundArrayList){
+            fundingAdminUserDtos.add(new FundingAdminUserDto(fund));
         }
-        return fundingAdminUserDtoArrayList;
+
+        return fundingAdminUserDtos;
+    }
+
+    public ArrayList<FundingAdminUserDto> selectFundListByFundStatus(String fundStatus){
+        ArrayList<Fund> fundArrayList = fundingAdminUserRepository.findByFundStatus(fundStatus);
+
+        ArrayList<FundingAdminUserDto> fundingAdminUserDtoFundStatus = new ArrayList<>();
+        for(Fund fund : fundArrayList){
+            fundingAdminUserDtoFundStatus.add(new FundingAdminUserDto(fund));
+        }
+
+        return fundingAdminUserDtoFundStatus;
+    }
+
+    public ArrayList<FundingAdminUserDto> selectFundListByFundTitle(String fundTitle){
+        ArrayList<Fund> fundArrayList =fundingAdminUserRepository.findByFundTitleContaining(fundTitle);
+
+        ArrayList<FundingAdminUserDto> fundingAdminUserDtoFundTitle = new ArrayList<>();
+        for(Fund fund : fundArrayList){
+            fundingAdminUserDtoFundTitle.add(new FundingAdminUserDto(fund));
+        }
+
+        return fundingAdminUserDtoFundTitle;
     }
 
 
