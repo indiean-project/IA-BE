@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### email service ###
+application-email.yml
+
+### oauth2 condition ###
+application-oauth.yml

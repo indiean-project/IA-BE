@@ -1,0 +1,26 @@
+
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+        registration:
+          google:
+            client-id: 86676225632-me8grope19ij7743ha182a3r76mv2k18.apps.googleusercontent.com
+            client-secret: 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
+            scope: profile,email
+          kakao:
+            client-id: 1148a494e6e4cb51dc6954bda24cedbb #kakao Rest API
+            client-secret: mmdwz5gZKhVB4yiicSSe3J8MPodFn1Cn #kakao client secret key
+            client-authentication-method: client_secret_post
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            authorization-grant-type: authorization_code
+            client-name: kakao
+            scope:
+              - profile
+              - account_email
