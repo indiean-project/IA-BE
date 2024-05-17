@@ -4,6 +4,8 @@ import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.service.BoardService;
 import com.ia.indieAn.entity.board.Board;
+import com.ia.indieAn.entity.board.ContentLikeLog;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/board")
 @CrossOrigin
@@ -40,6 +43,33 @@ public class BoardController {
 
         response.setStatus(StatusEnum.SUCCESS);
         response.setData(list);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("/viewCount")
+    public ResponseEntity<ResponseTemplate> viewCount(@RequestBody int boardNo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        boardService.viewCount(boardNo);
+
+        response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("/likeCount")
+    public ResponseEntity<ResponseTemplate> likeCount(@RequestBody ContentLikeLog contentLikeLog) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        log.info("contentLikeLog : {}", contentLikeLog);
+        boardService.likeCount(contentLikeLog);
+
+        response.setStatus(StatusEnum.SUCCESS);
+
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 }
