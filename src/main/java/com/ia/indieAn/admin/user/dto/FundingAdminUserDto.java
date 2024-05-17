@@ -7,16 +7,16 @@ import lombok.Data;
 @Data
 public class FundingAdminUserDto {
 
-    private int fundNo;
-    private int userNo;
-    private int fundTypeNo;
-    private String fundTitle;
-    private String fundStatus;
+    private int fundNo;         // sequence-> pk값
+    private int userNo;         // 유저정보 PK값
+    private String fundTypeNo;  // 펀딩 타입
+    private String fundTitle;   // 펀딩 요청글 제목
+    private String fundStatus;  // 펀딩 처리상태 Y/N
 
     public FundingAdminUserDto(Fund fund){
         this.fundNo = fund.getFundNo();
         this.userNo = fund.getMember().getUserNo();
-        this.fundTypeNo = Integer.parseInt(fund.getFundTypeNo().getCode());
+        this.fundTypeNo = fund.getFundTypeNo().getValue();
         this.fundTitle = fund.getFundTitle();
         this.fundStatus = fund.getFundStatus();
     }
