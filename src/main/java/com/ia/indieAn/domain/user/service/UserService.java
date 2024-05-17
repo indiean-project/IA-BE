@@ -123,5 +123,10 @@ public class UserService {
         mem.setPhone(result.getPhone());
         mem.setUserContent(result.getUserContent());
         mem.setAddress(result.getAddress());
+        mem.setUserPwd(result.getUserPwd());
+        mem.setUserName(result.getUserName());
+        mem.setUserProfileImg(result.getUserProfileImg());
+        mem.setUserFavoriteArtist(result.getUserFavoriteArtist());
+        mem.setUserFavoriteMusic(result.getUserFavoriteMusic());
     }
 }
