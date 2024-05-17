@@ -91,6 +91,7 @@ public class ConcertService {
                 .concertLineupList(lineups)
                 .ticketUrl(concert.getTicketUrl())
                 .concertPrice(concert.getConcertPrice())
+                .runtime(concert.getRuntime())
                 .build();
 
         return concertDetailDto;
