@@ -36,6 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 
+### appkey ###
+application-key.yml
 ### email service ###
 application-email.yml
 

@@ -17,7 +17,6 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
-
   jpa:
     hibernate:
       ddl-auto: update # create -- 서버 restart시 table정보가 reset 됨
@@ -36,7 +35,10 @@ management:
     health:
       enabled: true
 
-
+---
+spring:
+  profiles:
+    include: key
 
 
 
