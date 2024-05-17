@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.board.controller;
 
 import com.ia.indieAn.common.pageDto.BoardInfoDto;
+import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.dto.ColoBoardDto;
@@ -58,7 +59,7 @@ public class ColoBoardController {
 
         Pageable pageable = PageRequest.of(boardInfoDto.getPage()-1, 5, Sort.by(Sort.Direction.DESC, boardInfoDto.getSort()));
 
-        ArrayList<ColoBoardDto> list = coloBoardService.coloBoardList(pageable, "N");
+        ListDto list = coloBoardService.coloBoardList(pageable, "N");
 
         response.setData(list);
 

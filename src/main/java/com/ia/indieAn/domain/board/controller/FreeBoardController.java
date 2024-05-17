@@ -1,5 +1,7 @@
 package com.ia.indieAn.domain.board.controller;
 
+import com.ia.indieAn.common.pageDto.BoardInfoDto;
+import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.dto.FreeBoardDto;
@@ -37,14 +39,14 @@ public class FreeBoardController {
     BoardService boardService;
 
     @RequestMapping("/boardlist")
-    public ResponseEntity<ResponseTemplate> freeBoardList(int page, @RequestBody String sort) {
+    public ResponseEntity<ResponseTemplate> freeBoardList(@RequestBody BoardInfoDto boardInfoDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        Pageable pageable = PageRequest.of(page-1, 20, Sort.by(Sort.Direction.DESC, sort.replaceAll("\"","")));
+        Pageable pageable = PageRequest.of(boardInfoDto.getPage()-1, 20, Sort.by(Sort.Direction.DESC, boardInfoDto.getSort()));
 
-        ArrayList<FreeBoardDto> list = freeBoardList.freeBoardList(pageable, "N");
+        ListDto list = freeBoardList.freeBoardList(pageable, "N");
 
         response.setData(list);
 

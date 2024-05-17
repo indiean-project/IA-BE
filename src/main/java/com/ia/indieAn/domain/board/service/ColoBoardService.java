@@ -1,6 +1,8 @@
 package com.ia.indieAn.domain.board.service;
 
 import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.pageDto.ListDto;
+import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.board.dto.ColoBoardDto;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
@@ -45,29 +47,39 @@ public class ColoBoardService {
         coloBoardRepository.save(boardColo);
     }
 
-    public ArrayList<ColoBoardDto> coloBoardList(Pageable pageable, String deleteYn) {
+    public ListDto coloBoardList(Pageable pageable, String deleteYn) {
         Page<Board> pages = boardRepository.findAllByDeleteYnAndContentTypeNo(pageable, deleteYn, ContentTypeEnum.COLO);
         List<Board> list = pages.getContent();
+        int totalPage = pages.getTotalPages(); //전체 페이지 개수
+        int currentPage = pages.getNumber() + 1;     //현재 페이지 번호
+        int totalCount = (int) pages.getTotalElements(); //전체 테이블 건수
+        int boardLimit = 5;
+        PageInfo pageInfo = new PageInfo(totalPage, currentPage, totalCount, boardLimit);
 
-        ArrayList<ColoBoardDto> listDto = new ArrayList<>();
+        ArrayList<ColoBoardDto> coloBoardListDto = new ArrayList<>();
 
         for(int i = 0; i < list.size(); i++) {
             if (list.get(i).getBoardColo() != null) {
-                listDto.add(new ColoBoardDto(list.get(i)));
+                coloBoardListDto.add(new ColoBoardDto(list.get(i)));
             }
         }
 
-        for(int i = 0; i < listDto.size(); i++) {
-            int result = contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(listDto.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
-            listDto.get(i).setLikeCount(result);
+        for(int i = 0; i < coloBoardListDto.size(); i++) {
+            int result = contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(coloBoardListDto.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
+            coloBoardListDto.get(i).setLikeCount(result);
         }
 
-        for(int i = 0; i < listDto.size(); i++) {
-            int left = coloLogRepository.countByBoardColo_ColoNoAndVoteAndCancelYn(listDto.get(i).getColoNo(), RlTypeEnum.LEFT, "N");
-            int right = coloLogRepository.countByBoardColo_ColoNoAndVoteAndCancelYn(listDto.get(i).getColoNo(), RlTypeEnum.RIGHT, "N");
-            listDto.get(i).setColLeftCount(left);
-            listDto.get(i).setColRightCount(right);
+        for(int i = 0; i < coloBoardListDto.size(); i++) {
+            int left = coloLogRepository.countByBoardColo_ColoNoAndVoteAndCancelYn(coloBoardListDto.get(i).getColoNo(), RlTypeEnum.LEFT, "N");
+            int right = coloLogRepository.countByBoardColo_ColoNoAndVoteAndCancelYn(coloBoardListDto.get(i).getColoNo(), RlTypeEnum.RIGHT, "N");
+            coloBoardListDto.get(i).setColLeftCount(left);
+            coloBoardListDto.get(i).setColRightCount(right);
         }
+
+        ListDto listDto  = ListDto.builder()
+                .listDto(coloBoardListDto)
+                .pageinfo(pageInfo)
+                .build();
 
         return listDto;
     }
