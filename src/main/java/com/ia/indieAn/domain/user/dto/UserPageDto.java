@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 public class UserPageDto {
+    private int userNo;
+    private String userId;
     private String userPwd;
     private String userName;
     private String nickname;
@@ -16,6 +18,8 @@ public class UserPageDto {
     private String userFavoriteMusic;
 
     public UserPageDto(Member member) {
+        this.userNo = member.getUserNo();
+        this.userId = member.getUserId();
         this.userPwd = member.getUserPwd();
         this.userName = member.getUserName();
         this.nickname = member.getNickname();

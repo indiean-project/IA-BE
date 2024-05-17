@@ -1,7 +1,10 @@
 package com.ia.indieAn.domain.board.service;
 
 import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.pageDto.ListDto;
+import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.board.dto.FreeBoardDto;
+import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
 import com.ia.indieAn.domain.board.repository.FreeBoardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
@@ -9,6 +12,7 @@ import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.ContentLikeLog;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.enumType.BrTypeEnum;
+import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,36 +27,40 @@ import java.util.List;
 public class FreeBoardService {
 
     @Autowired
-    FreeBoardRepository boardRepository;
-
-    @Autowired
-    UserRepository userRepository;
+    FreeBoardRepository freeBoardRepository;
 
     @Autowired
     ContentLikeLogRepository contentLikeLogRepository;
 
-    @Transactional(rollbackFor = CustomException.class)
-    public Board boardEnroll(Board board) {
-        Member member = userRepository.findByUserNo(board.getMember().getUserNo());
-        board.setMember(member);
-        return boardRepository.save(board);
-    }
+    @Autowired
+    BoardRepository boardRepository;
 
-    public ArrayList<FreeBoardDto> freeBoardList(Pageable pageable) {
+    public ListDto freeBoardList(Pageable pageable, String deleteYn) {
 
-        Page<Board> pages = boardRepository.findAll(pageable);
+        Page<Board> pages = boardRepository.findAllByDeleteYnAndContentTypeNo(pageable, deleteYn, ContentTypeEnum.FREE);
         List<Board> boardList = pages.getContent();
+        int totalPage = pages.getTotalPages(); //전체 페이지 개수
+        int currentPage = pages.getNumber() + 1;     //현재 페이지 번호
+        int totalCount = (int) pages.getTotalElements(); //전체 테이블 건수
+        int boardLimit = 10;
+        PageInfo pageInfo = new PageInfo(totalPage, currentPage, totalCount, boardLimit);
 
-        ArrayList<FreeBoardDto> listDto = new ArrayList<>();
+        ArrayList<FreeBoardDto> freeBoardListDto = new ArrayList<>();
 
         for(int i = 0; i < boardList.size(); i++) {
-            listDto.add(new FreeBoardDto(boardList.get(i)));
+            freeBoardListDto.add(new FreeBoardDto(boardList.get(i)));
         }
+
+        for(int i = 0; i < freeBoardListDto.size(); i++) {
+            int result = contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(freeBoardListDto.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
+            freeBoardListDto.get(i).setLikeCount(result);
+        }
+
+        ListDto listDto  = ListDto.builder()
+                .listDto(freeBoardListDto)
+                .pageinfo(pageInfo)
+                .build();
+
         return listDto;
     }
-
-    public int boardlike(int boardNo, BrTypeEnum brType, String likeYn) {
-        return contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(boardNo, brType, likeYn);
-    }
-
 }

@@ -29,7 +29,7 @@ public class Fund implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int fundNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no")
     private Member member;
 
