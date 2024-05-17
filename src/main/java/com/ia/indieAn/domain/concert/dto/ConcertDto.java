@@ -26,6 +26,7 @@ public class ConcertDto {
 
     private String deleteYn;
 
+
     public ConcertDto(Concert concert) {
         this.concertNo = concert.getConcertNo();
         this.location = concert.getLocation();

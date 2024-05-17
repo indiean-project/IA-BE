@@ -21,6 +21,10 @@ public class ConcertDetailDto {
 
     private Date endDate;
 
+    private String ticketUrl;
+
+    private int concertPrice;
+
     private String concertInfo;
 
     private List<ConcertLineup> concertLineupList;

@@ -89,6 +89,8 @@ public class ConcertService {
                 .endDate(concert.getEndDate())
                 .concertInfo(concert.getConcertInfo())
                 .concertLineupList(lineups)
+                .ticketUrl(concert.getTicketUrl())
+                .concertPrice(concert.getConcertPrice())
                 .build();
 
         return concertDetailDto;
