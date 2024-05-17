@@ -1,8 +1,9 @@
 package com.ia.indieAn;
 
+import com.ia.indieAn.admin.user.repository.QuestionAdminRepository;
+import com.ia.indieAn.admin.user.repository.ReportAdminRepository;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
-import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
@@ -10,22 +11,19 @@ import com.ia.indieAn.domain.fund.repository.RewardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.BoardColo;
+import com.ia.indieAn.entity.board.ContentReportLog;
 import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
-import com.ia.indieAn.type.enumType.ContentTypeEnum;
-import com.ia.indieAn.type.enumType.FundTypeEnum;
-import com.ia.indieAn.type.enumType.UserRoleEnum;
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
+import com.ia.indieAn.entity.user.Question;
+import com.ia.indieAn.type.enumType.*;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 @SpringBootTest
@@ -51,6 +49,11 @@ class IndieAnApplicationTests {
 
 	@Autowired
 	ColoBoardRepository coloBoardRepository;
+
+	@Autowired
+	QuestionAdminRepository questionAdminRepository;
+    @Autowired
+    private ReportAdminRepository reportAdminRepository;
 
 	@Test
 	void contextLoads() throws Exception{
@@ -177,6 +180,45 @@ class IndieAnApplicationTests {
 			boardColo.setColLeftTitle("양념치킨");
 			boardColo.setColRightTitle("후라이드 치킨");
 			coloBoardRepository.save(boardColo);
+		}
+
+		// 문의사항 테스트 DB
+		for (int i=0; i <10; i++){
+			Question question = new Question();
+
+			question.setMember(userRepository.findByUserNo(i+1));
+			question.setAnsYn("N");
+			question.setQuestionDate(Date.valueOf("2024-05-10"));
+			question.setAnsDate(Date.valueOf("2024-05-17"));
+			question.setQuestionContent("이거또한 테스트."+i);
+			question.setAnsContent("테스트입니다."+i);
+
+			Question q = questionAdminRepository.save(question);
+		}
+
+		// 신고사항 테스트 DB
+		initContentReportLog();
+	}
+
+
+	@Test
+	public void initContentReportLog() {
+		// 신고사항 테스트 DB
+		for (int i=0; i <5; i++){
+			ContentReportLog report = new ContentReportLog();
+
+			report.setMember(userRepository.findByUserNo(i+1));
+			report.setReportNo(i+1);
+			report.setReportTypeNo(ReportTypeEnum.values()[(i)]);
+			report.setSolveYn("N");
+			report.setReportDate(Date.valueOf("2024-05-10"));
+			report.setContentNo(1);
+			report.setBrType(BrTypeEnum.BOARD);
+
+			System.out.println(report);
+
+
+			reportAdminRepository.save(report);
 		}
 	}
 }

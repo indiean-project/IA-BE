@@ -1,7 +1,8 @@
 package com.ia.indieAn.admin.user.controller;
 
-import com.ia.indieAn.admin.user.dto.QuestionAdminDto;
-import com.ia.indieAn.admin.user.service.QuestionAdminService;
+
+import com.ia.indieAn.admin.user.dto.ReportAdminDto;
+import com.ia.indieAn.admin.user.service.ReportAdminService;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +22,20 @@ import java.util.ArrayList;
 @RequestMapping("/api/admin")
 @CrossOrigin
 
-public class QuestionAdminController {
+public class ReportAdminController {
 
     @Autowired
-    QuestionAdminService questionService;
+    ReportAdminService reportAdminService;
 
     @ResponseBody
-    @RequestMapping("/questions")
-    public ResponseEntity<ResponseTemplate> questionList(){
+    @RequestMapping("/report")
+    public ResponseEntity<ResponseTemplate> reportList(){
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        ArrayList<QuestionAdminDto> result = questionService.selectAllQuestionList();
+        ArrayList<ReportAdminDto> result = reportAdminService.selectReportList();
         response.setStatus(StatusEnum.SUCCESS);
         response.setData(result);
 
@@ -42,8 +43,4 @@ public class QuestionAdminController {
 
 
     }
-
-
-
-
 }
