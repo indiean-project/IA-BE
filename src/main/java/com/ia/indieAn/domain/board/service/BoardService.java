@@ -3,15 +3,19 @@ package com.ia.indieAn.domain.board.service;
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
+import com.ia.indieAn.domain.board.repository.FreeBoardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.ContentLikeLog;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.enumType.BrTypeEnum;
+import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 
 @Slf4j
 @Service
@@ -57,12 +61,20 @@ public class BoardService {
             contentLikeLogRepository.save(clike);
         }
 
-//        if(clike == null || clike.getLikeYn().equals("N")) {
-//            clike.setLikeYn("Y");
-//        } else {
-//            clike.setLikeYn("N");
-//        }
-//        contentLikeLogRepository.save(clike);
+    }
+
+    public ArrayList boardAmount() {
+        ArrayList amountList = new ArrayList();
+
+        int freeAmount = boardRepository.countByContentTypeNoAndDeleteYn(ContentTypeEnum.FREE, "N");
+        int proudAmount = boardRepository.countByContentTypeNoAndDeleteYn(ContentTypeEnum.PROUD, "N");
+        int coloAmount = boardRepository.countByContentTypeNoAndDeleteYn(ContentTypeEnum.COLO, "N");
+
+        amountList.add(freeAmount);
+        amountList.add(proudAmount);
+        amountList.add(coloAmount);
+
+        return amountList;
     }
 
 }

@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BoardRepository extends JpaRepository<Board, Integer> {
     Page<Board> findAllByDeleteYnAndContentTypeNo(Pageable pageable, String deleteYn, ContentTypeEnum contentTypeNo);
     Board findByBoardNo(int boardNo);
+    int countByContentTypeNoAndDeleteYn(ContentTypeEnum contentTypeEnum, String deleteYn);
 }

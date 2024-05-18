@@ -65,10 +65,23 @@ public class BoardController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        log.info("contentLikeLog : {}", contentLikeLog);
         boardService.likeCount(contentLikeLog);
 
         response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("/amount")
+    public ResponseEntity<ResponseTemplate> boardAmount() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        ArrayList amountList = boardService.boardAmount();
+
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(amountList);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
