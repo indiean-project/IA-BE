@@ -93,7 +93,7 @@ public class FundController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-
+        System.out.println(orderReserveDto);
         Fund fund = fundService.selectFund(orderReserveDto.getFundNo());
 
         Bootpay bootpay = new Bootpay(bootPay_key, private_key);
@@ -102,8 +102,7 @@ public class FundController {
         try {
             res = bootpay.lookupBillingKey(orderReserveDto.getReceiptId());
             JSONObject json = new JSONObject(res);
-            if (res.get("error_code") == null){
-            } else {
+            if (res.get("error_code") != null){
                 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             }
         } catch (Exception e){
@@ -117,12 +116,13 @@ public class FundController {
         payload.orderId = orderReserveDto.getFundNo() + "/" + orderReserveDto.getUserNo();
 
         SimpleDateFormat trans = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date endDate = trans.parse(String.valueOf(fund.getEndDate()));
+        Date endDate = trans.parse(fund.getEndDate()+" 00:00:00");
         Calendar cal = Calendar.getInstance();
         cal.setTime(endDate);
         cal.add(Calendar.DATE, 1);
 
         Date paymentDate = new Date(cal.getTimeInMillis());
+        orderReserveDto.setPaymentDate(paymentDate);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss XXX");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -131,15 +131,15 @@ public class FundController {
         try {
             HashMap postRes = bootpay.reserveSubscribe(payload);
             JSONObject postJson = new JSONObject(postRes);
-            if (postRes.get("error_code") == null){
-                //성공
-
-            } else {
-                //실패
+            if (postRes.get("error_code") != null){
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             }
         } catch (Exception e){
             e.printStackTrace();
         }
+        fundService.insertOrderLog(fund, orderReserveDto, (String)res.get("billing_key"));
+
+        response.setStatus(StatusEnum.SUCCESS);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }

@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public interface FundRepository extends JpaRepository<Fund, Integer> {
 
-    String generalFundQuery = "SELECT F.FUND_NO AS fundNo, target, O.REVENUE AS revenue, O.REVENUE/target AS rate, USER_NO AS userNo, FUND_TITLE AS fundTitle, START_DATE AS startDate, END_DATE AS endDate, FUND_INFO as fundInfo, FUND_TYPE_NO as fundTypeNo, FUND_DESCRIPTION as fundDescription\n" +
+    String generalFundQuery = "SELECT F.FUND_NO AS fundNo, target, NVL(O.REVENUE, 0) AS revenue, NVL(O.REVENUE/target, 0) AS rate, USER_NO AS userNo, FUND_TITLE AS fundTitle, START_DATE AS startDate, END_DATE AS endDate, FUND_INFO as fundInfo, FUND_TYPE_NO as fundTypeNo, FUND_DESCRIPTION as fundDescription\n" +
             "FROM FUND F\n" +
-            "JOIN (SELECT FUND_NO, SUM(TOTAL_PRICE) AS REVENUE\n" +
+            "LEFT JOIN (SELECT FUND_NO, SUM(TOTAL_PRICE) AS REVENUE\n" +
             "FROM ORDER_LOG\n" +
             "GROUP BY FUND_NO) O  ON (F.FUND_NO = O.FUND_NO)\n";
 
