@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

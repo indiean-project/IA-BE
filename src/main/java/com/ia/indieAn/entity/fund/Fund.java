@@ -6,13 +6,11 @@ import com.ia.indieAn.type.converter.FundTypeConverter;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
