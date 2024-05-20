@@ -1,10 +1,17 @@
 package com.ia.indieAn.domain.fund.service;
 
+import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.domain.fund.dto.*;
+import com.ia.indieAn.domain.fund.repository.FundLogRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
+import com.ia.indieAn.domain.fund.repository.RewardRepository;
+import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.entity.fund.FundLog;
 import com.ia.indieAn.entity.fund.OrderLog;
+import com.ia.indieAn.entity.fund.Reward;
+import com.ia.indieAn.entity.user.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,9 +31,14 @@ public class FundService {
 
     @Autowired
     FundRepository fundRepository;
-
     @Autowired
     OrderLogRepository orderLogRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    RewardRepository rewardRepository;
+    @Autowired
+    FundLogRepository fundLogRepository;
 
     public Page<FundListDto> selectAllFund(FundSearchDto fundSearchDto){
         Pageable pageable = null;
@@ -62,5 +74,27 @@ public class FundService {
 
     public Fund selectFund(int fundNo){
         return fundRepository.findByFundNo(fundNo);
+    }
+
+    @Transactional(rollbackFor = CustomException.class)
+    public void insertOrderLog(Fund fund, OrderReserveDto orderReserveDto, String billingKey){
+        Member member = userRepository.findByUserNo(orderReserveDto.getUserNo());
+        OrderLog orderLog = new OrderLog();
+        orderLog.setMember(member);
+        orderLog.setFund(fund);
+        orderLog.setTotalPrice(orderReserveDto.getTotalPrice());
+        orderLog.setReceiptId(orderReserveDto.getReceiptId());
+        orderLog.setBillingKey(billingKey);
+        orderLog.setPaymentDate(orderReserveDto.getPaymentDate());
+        orderLogRepository.save(orderLog);
+
+        List<FundLog> fundLogList = orderReserveDto.getReward().stream()
+                .map(e->FundLog.builder()
+                        .member(member)
+                        .fund(fund)
+                        .reward(rewardRepository.findByRewardNo(e.getRewardNo()))
+                        .rewardAmount(e.getAmount())
+                        .build()).toList();
+        fundLogRepository.saveAll(fundLogList);
     }
 }
