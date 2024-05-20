@@ -60,8 +60,8 @@ class IndieAnApplicationTests {
 			member.setUserId("comet2667"+i+"@naver.com");
 			member.setUserPwd("phs1470!@");
 			member.setUserName("박혜성"+i);
-			member.setNickname("옥암동불꽃낙지"+i);
-			member.setPhone("0107705266"+i);
+			member.setNickname("옥암동아이스낙지"+i);
+			member.setPhone("0107435266"+i);
 			member.setUserRole(UserRoleEnum.ARTIST);
 			userRepository.save(member);
 		}
