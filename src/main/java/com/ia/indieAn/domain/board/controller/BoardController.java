@@ -34,8 +34,9 @@ public class BoardController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
+        String changeUrl = board.getBoardContent().replace("<img src=\"/public/tempImg", "<img src=\"/public/img");
+        board.setBoardContent(changeUrl);
         Board b = boardService.boardEnroll(board);
-
 
         ArrayList list = new ArrayList();
         list.add(b.getBoardNo());

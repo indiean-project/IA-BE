@@ -1,16 +1,12 @@
 package com.ia.indieAn.domain.board.service;
 
-import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.pageDto.PageInfo;
-import com.ia.indieAn.domain.board.dto.FreeBoardDto;
+import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
 import com.ia.indieAn.domain.board.repository.FreeBoardRepository;
-import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.board.Board;
-import com.ia.indieAn.entity.board.ContentLikeLog;
-import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.enumType.BrTypeEnum;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +41,10 @@ public class FreeBoardService {
         int boardLimit = 10;
         PageInfo pageInfo = new PageInfo(totalPage, currentPage, totalCount, boardLimit);
 
-        ArrayList<FreeBoardDto> freeBoardListDto = new ArrayList<>();
+        ArrayList<BoardDto> freeBoardListDto = new ArrayList<>();
 
         for(int i = 0; i < boardList.size(); i++) {
-            freeBoardListDto.add(new FreeBoardDto(boardList.get(i)));
+            freeBoardListDto.add(new BoardDto(boardList.get(i)));
         }
 
         for(int i = 0; i < freeBoardListDto.size(); i++) {
