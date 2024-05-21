@@ -5,6 +5,8 @@ import com.ia.indieAn.type.enumType.FabcTypeEnum;
 import com.ia.indieAn.type.enumType.KcTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.ArrayList;
+
 public interface ImgUrlRepository extends JpaRepository<ImgUrl, Integer> {
-    ImgUrl findByContentNoAndFabcTypeAndKcType(int contentNo, FabcTypeEnum fabcTypeEnum, KcTypeEnum kcTypeEnum);
+    ArrayList<ImgUrl> findByContentNoAndFabcTypeAndKcType(int contentNo, FabcTypeEnum fabcTypeEnum, KcTypeEnum kcTypeEnum);
 }

@@ -36,9 +36,9 @@ public class FundDetailDto {
         this.fundType = String.valueOf(FundTypeEnum.find(fund.getFundTypeNo().getCode()));
         this.fundTitle = fund.getFundTitle();
         this.target = fund.getTarget();
-        this.startDate = fund.getStartDate();
-        this.endDate = fund.getEndDate();
-        this.paymentDate = fund.getPaymentDate();
+        this.startDate = (Date) fund.getStartDate();
+        this.endDate = (Date) fund.getEndDate();
+        this.paymentDate = (Date) fund.getPaymentDate();
         this.fundInfo = fund.getFundInfo();
         this.artistInfo = fund.getArtistInfo();
         this.rewardInfo = fund.getRewardInfo();
