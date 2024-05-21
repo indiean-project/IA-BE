@@ -4,6 +4,7 @@ import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.board.dto.BoardDto;
+import com.ia.indieAn.domain.board.dto.BoardProjection;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
 import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
@@ -44,39 +45,27 @@ public class BoardService {
     ImgUrlRepository imgUrlRepository;
 
     public ListDto boardList(Pageable pageable, String deleteYn, ContentTypeEnum contentTypeEnum) {
+        Page<BoardProjection> pages = boardRepository.findAll(pageable, Integer.parseInt(contentTypeEnum.getCode()), "");
+        Page<BoardDto> pagesDto = pages.map(BoardDto::convertBoardDto);
 
-        Page<Board> pages = boardRepository.findAllByDeleteYnAndContentTypeNo(pageable, deleteYn, contentTypeEnum);
-        List<Board> boardList = pages.getContent();
-        int totalPage = pages.getTotalPages(); //전체 페이지 개수
-        int currentPage = pages.getNumber() + 1;     //현재 페이지 번호
-        int totalCount = (int) pages.getTotalElements(); //전체 테이블 건수
+        int totalPage = pagesDto.getTotalPages(); //전체 페이지 개수
+        int currentPage = pagesDto.getNumber() + 1;     //현재 페이지 번호
+        int totalCount = (int) pagesDto.getTotalElements(); //전체 테이블 건수
         int boardLimit = 10;
         PageInfo pageInfo = new PageInfo(totalPage, currentPage, totalCount, boardLimit);
 
-        ArrayList<BoardDto> boardListDto = new ArrayList<>();
-
-        for(int i = 0; i < boardList.size(); i++) {
-            boardListDto.add(new BoardDto(boardList.get(i)));
-        }
-
-        for(int i = 0; i < boardListDto.size(); i++) {
-            int result = contentLikeLogRepository.countByContentNoAndBrTypeAndLikeYn(boardListDto.get(i).getBoardNo(), BrTypeEnum.BOARD, "Y");
-            boardListDto.get(i).setLikeCount(result);
-        }
 
         if(contentTypeEnum == ContentTypeEnum.PROUD) {
-            for(int i = 0; i < boardListDto.size(); i++) {
-                ArrayList<ImgUrl> result = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(boardListDto.get(i).getBoardNo(), FabcTypeEnum.BOARD, KcTypeEnum.CONTENT);
-                if(result.size() > 0) {
-                    boardListDto.get(i).setImgUrl(result.get(0).getImgUrl());
-                }
-            }
+//            for(int i = 0; i < boardListDto.size(); i++) {
+//                ArrayList<ImgUrl> result = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(boardListDto.get(i).getBoardNo(), FabcTypeEnum.BOARD, KcTypeEnum.CONTENT);
+//                if(result.size() > 0) {
+//                    boardListDto.get(i).setImgUrl(result.get(0).getImgUrl());
+//                }
+//            }
         }
-        log.info("result : {}", boardListDto);
-
 
         ListDto listDto  = ListDto.builder()
-                .listDto(boardListDto)
+                .listDto(pagesDto.getContent())
                 .pageinfo(pageInfo)
                 .build();
 

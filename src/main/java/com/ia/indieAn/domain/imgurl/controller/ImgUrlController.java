@@ -38,7 +38,7 @@ public class ImgUrlController {
             imgUrl.setImgUrl(imgUrlDto.getImgUrlList()[i]);
             imgUrl.setContentNo(imgUrlDto.getContentNo());
             imgUrl.setFabcType(imgUrlDto.getFabcTypeEnum());
-            imgUrl.setKcType(KcTypeEnum.CONTENT);
+            imgUrl.setKcType(imgUrlDto.getKcTypeEnum());
 
             imgUrlService.imgEnroll(imgUrl);
         }

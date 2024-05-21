@@ -9,6 +9,7 @@ import com.ia.indieAn.domain.board.repository.FreeBoardRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.type.enumType.BrTypeEnum;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 public class FreeBoardService {
@@ -44,7 +46,7 @@ public class FreeBoardService {
         ArrayList<BoardDto> freeBoardListDto = new ArrayList<>();
 
         for(int i = 0; i < boardList.size(); i++) {
-            freeBoardListDto.add(new BoardDto(boardList.get(i)));
+//            freeBoardListDto.add(new BoardDto(boardList.get(i)));
         }
 
         for(int i = 0; i < freeBoardListDto.size(); i++) {
