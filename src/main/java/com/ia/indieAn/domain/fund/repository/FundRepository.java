@@ -23,8 +23,7 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
 
     @Query(
             value = generalFundQuery +
-                    "WHERE FUND_TITLE LIKE '%' || :title || '%' AND FUND_INFO LIKE '%' || :content || '%' AND (FUND_TITLE LIKE '%' || :all || '%' OR FUND_INFO LIKE '%' || :all || '%')",
-            countQuery = "SELECT COUNT(*) FROM FUND",
+                    "WHERE FUND_TITLE LIKE '%' || :title || '%' AND FUND_INFO LIKE '%' || :content || '%' AND (FUND_TITLE LIKE '%' || :all || '%' AND FUND_INFO LIKE '%' || :all || '%')",
             nativeQuery = true
     )
     Page<FundListByRevenueInterface> findAllFundList(Pageable pageable, @Param(value = "title")String title, @Param(value = "content")String content, @Param(value = "all")String all);
@@ -32,7 +31,6 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
     @Query(
             value = generalFundQuery +
                     "WHERE END_DATE >= SYSDATE",
-            countQuery = "SELECT COUNT(*) FROM FUND",
             nativeQuery = true
     )
     Page<FundListByRevenueInterface> findSoonFundList(Pageable pageable);
