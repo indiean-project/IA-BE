@@ -9,4 +9,5 @@ public class ImgUrlDto {
     private int contentNo;
     private String[] imgUrlList;
 
+
 }
