@@ -21,7 +21,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,5 +100,15 @@ public class FundService {
                         .rewardAmount(e.getAmount())
                         .build()).toList();
         fundLogRepository.saveAll(fundLogList);
+    }
+
+    @Transactional(rollbackFor = CustomException.class)
+    public void enrollFund(FundEnrollDto fundEnrollDto) throws ParseException {
+        Member member = userRepository.findByUserNo(fundEnrollDto.getUserNo());
+        Fund fund = fundRepository.save(Fund.convertFormFundEnrollDto(fundEnrollDto, member));
+
+        List<Reward> rewardList = fundEnrollDto.getReward().stream()
+                .map(e->Reward.convertFromRewardDto(e, fund)).toList();
+        rewardRepository.saveAll(rewardList);
     }
 }

@@ -1,6 +1,7 @@
 package com.ia.indieAn.entity.fund;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ia.indieAn.domain.fund.dto.FundEnrollDto;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.converter.FundTypeConverter;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @DynamicInsert
 @Entity
 @Table(name = "fund")
@@ -75,7 +77,6 @@ public class Fund implements Serializable {
     @Column(nullable = false)
     private String artistInfo;
 
-    @Column(nullable = false)
     private String rewardInfo;
 
     @Column(nullable = false)
@@ -84,7 +85,7 @@ public class Fund implements Serializable {
     @Column(nullable = false)
     private String schedule;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "char(1) default 'N'")
     private String fundStatus; //임시저장, 승인대기, 반려, 승인 Enum 작업 필요
 
     @JsonIgnoreProperties({"fund"})
@@ -126,5 +127,22 @@ public class Fund implements Serializable {
                 ", orderLogList=" + orderLogList.size() +
                 ", rewardList=" + rewardList.size() +
                 '}';
+    }
+
+    public static Fund convertFormFundEnrollDto(FundEnrollDto fundEnrollDto, Member member){
+        return Fund.builder()
+                .fundTitle(fundEnrollDto.getFundTitle())
+                .member(member)
+                .fundDescription(fundEnrollDto.getFundDescription())
+                .fundTypeNo(fundEnrollDto.getCategory())
+                .target(fundEnrollDto.getTarget())
+                .startDate(fundEnrollDto.getStartDate())
+                .endDate(fundEnrollDto.getEndDate())
+                .fundInfo(fundEnrollDto.getFundInfo())
+                .artistInfo(fundEnrollDto.getArtistInfo())
+                .budgetManage(fundEnrollDto.getBudgetInfo())
+                .schedule(fundEnrollDto.getScheduleInfo())
+                .paymentDate(fundEnrollDto.getPaymentDate())
+                .build();
     }
 }
