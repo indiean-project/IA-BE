@@ -1,6 +1,7 @@
 package com.ia.indieAn.entity.fund;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ia.indieAn.domain.fund.dto.RewardListDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @DynamicInsert
 @Entity
 @Table(name = "reward")
@@ -61,5 +63,17 @@ public class Reward implements Serializable {
                 ", limitAmount=" + limitAmount +
                 ", fundLogList=" + fundLogList.size() +
                 '}';
+    }
+
+    public static Reward convertFromRewardDto(RewardListDto rewardListDto, Fund fund){
+        return Reward.builder()
+                .fund(fund)
+                .rewardName(rewardListDto.getRewardName())
+                .rewardPrice(rewardListDto.getRewardPrice())
+                .rewardInfo(rewardListDto.getRewardInfo())
+                .deliveryYn(rewardListDto.getDeliveryYn())
+                .limitYn(rewardListDto.getLimitYn())
+                .limitAmount(rewardListDto.getLimitAmount())
+                .build();
     }
 }

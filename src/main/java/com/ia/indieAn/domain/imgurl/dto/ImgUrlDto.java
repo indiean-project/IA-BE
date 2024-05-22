@@ -8,4 +8,6 @@ import lombok.Data;
 public class ImgUrlDto {
     private int contentNo;
     private String[] imgUrlList;
+    private FabcTypeEnum fabcTypeEnum;
+    private KcTypeEnum kcTypeEnum;
 }

@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ContentLikeLogRepository extends JpaRepository<ContentLikeLog, Integer> {
     int countByContentNoAndBrTypeAndLikeYn(int boardNo, BrTypeEnum brType, String likeYn);
+    ContentLikeLog findByMember_UserNoAndContentNoAndBrType(int userNo, int contentNo, BrTypeEnum brType);
 }
