@@ -42,6 +42,10 @@ public class Artist implements Serializable {
 
     private String artistStatus;
 
+    private String youtubeLink;
+
+    private String instagramLink;
+
     @JsonIgnoreProperties({"artist"})
     @OneToMany(mappedBy = "artist")
     private List<Board> boards = new ArrayList<>();

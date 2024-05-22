@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.artist.controller;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
+import com.ia.indieAn.domain.artist.dto.ArtistDetailDto;
 import com.ia.indieAn.domain.artist.dto.ArtistDto;
 import com.ia.indieAn.domain.artist.dto.ArtistSearchDto;
 import com.ia.indieAn.domain.artist.service.ArtistService;
@@ -42,12 +43,15 @@ public class ArtistController {
     }
 
     @RequestMapping("/detail")
-    public ResponseEntity<ResponseTemplate> artistDtail(@RequestParam(value = "artistNo") int artistNo) {
+    public ResponseEntity<ResponseTemplate> artistDetail(@RequestParam(value = "artistNo") int artistNo) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
         log.info("artistNo={}",artistNo);
+        ArtistDetailDto result = artistService.artistDetail(artistNo);
+        response.setData(result);
+        response.setStatus(StatusEnum.SUCCESS);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }

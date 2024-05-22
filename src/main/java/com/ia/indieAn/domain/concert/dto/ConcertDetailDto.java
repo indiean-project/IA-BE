@@ -1,6 +1,6 @@
 package com.ia.indieAn.domain.concert.dto;
 
-import com.ia.indieAn.entity.concert.ConcertLineup;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -29,6 +29,8 @@ public class ConcertDetailDto {
 
     private String concertInfo;
 
-    private List<ConcertLineup> concertLineupList;
+    private List<ConcertLineupDto> concertLineupList;
+
+    private String titleUrl;
 
 }

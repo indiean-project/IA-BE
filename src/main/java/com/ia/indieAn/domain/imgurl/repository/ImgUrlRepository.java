@@ -9,4 +9,6 @@ import java.util.ArrayList;
 
 public interface ImgUrlRepository extends JpaRepository<ImgUrl, Integer> {
     ArrayList<ImgUrl> findByContentNoAndFabcTypeAndKcType(int contentNo, FabcTypeEnum fabcTypeEnum, KcTypeEnum kcTypeEnum);
+
+
 }

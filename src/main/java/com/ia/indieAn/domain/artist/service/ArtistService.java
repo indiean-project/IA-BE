@@ -1,10 +1,15 @@
 package com.ia.indieAn.domain.artist.service;
 
+import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
+import com.ia.indieAn.domain.artist.dto.ArtistDetailDto;
 import com.ia.indieAn.domain.artist.dto.ArtistDto;
+import com.ia.indieAn.domain.artist.dto.ArtistDtoProjection;
 import com.ia.indieAn.domain.artist.dto.ArtistSearchDto;
 import com.ia.indieAn.domain.artist.repository.ArtistRepository;
 import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
 import com.ia.indieAn.entity.artist.Artist;
+import com.ia.indieAn.entity.board.ImgUrl;
 import com.ia.indieAn.type.enumType.FabcTypeEnum;
 import com.ia.indieAn.type.enumType.KcTypeEnum;
 import lombok.RequiredArgsConstructor;
@@ -28,20 +33,47 @@ public class ArtistService {
 
 
     public List<ArtistDto> artistList(ArtistSearchDto artistSearchDto) {
-        Pageable pageable = null;
+
+        Pageable pageable = PageRequest.of(0, artistSearchDto.getSize());
+        List<ArtistDto> artistDtoList = new ArrayList<ArtistDto>();
 
         if(artistSearchDto.getSort().equals("createDate")) {
-            pageable = PageRequest.of(0, artistSearchDto.getSize(), Sort.by(Sort.Direction.DESC, "artistNo"));
+            Slice<ArtistDtoProjection> page = artistRepository.findByArtistListCreate(pageable,artistSearchDto.getKeyword());
+            Slice<ArtistDto> ArtistDtoPage = page.map(ArtistDto::conventToArtistDto);
+            artistDtoList = ArtistDtoPage.getContent();
         }else{
-            pageable = PageRequest.of(0, artistSearchDto.getSize(), Sort.by(Sort.Direction.ASC, "debutDate"));
-        }
-        Slice<Artist> pageArtist = artistRepository.findByArtistNameContaining(pageable, artistSearchDto.getKeyword());
-        List<Artist> artistList = pageArtist.getContent();
-        List<ArtistDto> artistDtoList = new ArrayList<ArtistDto>();
-        for(int i =0 ; i <artistList.size();i++ ){
-            artistDtoList.add(new ArtistDto(artistList.get(i),imgUrlRepository.findByContentNoAndFabcTypeAndKcType(artistList.get(i).getArtistNo(), FabcTypeEnum.ARTIST, KcTypeEnum.KING).getImgUrl()));
+            Slice<ArtistDtoProjection> page = artistRepository.findByArtistListDebut(pageable,artistSearchDto.getKeyword());
+            Slice<ArtistDto> ArtistDtoPage = page.map(ArtistDto::conventToArtistDto);
+            artistDtoList = ArtistDtoPage.getContent();
         }
 
         return artistDtoList;
+    }
+
+    public ArtistDetailDto artistDetail(int artistNo) {
+
+        Artist artist = artistRepository.findByArtistNoAndArtistStatus(artistNo,"Y");
+        if(artist == null){
+            throw new CustomException(ErrorCode.INVALID_PAGE);
+        }
+
+        ArrayList<ImgUrl> imgUrl = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(artistNo,FabcTypeEnum.ARTIST,KcTypeEnum.KING);
+
+        ArtistDetailDto artistDetailDto = ArtistDetailDto.builder()
+                .artistNo(artist.getArtistNo())
+                .artistInfo(artist.getArtistInfo())
+                .artistName(artist.getArtistName())
+                .userNo(artist.getMember().getUserNo())
+                .debutDate(artist.getDebutDate())
+                .musicCategory(artist.getMusicCategory())
+                .instagramLink(artist.getInstagramLink())
+                .youtubeLink(artist.getYoutubeLink())
+                .build();
+        if(imgUrl.size()>0) {
+            artistDetailDto.setTitleUrl(imgUrl.get(0).getImgUrl());
+        }
+
+
+        return artistDetailDto;
     }
 }
