@@ -86,4 +86,17 @@ public class BoardController {
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @RequestMapping("/delete")
+    public ResponseEntity<ResponseTemplate> boardDelete(@RequestBody Board board) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        boardService.boardDelete(board);
+
+        response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }

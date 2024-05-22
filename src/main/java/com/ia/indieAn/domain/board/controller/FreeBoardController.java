@@ -36,7 +36,7 @@ public class FreeBoardController {
 
         Pageable pageable = PageRequest.of(boardInfoDto.getPage()-1, 20, Sort.by(Sort.Direction.DESC, boardInfoDto.getSort()));
 
-        ListDto list = boardService.boardList(pageable, "N", ContentTypeEnum.FREE);
+        ListDto list = boardService.boardList(pageable, ContentTypeEnum.FREE, boardInfoDto.getKeyword());
 
         response.setData(list);
 

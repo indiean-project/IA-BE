@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class BoardDto {
     private int boardNo;
+    private int userNo;
     private String nickname;
     private String enrollDate;
     private String updateDate;
@@ -25,28 +26,31 @@ public class BoardDto {
     private int replies;
     private String imgUrl;
 
-//    public BoardDto(Board board) {
-//        this.boardNo = board.getBoardNo();
-//        this.nickname = board.getMember().getNickname();
-//        this.enrollDate = board.getEnrollDate();
-//        this.updateDate = board.getUpdateDate();
-//        this.boardTitle = board.getBoardTitle();
-//        this.boardContent = board.getBoardContent();
-//        this.viewCount = board.getViewCount();
-//        this.replies = board.getReplies().size();
-//        this.imgUrl = getImgUrl();
-//        this.userRole = board.getMember().getUserRole().getCode();
-//        this.likeCount = getLikeCount();
-//    }
+    public BoardDto(Board board) {
+        this.boardNo = board.getBoardNo();
+        this.userNo = board.getMember().getUserNo();
+        this.nickname = board.getMember().getNickname();
+        this.enrollDate = String.valueOf(board.getEnrollDate());
+        this.updateDate = String.valueOf(board.getUpdateDate());
+        this.boardTitle = board.getBoardTitle();
+        this.boardContent = board.getBoardContent();
+        this.userRole = board.getMember().getUserRole().getCode();
+        this.viewCount = board.getViewCount();
+        this.likeCount = getLikeCount();
+        this.replies = board.getReplies().size();
+        this.imgUrl = getImgUrl();
+    }
 
     @Override
     public String toString() {
         return "boardNo = " + boardNo
+                + "userNo = " + userNo
                 + "nickname = " + nickname
                 + "enrollDate = " + enrollDate
                 + "updateDate = " + updateDate
                 + "boardTitle = " + boardTitle
                 + "boardContent = " + boardContent
+                + "userRole = " + userRole
                 + "viewCount = " + viewCount
                 + "replies = " + replies
                 + "imgUrl = " + imgUrl;
@@ -58,12 +62,14 @@ public class BoardDto {
                 .boardTitle(bp.getBoardTitle())
                 .boardContent(bp.getBoardContent())
                 .replies(bp.getReplies())
+                .userNo(bp.getUserNo())
                 .nickname(bp.getNickname())
                 .userRole(bp.getUserRole())
                 .enrollDate(bp.getEnrollDate())
                 .updateDate(bp.getUpdateDate())
                 .viewCount(bp.getViewCount())
                 .likeCount(bp.getLikeCount())
+                .imgUrl(bp.getImgUrl())
                 .build();
 
     }

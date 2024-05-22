@@ -36,9 +36,6 @@ public class ColoBoardController {
     @Autowired
     ColoBoardService coloBoardService;
 
-    @Autowired
-    BoardService boardService;
-
     @RequestMapping("enroll")
     public ResponseEntity<ResponseTemplate> coloBoardEnroll(@RequestBody BoardColo boardColo) {
         HttpHeaders headers = new HttpHeaders();
