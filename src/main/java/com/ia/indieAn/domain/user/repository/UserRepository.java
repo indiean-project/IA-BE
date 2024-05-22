@@ -34,5 +34,5 @@ public interface UserRepository extends JpaRepository<Member, Integer> {
             countQuery = "select count(*) from board",
             nativeQuery = true
     )
-    List<UserBoardProjection> findUserBoardsByMemberUserNo(@Param("userNo") int userNo);
+    List<UserBoardProjection> findUserBoardsByMemberUserNo(@Param(value="userNo") int userNo);
 }

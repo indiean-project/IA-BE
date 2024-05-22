@@ -79,15 +79,22 @@ public class MyPageController {
 
     @ResponseBody
     @RequestMapping("/myPage/board")
-    public ResponseEntity<ResponseTemplate> userBoardHistory(@RequestParam int userNo){
+    public ResponseEntity<ResponseTemplate> userBoardHistory(@RequestParam(name="userNo") int userNo){
         System.out.println(userNo);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        List<UserBoardDto> blist = userService.userBoardHistory(userNo);
+        List<BoardDto> blist = userService.userBoardHistory(userNo);
 
-        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        if(blist != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(blist);
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
 
     }
 

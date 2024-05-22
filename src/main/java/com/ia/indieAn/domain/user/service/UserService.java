@@ -124,16 +124,16 @@ public class UserService {
         mem.setUserFavoriteMusic(result.getUserFavoriteMusic());
     }
 
-    public List<UserBoardDto> userBoardHistory(int userNo) {
+    public List<BoardDto> userBoardHistory(int userNo) {
         List<UserBoardProjection> boardProjections = userRepository.findUserBoardsByMemberUserNo(userNo);
 
         List<UserBoardDto> userBoardHistory = boardProjections.stream()
                 .map(UserBoardDto::fromProjection)
                 .collect(Collectors.toList());
 
-        return userBoardHistory;
-//        return userBoardHistory.stream()
-//                .map(UserBoardDto::toBoardDto)
-//                .collect(Collectors.toList());
+//        return userBoardHistory;
+        return userBoardHistory.stream()
+                .map(UserBoardDto::toBoardDto)
+                .collect(Collectors.toList());
     }
 }
