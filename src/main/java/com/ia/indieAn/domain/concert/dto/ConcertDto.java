@@ -26,6 +26,9 @@ public class ConcertDto {
 
     private String deleteYn;
 
+    private String titleUrl;
+
+
     public ConcertDto(Concert concert) {
         this.concertNo = concert.getConcertNo();
         this.location = concert.getLocation();
@@ -55,6 +58,7 @@ public class ConcertDto {
                 .startDate(Date.valueOf(cp.getStartDate()))
                 .endDate(Date.valueOf(cp.getEndDate()))
                 .deleteYn(cp.getDeleteYn())
+                .titleUrl(cp.getImgUrl())
                 .build();
     }
 }

@@ -16,6 +16,7 @@ public interface ConcertProjection {
 
     LocalDate getCreateDate();
 
+    String getImgUrl();
     Integer getDay();
 
     String getDeleteYn();
