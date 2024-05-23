@@ -2,6 +2,7 @@ package com.ia.indieAn.domain.board.controller;
 
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
+import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.board.service.BoardService;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.ContentLikeLog;
@@ -84,6 +85,32 @@ public class BoardController {
         response.setStatus(StatusEnum.SUCCESS);
         response.setData(amountList);
 
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("/delete")
+    public ResponseEntity<ResponseTemplate> boardDelete(@RequestBody Board board) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        boardService.boardDelete(board);
+
+        response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("/detail")
+    public ResponseEntity<ResponseTemplate> boardDetail(@RequestBody int boardNo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        BoardDto b = boardService.boardDetail(boardNo);
+
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(b);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 }

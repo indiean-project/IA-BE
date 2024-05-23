@@ -38,9 +38,8 @@ public class ProudBoardController {
 
         Pageable pageable = PageRequest.of(boardInfoDto.getPage()-1, 9, Sort.by(Sort.Direction.DESC, boardInfoDto.getSort()));
 
-        ListDto list = boardService.boardList(pageable, "N", ContentTypeEnum.PROUD);
+        ListDto list = boardService.boardList(pageable, ContentTypeEnum.PROUD, boardInfoDto.getKeyword());
 
-        log.info("list : {}", list.getListDto());
         response.setData(list);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);

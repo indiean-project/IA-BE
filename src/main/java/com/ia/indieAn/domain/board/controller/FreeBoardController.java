@@ -4,7 +4,6 @@ import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.domain.board.service.BoardService;
-import com.ia.indieAn.domain.board.service.FreeBoardService;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class FreeBoardController {
 
         Pageable pageable = PageRequest.of(boardInfoDto.getPage()-1, 20, Sort.by(Sort.Direction.DESC, boardInfoDto.getSort()));
 
-        ListDto list = boardService.boardList(pageable, "N", ContentTypeEnum.FREE);
+        ListDto list = boardService.boardList(pageable, ContentTypeEnum.FREE, boardInfoDto.getKeyword());
 
         response.setData(list);
 

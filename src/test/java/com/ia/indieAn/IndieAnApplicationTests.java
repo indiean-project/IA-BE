@@ -4,7 +4,12 @@ import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
+
+import com.ia.indieAn.domain.board.repository.ColoLogRepository;
+import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
+
 import com.ia.indieAn.domain.artist.repository.ArtistRepository;
+
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
@@ -14,18 +19,27 @@ import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.BoardColo;
+
+import com.ia.indieAn.entity.board.ColoLog;
+import com.ia.indieAn.entity.board.ContentLikeLog;
+
 import com.ia.indieAn.entity.artist.Artist;
 import com.ia.indieAn.entity.board.ImgUrl;
+
 import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
 
+import com.ia.indieAn.type.enumType.*;
+
+
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import com.ia.indieAn.type.enumType.KcTypeEnum;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
+
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -59,6 +73,12 @@ class IndieAnApplicationTests {
 
 	@Autowired
 	ColoBoardRepository coloBoardRepository;
+
+	@Autowired
+	ColoLogRepository coloLogRepository;
+
+	@Autowired
+	ContentLikeLogRepository contentLikeLogRepository;
 
 	@Test
 	void contextLoads() throws Exception{
@@ -167,16 +187,19 @@ class IndieAnApplicationTests {
 		}
 		// 자유게시판 및 콜로세움 게시판
 		ArrayList coloNo = new ArrayList();
-		for(int i = 0; i < 100; i++) {
+		for(int i = 0; i < 150; i++) {
 			Board board = new Board();
-			board.setMember(userRepository.findByUserNo(i+1));
+			int ran = (int)(Math.random()*100 + 1);
+			board.setMember(userRepository.findByUserNo(ran));
 			board.setBoardTitle(i + "번째 게시글 제목입니다.");
 			board.setBoardContent("대충 게시글 내용입니다.");
-			if(i%2 == 1) {
+			if(i%3 == 1) {
 				board.setContentTypeNo(ContentTypeEnum.FREE);
-			} else {
+			} else if (i%3 == 2) {
 				board.setContentTypeNo(ContentTypeEnum.COLO);
 				coloNo.add(i+1);
+			} else {
+				board.setContentTypeNo(ContentTypeEnum.PROUD);
 			}
 			int random = (int)(Math.random()*300 + 100);
 			board.setViewCount(random);
@@ -188,6 +211,28 @@ class IndieAnApplicationTests {
 			boardColo.setColLeftTitle("양념치킨");
 			boardColo.setColRightTitle("후라이드 치킨");
 			coloBoardRepository.save(boardColo);
+		}
+		for(int i = 0; i < coloNo.size(); i++) {
+			for(int j = 0; j < 100; j++) {
+				ColoLog coloLog = new ColoLog();
+				coloLog.setBoardColo(coloBoardRepository.findByColoNo(i+1));
+				int ran = (int)(Math.random()*2 + 1);
+				coloLog.setVote(ran == 1 ? RlTypeEnum.LEFT : RlTypeEnum.RIGHT);
+				coloLog.setMember(userRepository.findByUserNo(j+1));
+				coloLogRepository.save(coloLog);
+			}
+		}
+		for(int i = 0; i < 150; i ++) {
+			int random = (int)(Math.random()*100 + 0);
+			for(int j = 0; j < random; j++) {
+				ContentLikeLog contentLikeLog = new ContentLikeLog();
+				contentLikeLog.setLikeYn("Y");
+				contentLikeLog.setMember(userRepository.findByUserNo(j));
+				contentLikeLog.setContentNo(i+1);
+				contentLikeLog.setBrType(BrTypeEnum.BOARD);
+				contentLikeLogRepository.save(contentLikeLog);
+			}
+
 		}
 	}
 }
