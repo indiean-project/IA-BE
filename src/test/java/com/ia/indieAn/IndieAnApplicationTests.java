@@ -2,29 +2,24 @@ package com.ia.indieAn;
 
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
+import com.ia.indieAn.domain.artist.repository.ArtistRepository;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
 
 import com.ia.indieAn.domain.board.repository.ColoLogRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
 
-import com.ia.indieAn.domain.artist.repository.ArtistRepository;
-
-import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
 import com.ia.indieAn.domain.fund.repository.RewardRepository;
-import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
+import com.ia.indieAn.entity.artist.Artist;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.BoardColo;
 
 import com.ia.indieAn.entity.board.ColoLog;
 import com.ia.indieAn.entity.board.ContentLikeLog;
-
-import com.ia.indieAn.entity.artist.Artist;
-import com.ia.indieAn.entity.board.ImgUrl;
 
 import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.fund.Fund;
@@ -37,17 +32,13 @@ import com.ia.indieAn.type.enumType.*;
 
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
-import com.ia.indieAn.type.enumType.KcTypeEnum;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
 
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 @SpringBootTest
@@ -79,9 +70,19 @@ class IndieAnApplicationTests {
 
 	@Autowired
 	ContentLikeLogRepository contentLikeLogRepository;
+	@Autowired
+	ArtistRepository artistRepository;
 
 	@Test
 	void contextLoads() throws Exception{
+		Member admin = new Member();
+		admin.setUserId("admin@indiean.com");
+		admin.setUserPwd("phs1470!@");
+		admin.setUserName("박혜성");
+		admin.setNickname("관리자");
+		admin.setPhone("01012341234");
+		admin.setUserRole(UserRoleEnum.ADMIN);
+		userRepository.save(admin);
 
 		for (int i = 0; i < 100; i++) {
 			Member member = new Member();
@@ -233,6 +234,29 @@ class IndieAnApplicationTests {
 				contentLikeLogRepository.save(contentLikeLog);
 			}
 
+		}
+		for(int i = 0; i < 100; i++){
+			Artist artist = new Artist();
+			artist.setArtistName("아티스트"+i);
+			artist.setMusicCategory("이런거 저런거");
+			artist.setArtistInfo("<p>\n" +
+					"    반갑습니다.\n" +
+					"</p>\n" +
+					"<div>테스트용 html입니다.</div>\n" +
+					"<b>나는 입니다.</b>\n" +
+					"<ul>\n" +
+					"    <li>설명</li>\n" +
+					"    <li>설명</li>\n" +
+					"    <li>설명</li>\n" +
+					"    <li>설명?</li>\n" +
+					"    <li>설명?</li>\n" +
+					"    <li>설명?</li>\n" +
+					"    <li>설명?</li>\n" +
+					"</ul>");
+			artist.setMember(userRepository.findByUserNo(i));
+			artist.setDebutDate(Date.valueOf("2024-04-05"));
+			artist.setArtistStatus("Y");
+			artistRepository.save(artist);
 		}
 	}
 }

@@ -45,6 +45,7 @@ public class FundService {
     public Slice<FundListDto> selectAllFund(FundSearchDto fundSearchDto){
         Pageable pageable = PageRequest.of(0, fundSearchDto.getPage(), Sort.by(fundSearchDto.getSort(), fundSearchDto.getSortValue()));
         Slice<FundListDto> fundListDtos = null;
+        
         switch (fundSearchDto.getSearchValue()) {
             case "artist" -> {
                 fundListDtos = fundRepository
@@ -118,12 +119,14 @@ public class FundService {
     }
 
     @Transactional(rollbackFor = CustomException.class)
-    public void enrollFund(FundEnrollDto fundEnrollDto) throws ParseException {
+    public int enrollFund(FundEnrollDto fundEnrollDto) throws ParseException {
         Member member = userRepository.findByUserNo(fundEnrollDto.getUserNo());
         Fund fund = fundRepository.save(Fund.convertFormFundEnrollDto(fundEnrollDto, member));
 
         List<Reward> rewardList = fundEnrollDto.getReward().stream()
                 .map(e->Reward.convertFromRewardDto(e, fund)).toList();
         rewardRepository.saveAll(rewardList);
+
+        return fund.getFundNo();
     }
 }
