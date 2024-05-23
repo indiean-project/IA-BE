@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor
+@Builder
 @Getter @Setter
 @DynamicInsert
 @Entity
@@ -68,4 +69,6 @@ public class Artist implements Serializable {
                 ", boards=" + boards.size() +
                 '}';
     }
+
+
 }

@@ -2,14 +2,13 @@ package com.ia.indieAn.domain.artist.service;
 
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
-import com.ia.indieAn.domain.artist.dto.ArtistDetailDto;
-import com.ia.indieAn.domain.artist.dto.ArtistDto;
-import com.ia.indieAn.domain.artist.dto.ArtistDtoProjection;
-import com.ia.indieAn.domain.artist.dto.ArtistSearchDto;
+import com.ia.indieAn.domain.artist.dto.*;
 import com.ia.indieAn.domain.artist.repository.ArtistRepository;
 import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
+import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.artist.Artist;
 import com.ia.indieAn.entity.board.ImgUrl;
+import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.enumType.FabcTypeEnum;
 import com.ia.indieAn.type.enumType.KcTypeEnum;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,7 @@ public class ArtistService {
 
     private final ArtistRepository artistRepository;
     private final ImgUrlRepository imgUrlRepository;
+    private final UserRepository userRepository;
 
 
     public List<ArtistDto> artistList(ArtistSearchDto artistSearchDto) {
@@ -53,6 +54,7 @@ public class ArtistService {
     public ArtistDetailDto artistDetail(int artistNo) {
 
         Artist artist = artistRepository.findByArtistNoAndArtistStatus(artistNo,"Y");
+
         if(artist == null){
             throw new CustomException(ErrorCode.ARTIST_NOT_FOUND);
         }
@@ -75,5 +77,22 @@ public class ArtistService {
 
 
         return artistDetailDto;
+    }
+    @Transactional
+    public Artist artistEnroll(ArtistEnrollDto artistEnrollDto) {
+        Member member = userRepository.findByUserNo(artistEnrollDto.getUserNo());
+        Artist artist = Artist.builder()
+                .member(member)
+                .artistStatus(artistEnrollDto.getArtistStatus())
+                .artistName(artistEnrollDto.getArtistName())
+                .artistInfo(artistEnrollDto.getArtistInfo())
+                .debutDate(artistEnrollDto.getDebutDate())
+                .musicCategory(artistEnrollDto.getMusicCategory())
+                .youtubeLink(artistEnrollDto.getYoutubeLink())
+                .instagramLink(artistEnrollDto.getInstagramLink())
+                .build();
+
+
+        return artistRepository.save(artist);
     }
 }
