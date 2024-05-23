@@ -13,9 +13,10 @@ public enum ErrorCode {
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "account-002", "비밀번호가 일치하지 않습니다."),
     HAS_ID(HttpStatus.BAD_REQUEST, "account-003", "존재하는 아이디입니다."),
     HAS_NICKNAME(HttpStatus.BAD_REQUEST, "account-004", "존재하는 닉네임입니다."),
-    HAS_PHONE(HttpStatus.BAD_REQUEST, "account-005", "존재하는 휴대폰번호입니다.");
+    HAS_PHONE(HttpStatus.BAD_REQUEST, "account-005", "존재하는 휴대폰번호입니다."),
 
-
+    //펀딩 관련
+    FUND_NOT_FOUND(HttpStatus.NOT_FOUND, "fund-001", "존재하는 펀딩이 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

@@ -1,16 +1,23 @@
 package com.ia.indieAn;
 
+import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
+import com.ia.indieAn.domain.board.repository.BoardRepository;
+import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
 import com.ia.indieAn.domain.fund.repository.RewardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
+import com.ia.indieAn.entity.board.Board;
+import com.ia.indieAn.entity.board.BoardColo;
 import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
@@ -21,6 +28,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @SpringBootTest
 class IndieAnApplicationTests {
@@ -40,6 +48,12 @@ class IndieAnApplicationTests {
 	@Autowired
 	RewardRepository rewardRepository;
 
+	@Autowired
+	BoardRepository boardRepository;
+
+	@Autowired
+	ColoBoardRepository coloBoardRepository;
+
 	@Test
 	void contextLoads() throws Exception{
 
@@ -48,8 +62,8 @@ class IndieAnApplicationTests {
 			member.setUserId("comet2667"+i+"@naver.com");
 			member.setUserPwd("phs1470!@");
 			member.setUserName("박혜성"+i);
-			member.setNickname("옥암동불꽃낙지"+i);
-			member.setPhone("0107705266"+i);
+			member.setNickname("옥암동아이스낙지"+i);
+			member.setPhone("0107435266"+i);
 			member.setUserRole(UserRoleEnum.ARTIST);
 			userRepository.save(member);
 		}
@@ -123,7 +137,8 @@ class IndieAnApplicationTests {
 				OrderLog orderLog1 = new OrderLog();
 				orderLog1.setMember(userRepository.findByUserNo((int)(Math.random()*100) + 1));
 				int random1 = (int)(Math.random() * 100) + 1;
-				orderLog1.setFund(fundRepository.findByFundNo(random1));
+				orderLog1.setFund(fundRepository.findByFundNo(random1)
+						.orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND)));
 				orderLog1.setTotalPrice((int)(Math.random()* 100000) + 1);
 				orderLog1.setReceiptId("test");
 				orderLog1.setBillingKey("test");
@@ -144,6 +159,30 @@ class IndieAnApplicationTests {
 			concert.setConcertPrice(20000);
 			concert.setRuntime("100분");
 			concertRepository.save(concert);
+		}
+		// 자유게시판 및 콜로세움 게시판
+		ArrayList coloNo = new ArrayList();
+		for(int i = 0; i < 100; i++) {
+			Board board = new Board();
+			board.setMember(userRepository.findByUserNo(i+1));
+			board.setBoardTitle(i + "번째 게시글 제목입니다.");
+			board.setBoardContent("대충 게시글 내용입니다.");
+			if(i%2 == 1) {
+				board.setContentTypeNo(ContentTypeEnum.FREE);
+			} else {
+				board.setContentTypeNo(ContentTypeEnum.COLO);
+				coloNo.add(i+1);
+			}
+			int random = (int)(Math.random()*300 + 100);
+			board.setViewCount(random);
+			boardRepository.save(board);
+		}
+		for(int i = 0; i < coloNo.size(); i++) {
+			BoardColo boardColo = new BoardColo();
+			boardColo.setBoard(boardRepository.findByBoardNo((int)coloNo.get(i)));
+			boardColo.setColLeftTitle("양념치킨");
+			boardColo.setColRightTitle("후라이드 치킨");
+			coloBoardRepository.save(boardColo);
 		}
 	}
 }
