@@ -7,8 +7,6 @@ import com.ia.indieAn.domain.board.dto.BoardProjection;
 import com.ia.indieAn.domain.board.dto.ColoBoardDto;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
-import com.ia.indieAn.domain.board.repository.ColoLogRepository;
-import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
 import com.ia.indieAn.entity.board.BoardColo;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 
 @Slf4j
 @Service

@@ -1,7 +1,6 @@
 package com.ia.indieAn.domain.board.repository;
 
 import com.ia.indieAn.domain.board.dto.BoardProjection;
-import com.ia.indieAn.domain.board.dto.BoardSideBarDto;
 import com.ia.indieAn.domain.board.dto.BoardSideBarProjection;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
@@ -23,8 +22,8 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "                    , (select count(*) from content_like_log l where l.content_no = b.board_no and l.br_type = 'B' and l.like_yn = 'Y') as likeCount\n" +
                     "                    , colo_no as coloNo\n" +
                     "                    , col_left_title as colLeftTitle, col_right_title as colRightTitle\n" +
-                    "                    , (select count(*) from colo_log where vote = 'L' and cancel_yn = 'N' ) as colLeftCount\n" +
-                    "                    , (select count(*) from colo_log where vote = 'R' and cancel_yn = 'N' ) as colRightCount\n" +
+                    "                    , (select count(*) from colo_log cl where vote = 'L' and cancel_yn = 'N' and c.colo_no = cl.colo_no ) as colLeftCount\n" +
+                    "                    , (select count(*) from colo_log cl where vote = 'R' and cancel_yn = 'N' and c.colo_no = cl.colo_no ) as colRightCount\n" +
                     "                    , img_url as imgUrl\n" +
                     "                    from board b\n" +
                     "                    join member m on (m.user_no = b.user_no)\n" +
@@ -51,7 +50,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , enroll_date\n" +
                     "from board b\n" +
                     "where enroll_date > sysdate - 7\n" +
-                    "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 1 and delete_yn = 'N' and content_type_no = :contentType\n" +
+                    "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = :contentType\n" +
                     "order by view_count desc)\n" +
                     "where rownum <= 5",
             countQuery = "select count(*)\n" +
@@ -63,7 +62,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , enroll_date\n" +
                     "from board b\n" +
                     "where enroll_date > sysdate - 7\n" +
-                    "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 1 and delete_yn = 'N' and content_type_no = :contentType\n" +
+                    "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = :contentType\n" +
                     "order by view_count desc)\n" +
                     "where rownum <= 5",
             nativeQuery = true
@@ -94,4 +93,17 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
             nativeQuery = true
     )
     ArrayList<BoardSideBarProjection> findAllLike(@Param(value = "contentType") int contentType);
+
+    @Query(value =
+        "select board_no as boardNo, b.user_no as userNo, nickname as nickName\n" +
+                "    , enroll_date as enrollDate, update_date as updateDate, board_title as boardTitle\n" +
+                "    , board_content as boardContent, view_count as viewCount, user_role as userRole\n" +
+                "    , (select count(*) from content_like_log l where b.board_no = l.content_no and br_type = 'B' and like_yn = 'Y') as likeCount\n" +
+                "    , (select count(*) from reply r where b.board_no = r.board_no and delete_yn = 'N') replies\n" +
+                "from board b\n" +
+                "join member m on (b.user_no = m.user_no)\n" +
+                "where b.board_no = :boardNo and b.delete_yn = 'N'",
+            nativeQuery = true
+    )
+    BoardProjection findDetail(@Param(value = "boardNo") int boardNo);
 }

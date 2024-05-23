@@ -1,11 +1,7 @@
 package com.ia.indieAn.domain.board.dto;
 
 import com.ia.indieAn.entity.board.Board;
-import com.ia.indieAn.type.enumType.UserRoleEnum;
 import lombok.*;
-
-import java.sql.Date;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter

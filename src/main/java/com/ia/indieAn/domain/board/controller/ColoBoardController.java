@@ -4,12 +4,8 @@ import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
-import com.ia.indieAn.domain.board.dto.ColoBoardDto;
-import com.ia.indieAn.domain.board.service.BoardService;
 import com.ia.indieAn.domain.board.service.ColoBoardService;
-import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.BoardColo;
-import com.ia.indieAn.type.enumType.BrTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 
 @Slf4j
 @RestController

@@ -4,10 +4,9 @@ import com.ia.indieAn.domain.board.dto.BoardSideBarDto;
 import com.ia.indieAn.domain.board.dto.BoardSideBarProjection;
 import com.ia.indieAn.domain.board.dto.SideBarListDto;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
-import com.ia.indieAn.type.enumType.ContentTypeEnum;
+import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,17 +20,14 @@ public class BoardSideBarService {
     @Autowired
     BoardRepository boardRepository;
 
-    public SideBarListDto sideBarList(String contentType) {
-        int contentTypeNo = 0;
-        if (contentType.equals("자유게시판")) {
-            contentTypeNo = 1;
-        } else if (contentType.equals("아티스트 자랑")) {
-            contentTypeNo = 2;
-        } else if (contentType.equals("콜로세움")) {
-            contentTypeNo = 3;
-        }
+    @Autowired
+    ColoBoardRepository coloBoardRepository;
 
-        ArrayList<BoardSideBarProjection> viewList = boardRepository.findAllView(contentTypeNo);
+    public SideBarListDto sideBarList(String contentType) {
+
+        int contentTypeNo = contentType.equals("자유게시판") ? 1 : contentType.equals("아티스트 자랑") ? 2 : contentType.equals("콜로세움") ? 3 : 0;
+
+        ArrayList<BoardSideBarProjection> viewList = contentTypeNo != 3 ? boardRepository.findAllView(contentTypeNo) : coloBoardRepository.findAllColo(contentTypeNo);
         ArrayList<BoardSideBarDto> viewListDto = new ArrayList<>();
 
         ArrayList<BoardSideBarProjection> likeList = boardRepository.findAllLike(contentTypeNo);

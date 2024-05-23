@@ -4,7 +4,6 @@ import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.dto.SideBarListDto;
 import com.ia.indieAn.domain.board.service.BoardSideBarService;
-import com.ia.indieAn.entity.board.Board;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

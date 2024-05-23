@@ -1,10 +1,7 @@
 package com.ia.indieAn.domain.board.dto;
 
 import com.ia.indieAn.entity.board.Board;
-import com.ia.indieAn.entity.board.BoardColo;
 import lombok.*;
-
-import java.sql.Date;
 
 @Setter
 @Getter
@@ -13,7 +10,7 @@ import java.sql.Date;
 @Builder
 public class ColoBoardDto {
     private int boardNo;
-    private int coloNo;
+    private String coloNo;
     private int userNo;
     private String nickname;
     private String userRole;
@@ -31,7 +28,7 @@ public class ColoBoardDto {
 
     public ColoBoardDto(Board board) {
         this.boardNo = board.getBoardNo();
-        this.coloNo = board.getBoardColo().getColoNo();
+        this.coloNo = String.valueOf(board.getBoardColo().getColoNo());
         this.userNo = board.getMember().getUserNo();
         this.nickname = board.getMember().getNickname();
         this.userRole = board.getMember().getUserRole().getCode();

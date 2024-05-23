@@ -1,23 +1,17 @@
 package com.ia.indieAn.domain.board.service;
 
 import com.ia.indieAn.common.exception.CustomException;
-import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.board.dto.BoardProjection;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
-import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.ContentLikeLog;
-import com.ia.indieAn.entity.board.ImgUrl;
 import com.ia.indieAn.entity.user.Member;
-import com.ia.indieAn.type.enumType.BrTypeEnum;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
-import com.ia.indieAn.type.enumType.FabcTypeEnum;
-import com.ia.indieAn.type.enumType.KcTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -123,6 +116,26 @@ public class BoardService {
         Board b = boardRepository.findByBoardNo(board.getBoardNo());
         b.setDeleteYn("Y");
         boardRepository.save(b);
+    }
+
+    public BoardDto boardDetail(int boardNo) {
+        BoardProjection bp = boardRepository.findDetail(boardNo);
+
+        BoardDto b = BoardDto.builder()
+                .boardNo(bp.getBoardNo())
+                .boardContent(bp.getBoardContent())
+                .boardTitle(bp.getBoardTitle())
+                .userNo(bp.getUserNo())
+                .nickname(bp.getNickname())
+                .enrollDate(bp.getEnrollDate())
+                .updateDate(bp.getUpdateDate())
+                .viewCount(bp.getViewCount())
+                .userRole(bp.getUserRole())
+                .likeCount(bp.getLikeCount())
+                .replies(bp.getReplies())
+                .build();
+
+        return b;
     }
 
 }
