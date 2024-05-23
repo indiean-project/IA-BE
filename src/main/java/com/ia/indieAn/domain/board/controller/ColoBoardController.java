@@ -4,8 +4,10 @@ import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
+import com.ia.indieAn.domain.board.dto.ColoLogDto;
 import com.ia.indieAn.domain.board.service.ColoBoardService;
 import com.ia.indieAn.entity.board.BoardColo;
+import com.ia.indieAn.entity.board.ColoLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 @Slf4j
 @RestController
@@ -53,8 +56,35 @@ public class ColoBoardController {
 
         ListDto list = coloBoardService.coloBoardList(pageable, "N");
 
+        response.setStatus(StatusEnum.SUCCESS);
         response.setData(list);
 
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("vote")
+    public ResponseEntity<ResponseTemplate> voteEnroll(@RequestBody ColoLog coloLog) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        coloBoardService.voteEnroll(coloLog);
+
+
+        response.setStatus(StatusEnum.SUCCESS);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("selectVote")
+    public ResponseEntity<ResponseTemplate> voteSelect(@RequestBody ColoLog coloLog) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        ArrayList<ColoLogDto> list = coloBoardService.voteSelect(coloLog.getMember().getUserNo());
+
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(list);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 }

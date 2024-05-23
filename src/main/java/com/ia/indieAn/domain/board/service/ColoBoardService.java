@@ -5,9 +5,12 @@ import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.board.dto.BoardProjection;
 import com.ia.indieAn.domain.board.dto.ColoBoardDto;
+import com.ia.indieAn.domain.board.dto.ColoLogDto;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
+import com.ia.indieAn.domain.board.repository.ColoLogRepository;
 import com.ia.indieAn.entity.board.BoardColo;
+import com.ia.indieAn.entity.board.ColoLog;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 
 @Slf4j
 @Service
@@ -26,6 +31,9 @@ public class ColoBoardService {
 
     @Autowired
     BoardRepository boardRepository;
+
+    @Autowired
+    ColoLogRepository coloLogRepository;
 
     @Transactional(rollbackFor = CustomException.class)
     public void coloBoardEnroll(BoardColo boardColo) {
@@ -47,6 +55,37 @@ public class ColoBoardService {
                 .listDto(pagesDto.getContent())
                 .pageinfo(pageInfo)
                 .build();
+
+        return listDto;
+    }
+
+    @Transactional(rollbackFor = CustomException.class)
+    public void voteEnroll(ColoLog coloLog) {
+        ColoLog cl = coloLogRepository.findByBoardColo_ColoNoAndMember_UserNo(coloLog.getBoardColo().getColoNo(), coloLog.getMember().getUserNo());
+
+        if(cl == null) {
+            coloLogRepository.save(coloLog);
+        } else {
+            if(cl.getCancelYn().equals("Y")) {
+                cl.setVote(coloLog.getVote());
+                cl.setCancelYn("N");
+            } else {
+                cl.setCancelYn(cl.getVote().equals(coloLog.getVote()) ? "Y" : "N");
+            }
+            coloLogRepository.save(cl);
+        }
+
+    }
+
+    public ArrayList<ColoLogDto> voteSelect(int userNo) {
+        ArrayList<ColoLog> list = coloLogRepository.findByMember_UserNoAndCancelYn(userNo, "N");
+        ArrayList<ColoLogDto> listDto = new ArrayList<>();
+        for(int i = 0; i < list.size(); i++) {
+            listDto.add(new ColoLogDto(list.get(i).getBoardColo().getColoNo(), list.get(i).getMember().getUserNo(), list.get(i).getCancelYn(), list.get(i).getVote()));
+        }
+
+
+
 
         return listDto;
     }
