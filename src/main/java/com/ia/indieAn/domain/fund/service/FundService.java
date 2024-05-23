@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.fund.service;
 
 import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.domain.fund.dto.*;
 import com.ia.indieAn.domain.fund.repository.FundLogRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
@@ -13,10 +14,7 @@ import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,17 +42,32 @@ public class FundService {
     @Autowired
     FundLogRepository fundLogRepository;
 
-    public Page<FundListDto> selectAllFund(FundSearchDto fundSearchDto){
-        Pageable pageable = null;
-        System.out.println(fundSearchDto.getTitleKeyword());
-        if (fundSearchDto.getSort().equals("ASC")){
-            pageable = PageRequest.of(0, fundSearchDto.getPage(), Sort.by(Sort.Direction.ASC, fundSearchDto.getSortValue()));
-        } else {
-            pageable = PageRequest.of(0, fundSearchDto.getPage(), Sort.by(Sort.Direction.DESC, fundSearchDto.getSortValue()));
+    public Slice<FundListDto> selectAllFund(FundSearchDto fundSearchDto){
+        Pageable pageable = PageRequest.of(0, fundSearchDto.getPage(), Sort.by(fundSearchDto.getSort(), fundSearchDto.getSortValue()));
+        Slice<FundListDto> fundListDtos = null;
+        switch (fundSearchDto.getSearchValue()) {
+            case "artist" -> {
+                fundListDtos = fundRepository
+                        .findByArtistKeywordFundList(pageable, fundSearchDto.getKeyword())
+                        .map(FundListDto::convertToPage);
+            }
+            case "fundTitle" -> {
+                fundListDtos = fundRepository
+                        .findByTitleKeywordFundList(pageable, fundSearchDto.getKeyword())
+                        .map(FundListDto::convertToPage);
+            }
+            case "fundContent" -> {
+                fundListDtos = fundRepository
+                        .findByContentKeywordFundList(pageable, fundSearchDto.getKeyword())
+                        .map(FundListDto::convertToPage);
+            }
+            case "all" -> {
+                fundListDtos = fundRepository
+                        .findByAllKeywordFundList(pageable, fundSearchDto.getKeyword())
+                        .map(FundListDto::convertToPage);
+            }
         }
-        return fundRepository
-                .findAllFundList(pageable, fundSearchDto.getTitleKeyword(), fundSearchDto.getContentKeyword(),fundSearchDto.getAllKeyword())
-                .map(FundListDto::convertToPage);
+        return fundListDtos;
     }
 
     public Page<FundListDto> selectSoonFund(){
@@ -65,7 +78,8 @@ public class FundService {
     //native query 없이 group by(sum) 사용
     //fund 엔티티 내부에 있는 rewardList도 rewardDtoList로 변환
     public FundDetailDto selectFundDetail(int fundNo){
-        Fund fund = fundRepository.findByFundNo(fundNo);
+        Fund fund = fundRepository.findByFundNo(fundNo)
+                .orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND));
         return new FundDetailDto(   //매개변수(Fund, RewardListDto, OrderLog 엔티티의 totalPrice의 합계
                 fund,
                 fund.getRewardList().stream()
@@ -77,7 +91,8 @@ public class FundService {
     }
 
     public Fund selectFund(int fundNo){
-        return fundRepository.findByFundNo(fundNo);
+        return fundRepository.findByFundNo(fundNo)
+                .orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND));
     }
 
     @Transactional(rollbackFor = CustomException.class)

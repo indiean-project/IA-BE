@@ -13,7 +13,14 @@ public enum ErrorCode {
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "account-002", "비밀번호가 일치하지 않습니다."),
     HAS_ID(HttpStatus.BAD_REQUEST, "account-003", "존재하는 아이디입니다."),
     HAS_NICKNAME(HttpStatus.BAD_REQUEST, "account-004", "존재하는 닉네임입니다."),
-    HAS_PHONE(HttpStatus.BAD_REQUEST, "account-005", "존재하는 휴대폰번호입니다.");
+    HAS_PHONE(HttpStatus.BAD_REQUEST, "account-005", "존재하는 휴대폰번호입니다."),
+    //아티스트 관련
+    ARTIST_NOT_FOUND(HttpStatus.BAD_REQUEST, "artist-001", "존재하지 않는 페이지입니다."),
+    //펀딩 관련
+    FUND_NOT_FOUND(HttpStatus.NOT_FOUND, "fund-001", "존재하는 펀딩이 없습니다."),
+    //콘서트 관련
+    CONCERT_NOT_FOUND(HttpStatus.NOT_FOUND, "concert-001", "존재하는 콘서트가 없습니다.");
+
 
 
 

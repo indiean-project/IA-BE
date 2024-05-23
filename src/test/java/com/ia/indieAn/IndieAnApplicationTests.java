@@ -1,25 +1,45 @@
 package com.ia.indieAn;
 
+import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
+
 import com.ia.indieAn.domain.board.repository.ColoLogRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
+
+import com.ia.indieAn.domain.artist.repository.ArtistRepository;
+
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
 import com.ia.indieAn.domain.fund.repository.RewardRepository;
+import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.BoardColo;
+
 import com.ia.indieAn.entity.board.ColoLog;
 import com.ia.indieAn.entity.board.ContentLikeLog;
+
+import com.ia.indieAn.entity.artist.Artist;
+import com.ia.indieAn.entity.board.ImgUrl;
+
 import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
+
 import com.ia.indieAn.type.enumType.*;
+
+
+import com.ia.indieAn.type.enumType.ContentTypeEnum;
+import com.ia.indieAn.type.enumType.FundTypeEnum;
+import com.ia.indieAn.type.enumType.KcTypeEnum;
+import com.ia.indieAn.type.enumType.UserRoleEnum;
+
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -143,7 +163,7 @@ class IndieAnApplicationTests {
 				OrderLog orderLog1 = new OrderLog();
 				orderLog1.setMember(userRepository.findByUserNo((int)(Math.random()*100) + 1));
 				int random1 = (int)(Math.random() * 100) + 1;
-				orderLog1.setFund(fundRepository.findByFundNo(random1));
+				orderLog1.setFund(fundRepository.findByFundNo(random1).orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND)));
 				orderLog1.setTotalPrice((int)(Math.random()* 100000) + 1);
 				orderLog1.setReceiptId("test");
 				orderLog1.setBillingKey("test");
@@ -158,8 +178,11 @@ class IndieAnApplicationTests {
 			concert.setLocation("주소123");
 			concert.setStartDate(Date.valueOf("2024-05-"+(i+1)));
 			concert.setEndDate(Date.valueOf("2024-05-"+(i+2)));
-			concert.setConcertInfo("이런 저런이야기");
+			concert.setConcertInfo("<p>이런 저런이야기<p>");
 			concert.setDeleteYn("N");
+			concert.setTicketUrl("https://tickets.interpark.com/goods/24006691");
+			concert.setConcertPrice(20000);
+			concert.setRuntime("100분");
 			concertRepository.save(concert);
 		}
 		// 자유게시판 및 콜로세움 게시판
