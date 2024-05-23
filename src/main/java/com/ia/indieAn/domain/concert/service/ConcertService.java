@@ -1,5 +1,7 @@
 package com.ia.indieAn.domain.concert.service;
 
+import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.concert.dto.*;
@@ -77,10 +79,13 @@ public class ConcertService {
     public ConcertDetailDto concertDetail(int concertNo) {
 
         Concert concert = concertRepository.findByConcertNo(concertNo);
+        log.info("concert={}",concert);
+        if(concert == null){
+            throw new CustomException(ErrorCode.CONCERT_NOT_FOUND);
+        }
         ArrayList<ImgUrl> imgUrl = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(concertNo, FabcTypeEnum.CONCERT, KcTypeEnum.KING);
         List<LineupPorjection> lineups = concertLineupRepository.findByLinupList(concertNo);
         List<ConcertLineupDto> concertLineupDtos = lineups.stream().map(ConcertLineupDto::convertToLineupDto).toList();
-        log.info("concertLineupDtos={}",concertLineupDtos);
         ConcertDetailDto concertDetailDto = ConcertDetailDto.builder()
                 .concertNo(concert.getConcertNo())
                 .concertTitle(concert.getConcertTitle())

@@ -17,7 +17,9 @@ public enum ErrorCode {
     //아티스트 관련
     ARTIST_NOT_FOUND(HttpStatus.BAD_REQUEST, "artist-001", "존재하지 않는 페이지입니다."),
     //펀딩 관련
-    FUND_NOT_FOUND(HttpStatus.NOT_FOUND, "fund-001", "존재하는 펀딩이 없습니다.");
+    FUND_NOT_FOUND(HttpStatus.NOT_FOUND, "fund-001", "존재하는 펀딩이 없습니다."),
+    //콘서트 관련
+    CONCERT_NOT_FOUND(HttpStatus.NOT_FOUND, "concert-001", "존재하는 콘서트가 없습니다.");
 
 
 

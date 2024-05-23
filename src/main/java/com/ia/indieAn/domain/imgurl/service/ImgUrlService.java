@@ -16,7 +16,8 @@ public class ImgUrlService {
     ImgUrlRepository imgUrlRepository;
 
     @Transactional(rollbackFor = CustomException.class)
-    public void imgEnroll(ImgUrl imgUrl) {
-        imgUrlRepository.save(imgUrl);
+    public ImgUrl imgEnroll(ImgUrl imgUrl) {
+
+       return imgUrlRepository.save(imgUrl);
     }
 }
