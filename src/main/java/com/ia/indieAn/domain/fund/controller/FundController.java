@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,15 +46,7 @@ public class FundController {
         ResponseTemplate response = new ResponseTemplate();
 
 
-
-        switch (fundSearchDto.getSearchValue()) {
-            case "artist" -> fundSearchDto.setArtistKeyword(fundSearchDto.getKeyword());
-            case "fundTitle" -> fundSearchDto.setTitleKeyword(fundSearchDto.getKeyword());
-            case "fundContent" -> fundSearchDto.setContentKeyword(fundSearchDto.getKeyword());
-            case "all" -> fundSearchDto.setAllKeyword(fundSearchDto.getKeyword());
-        }
-        System.out.println(fundSearchDto);
-        Page<FundListDto> fundListDtos = fundService.selectAllFund(fundSearchDto);
+        Slice<FundListDto> fundListDtos = fundService.selectAllFund(fundSearchDto);
         response.setStatus(StatusEnum.SUCCESS);
         response.setData(fundListDtos.getContent());
 

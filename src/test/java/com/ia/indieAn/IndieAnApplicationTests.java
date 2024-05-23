@@ -143,7 +143,7 @@ class IndieAnApplicationTests {
 				OrderLog orderLog1 = new OrderLog();
 				orderLog1.setMember(userRepository.findByUserNo((int)(Math.random()*100) + 1));
 				int random1 = (int)(Math.random() * 100) + 1;
-				orderLog1.setFund(fundRepository.findByFundNo(random1));
+				orderLog1.setFund(fundRepository.findByFundNo(random1).orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND)));
 				orderLog1.setTotalPrice((int)(Math.random()* 100000) + 1);
 				orderLog1.setReceiptId("test");
 				orderLog1.setBillingKey("test");

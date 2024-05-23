@@ -18,4 +18,5 @@ public interface FundListByRevenueInterface {
     Integer getRevenue();
 
     Integer getRate();
+    String getArtistName();
 }
