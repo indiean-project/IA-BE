@@ -3,9 +3,8 @@ package com.ia.indieAn.domain.user.controller;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.dto.BoardDto;
-import com.ia.indieAn.domain.user.dto.UpdatePageDto;
-import com.ia.indieAn.domain.user.dto.UserBoardDto;
-import com.ia.indieAn.domain.user.dto.UserPageDto;
+import com.ia.indieAn.domain.fund.dto.FundListDto;
+import com.ia.indieAn.domain.user.dto.*;
 import com.ia.indieAn.domain.user.service.UserService;
 import com.ia.indieAn.entity.user.Member;
 import lombok.extern.slf4j.Slf4j;
@@ -97,6 +96,48 @@ public class MyPageController {
         }
 
     }
+
+    @ResponseBody
+    @RequestMapping("/myPage/fund")
+    public ResponseEntity<ResponseTemplate> userFundOrderHistory(@RequestParam(name="userNo") int userNo){
+        System.out.println(userNo);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        List<UserFundOrderDto> folist = userService.userFundOrderHistory(userNo);
+
+        if(folist != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(folist);
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/myPage/fund/reward")
+    public ResponseEntity<ResponseTemplate> userRewardOrderHistory(@RequestParam(name="userNo") int userNo,
+                                                                   @RequestParam(name="fundNo") int fundNo) {
+        System.out.println(userNo);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        List<UserRewardOrderDto> rolist = userService.userRewardOrderHistory(userNo, fundNo);
+
+        if(rolist != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(rolist);
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 
     @RequestMapping("/tempImg")

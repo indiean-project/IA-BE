@@ -131,9 +131,22 @@ public class UserService {
                 .map(UserBoardDto::fromProjection)
                 .collect(Collectors.toList());
 
-//        return userBoardHistory;
         return userBoardHistory.stream()
                 .map(UserBoardDto::toBoardDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserFundOrderDto> userFundOrderHistory(int userNo) {
+        List<UserFundOrderProjection> fundOrderProjections = userRepository.findUserFundOrderByOrderLogUserNo(userNo);
+        return fundOrderProjections.stream()
+                .map(UserFundOrderDto::fundOrderHistory)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserRewardOrderDto> userRewardOrderHistory(int userNo, int fundNo) {
+        List<UserRewardOrderProjection> rewardOrderProjections = userRepository.findUserRewardOrderByUserNoAndFundNo(userNo, fundNo);
+        return rewardOrderProjections.stream()
+                .map(UserRewardOrderDto::rewardOrderHistory)
                 .collect(Collectors.toList());
     }
 }
