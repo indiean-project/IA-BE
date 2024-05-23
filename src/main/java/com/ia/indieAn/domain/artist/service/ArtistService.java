@@ -54,7 +54,7 @@ public class ArtistService {
 
         Artist artist = artistRepository.findByArtistNoAndArtistStatus(artistNo,"Y");
         if(artist == null){
-            throw new CustomException(ErrorCode.INVALID_PAGE);
+            throw new CustomException(ErrorCode.ARTIST_NOT_FOUND);
         }
 
         ArrayList<ImgUrl> imgUrl = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(artistNo,FabcTypeEnum.ARTIST,KcTypeEnum.KING);
