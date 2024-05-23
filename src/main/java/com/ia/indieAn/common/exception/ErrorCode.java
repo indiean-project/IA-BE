@@ -15,7 +15,9 @@ public enum ErrorCode {
     HAS_NICKNAME(HttpStatus.BAD_REQUEST, "account-004", "존재하는 닉네임입니다."),
     HAS_PHONE(HttpStatus.BAD_REQUEST, "account-005", "존재하는 휴대폰번호입니다."),
     //페이지 관련
-    INVALID_PAGE(HttpStatus.BAD_REQUEST, "account-006", "존재하지 않는 페이지입니다.");
+    INVALID_PAGE(HttpStatus.BAD_REQUEST, "account-006", "존재하지 않는 페이지입니다."),
+    //펀딩 관련
+    FUND_NOT_FOUND(HttpStatus.NOT_FOUND, "fund-001", "존재하는 펀딩이 없습니다.");
 
 
 

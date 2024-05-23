@@ -9,6 +9,12 @@ spring:
   output:
     ansi:
       enabled: always
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   profiles:
     include: oracle, oauth, email # include application-oracle.yml (오라클 접속정보 숨김)
     # include oauth, email 를 통해 application-oauth & email 정보를 숨긴다
@@ -34,6 +40,12 @@ management:
   endpoint:
     health:
       enabled: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 
 ---
 spring:

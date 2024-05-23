@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public interface FundRepository extends JpaRepository<Fund, Integer> {
 
@@ -19,7 +20,8 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
             "FROM ORDER_LOG\n" +
             "GROUP BY FUND_NO) O  ON (F.FUND_NO = O.FUND_NO)\n";
 
-    Fund findByFundNo(int fundNo);
+    Optional<Fund> findByFundNo(int fundNo);
+
 
     @Query(
             value = generalFundQuery +

@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.fund.service;
 
 import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.domain.fund.dto.*;
 import com.ia.indieAn.domain.fund.repository.FundLogRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
@@ -65,7 +66,8 @@ public class FundService {
     //native query 없이 group by(sum) 사용
     //fund 엔티티 내부에 있는 rewardList도 rewardDtoList로 변환
     public FundDetailDto selectFundDetail(int fundNo){
-        Fund fund = fundRepository.findByFundNo(fundNo);
+        Fund fund = fundRepository.findByFundNo(fundNo)
+                .orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND));
         return new FundDetailDto(   //매개변수(Fund, RewardListDto, OrderLog 엔티티의 totalPrice의 합계
                 fund,
                 fund.getRewardList().stream()
@@ -77,7 +79,8 @@ public class FundService {
     }
 
     public Fund selectFund(int fundNo){
-        return fundRepository.findByFundNo(fundNo);
+        return fundRepository.findByFundNo(fundNo)
+                .orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND));
     }
 
     @Transactional(rollbackFor = CustomException.class)

@@ -1,12 +1,14 @@
 package com.ia.indieAn.domain.user.dto;
 
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.type.enumType.UserRoleEnum;
 import lombok.Data;
 
 @Data
 public class LoginUserDto {
 
     private int userNo;
+    private UserRoleEnum userRole;
     private String userId;
     private String userPwd;
     private String userName;
@@ -24,6 +26,7 @@ public class LoginUserDto {
 
     public LoginUserDto(Member member){
         this.userNo = member.getUserNo();
+        this.userRole = member.getUserRole();
         this.userId = member.getUserId();
         this.userPwd = member.getUserPwd();
         this.userName = member.getUserName();

@@ -1,7 +1,11 @@
 package com.ia.indieAn.domain.user.dto;
 
+import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.entity.user.Member;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class UserPageDto {
@@ -29,6 +33,8 @@ public class UserPageDto {
         this.userContent = member.getUserContent();
         this.userFavoriteArtist = member.getUserFavoriteArtist();
         this.userFavoriteMusic = member.getUserFavoriteMusic();
+
+        System.out.println(this);
     }
 
 }

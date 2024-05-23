@@ -73,8 +73,8 @@ public class ImgFilterController {
 
         for (int i = 0; i < imgList.length; i++) {
             Files.move(Paths.get(savePath + imgList[i])
-            , Paths.get(newPath + imgList[i])
-            , StandardCopyOption.ATOMIC_MOVE);
+                    , Paths.get(newPath + imgList[i])
+                    , StandardCopyOption.ATOMIC_MOVE);
 
             list.add(newPath + imgList[i]);
         }
