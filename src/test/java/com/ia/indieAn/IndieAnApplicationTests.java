@@ -3,11 +3,7 @@ package com.ia.indieAn;
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.domain.artist.repository.ArtistRepository;
-import com.ia.indieAn.domain.board.repository.BoardRepository;
-import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
-
-import com.ia.indieAn.domain.board.repository.ColoLogRepository;
-import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
+import com.ia.indieAn.domain.board.repository.*;
 
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
@@ -15,11 +11,7 @@ import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
 import com.ia.indieAn.domain.fund.repository.RewardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.artist.Artist;
-import com.ia.indieAn.entity.board.Board;
-import com.ia.indieAn.entity.board.BoardColo;
-
-import com.ia.indieAn.entity.board.ColoLog;
-import com.ia.indieAn.entity.board.ContentLikeLog;
+import com.ia.indieAn.entity.board.*;
 
 import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.fund.Fund;
@@ -72,6 +64,9 @@ class IndieAnApplicationTests {
 	ContentLikeLogRepository contentLikeLogRepository;
 	@Autowired
 	ArtistRepository artistRepository;
+
+	@Autowired
+	NoticeRepository noticeRepository;
 
 	@Test
 	void contextLoads() throws Exception{
@@ -257,6 +252,16 @@ class IndieAnApplicationTests {
 			artist.setDebutDate(Date.valueOf("2024-04-05"));
 			artist.setArtistStatus("Y");
 			artistRepository.save(artist);
+		}
+		for(int i = 0; i < 50; i++) {
+			Notice notice = new Notice();
+			notice.setDeleteYn("N");
+			notice.setMember(userRepository.findByUserNo(1));
+			notice.setNoticeTitle(i + 1 + "번째 공지사항 입니다.");
+			notice.setNoticeContent("공지사항 내용입니다.");
+			int ran = (int)(Math.random()*500 + 200);
+			notice.setViewCount(ran);
+			noticeRepository.save(notice);
 		}
 	}
 }

@@ -120,12 +120,13 @@ public class BoardService {
     }
 
     public BoardDto boardDetail(int boardNo) {
-        BoardProjection bp = boardRepository.findDetail(boardNo);
+        BoardProjection bp = boardRepository.findDetail(boardNo)
+                .orElseThrow(()->new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
         log.info("bp : {}", bp);
-        if(bp == null) {
-            throw new CustomException(ErrorCode.BOARD_NOT_FOUND);
-        }
+//        if(bp == null) {
+//            throw new CustomException(ErrorCode.BOARD_NOT_FOUND);
+//        }
 
         BoardDto b = BoardDto.builder()
                 .boardNo(bp.getBoardNo())
