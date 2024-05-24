@@ -2,12 +2,15 @@ package com.ia.indieAn.domain.artist.repository;
 
 import com.ia.indieAn.domain.artist.dto.ArtistDtoProjection;
 import com.ia.indieAn.entity.artist.Artist;
+import com.ia.indieAn.entity.fund.Fund;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 public interface ArtistRepository extends JpaRepository<Artist,Integer> {
 
@@ -40,5 +43,5 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
    )
    Slice<ArtistDtoProjection> findByArtistListDebut(Pageable pageable,@Param(value = "name") String keyword);
 
-   Artist findByArtistNoAndArtistStatus(int artistNo, String y);
+   Optional<Artist> findByArtistNoAndArtistStatus(int artistNo, String y);
 }

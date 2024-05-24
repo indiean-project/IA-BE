@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface ConcertRepository extends JpaRepository<Concert, Integer> {
 
@@ -49,5 +50,5 @@ public interface ConcertRepository extends JpaRepository<Concert, Integer> {
     List<Concert> findByStartDateBetween(Date firstDate, Date lastDate);
 
 
-    Concert findByConcertNo(int concertNo);
+    Optional<Concert> findByConcertNo(int concertNo);
 }

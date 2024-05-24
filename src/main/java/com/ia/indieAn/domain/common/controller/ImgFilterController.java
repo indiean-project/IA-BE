@@ -23,6 +23,7 @@ import java.util.Date;
 @RequestMapping("/api/imgfilter")
 @CrossOrigin
 public class ImgFilterController {
+
     private String savePath = "C:\\workspace\\IndieAn\\IA-FE\\public\\tempImg\\";
     private String newPath = "C:\\workspace\\IndieAn\\IA-FE\\public\\img\\";
 
