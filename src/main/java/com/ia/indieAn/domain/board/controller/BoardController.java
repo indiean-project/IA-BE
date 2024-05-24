@@ -102,12 +102,12 @@ public class BoardController {
     }
 
     @RequestMapping("/detail")
-    public ResponseEntity<ResponseTemplate> boardDetail(@RequestBody int boardNo) {
+    public ResponseEntity<ResponseTemplate> boardDetail(@RequestBody long boardNo) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        BoardDto b = boardService.boardDetail(boardNo);
+        BoardDto b = boardService.boardDetail((int)boardNo);
 
         response.setStatus(StatusEnum.SUCCESS);
         response.setData(b);

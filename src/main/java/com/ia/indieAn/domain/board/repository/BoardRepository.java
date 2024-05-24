@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Integer> {
     Page<Board> findAllByDeleteYnAndContentTypeNo(Pageable pageable, String deleteYn, ContentTypeEnum contentTypeNo);
@@ -105,5 +106,5 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                 "where b.board_no = :boardNo and b.delete_yn = 'N'",
             nativeQuery = true
     )
-    BoardProjection findDetail(@Param(value = "boardNo") int boardNo);
+    Optional<BoardProjection> findDetail(@Param(value = "boardNo") int boardNo);
 }
