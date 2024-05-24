@@ -1,6 +1,6 @@
 package com.ia.indieAn.domain.user.repository;
 
-import com.ia.indieAn.domain.user.dto.UserBoardProjection;
+import com.ia.indieAn.domain.user.dto.*;
 import com.ia.indieAn.entity.user.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -30,9 +30,30 @@ public interface UserRepository extends JpaRepository<Member, Integer> {
                     ", (select count(*) from content_like_log l where l.content_no = b.board_no and l.br_type = 'B') as likeCount\n" +
                     "from board b\n" +
                     "   join member m on (m.user_no = b.user_no)\n" +
-                    "where m.user_no = :userNo",
+                    "where m.user_no = :userNo\n" +
+                    "order by updateDate desc",
             countQuery = "select count(*) from board",
             nativeQuery = true
     )
-    List<UserBoardProjection> findUserBoardsByMemberUserNo(@Param("userNo") int userNo);
+    List<UserBoardProjection> findUserBoardsByMemberUserNo(@Param(value="userNo") int userNo);
+
+    @Query(value=
+            "select f.fund_no as fundNo, fund_title as fundTitle, total_price as totalPrice\n" +
+                    ", to_char(order_date, 'YYYY-MM-DD') as orderDate\n" +
+                    ", to_char(ol.payment_date, 'YYYY-MM-DD') as paymentDate\n" +
+                    "from fund f join order_log ol on (f.fund_no = ol.fund_no)\n" +
+                    "where ol.user_no = :userNo order by orderDate desc",
+            nativeQuery = true
+    )
+    List<UserFundOrderProjection> findUserFundOrderByOrderLogUserNo(@Param(value="userNo") int userNo);
+
+    @Query(value=
+            "select rw.reward_no as rewardNo, reward_name as rewardName, reward_price as rewardPrice\n" +
+                    ", reward_amount as rewardAmount, (reward_amount*reward_price) as rewardTotalPrice\n" +
+                    "from reward rw join fund_log fl on (rw.reward_no = fl.reward_no)\n" +
+                    "where fl.user_no = :userNo and rw.fund_no = :fundNo",
+            nativeQuery = true
+    )
+    List<UserRewardOrderProjection> findUserRewardOrderByUserNoAndFundNo(@Param(value="userNo") int userNo,
+                                                                         @Param(value="fundNo") int fundNo);
 }

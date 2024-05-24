@@ -82,7 +82,6 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/signUp/checkPwd")
     public ResponseEntity<ResponseTemplate> checkUserPwd(@RequestBody @Valid Member member) {
-//        log.info("enter /signUp/checkPwd {}", member);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
