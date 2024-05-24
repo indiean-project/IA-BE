@@ -56,7 +56,7 @@ public class ConcertController {
         Date LastDate = Date.valueOf(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
 
         List<ConcertDto> result = concertService.calendarList(firstDate,LastDate);
-        log.info("result={}",result.size());
+
         response.setData(result);
         response.setStatus(StatusEnum.SUCCESS);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
