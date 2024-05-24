@@ -54,7 +54,7 @@ public class ColoBoardController {
 
         Pageable pageable = PageRequest.of(boardInfoDto.getPage()-1, 5, Sort.by(Sort.Direction.DESC, boardInfoDto.getSort()));
 
-        ListDto list = coloBoardService.coloBoardList(pageable, "N");
+        ListDto list = coloBoardService.coloBoardList(pageable, boardInfoDto.getKeyword());
 
         response.setStatus(StatusEnum.SUCCESS);
         response.setData(list);

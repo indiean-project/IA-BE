@@ -41,8 +41,8 @@ public class ColoBoardService {
         coloBoardRepository.save(boardColo);
     }
 
-    public ListDto coloBoardList(Pageable pageable, String deleteYn) {
-        Page<BoardProjection> pages = boardRepository.findAll(pageable, Integer.parseInt(ContentTypeEnum.COLO.getCode()), "");
+    public ListDto coloBoardList(Pageable pageable, String title) {
+        Page<BoardProjection> pages = boardRepository.findAll(pageable, Integer.parseInt(ContentTypeEnum.COLO.getCode()), title);
         Page<ColoBoardDto> pagesDto = pages.map(ColoBoardDto::convertColoBoardDto);
 
         int totalPage = pagesDto.getTotalPages(); //전체 페이지 개수
