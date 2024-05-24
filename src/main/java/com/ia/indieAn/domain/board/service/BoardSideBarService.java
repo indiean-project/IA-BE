@@ -27,6 +27,8 @@ public class BoardSideBarService {
 
         int contentTypeNo = contentType.equals("자유게시판") ? 1 : contentType.equals("아티스트 자랑") ? 2 : contentType.equals("콜로세움") ? 3 : 0;
 
+        log.info("contentTypeNo : {}", contentTypeNo);
+
         ArrayList<BoardSideBarProjection> viewList = contentTypeNo != 3 ? boardRepository.findAllView(contentTypeNo) : coloBoardRepository.findAllColo(contentTypeNo);
         ArrayList<BoardSideBarDto> viewListDto = new ArrayList<>();
 

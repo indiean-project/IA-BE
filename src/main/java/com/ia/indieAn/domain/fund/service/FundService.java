@@ -7,12 +7,17 @@ import com.ia.indieAn.domain.fund.repository.FundLogRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
 import com.ia.indieAn.domain.fund.repository.RewardRepository;
+import com.ia.indieAn.domain.imgurl.dto.ImgUrlListDto;
+import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
+import com.ia.indieAn.entity.board.ImgUrl;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.fund.FundLog;
 import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.type.enumType.FabcTypeEnum;
+import com.ia.indieAn.type.enumType.KcTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -21,10 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +43,8 @@ public class FundService {
     RewardRepository rewardRepository;
     @Autowired
     FundLogRepository fundLogRepository;
+    @Autowired
+    ImgUrlRepository imgUrlRepository;
 
     public Slice<FundListDto> selectAllFund(FundSearchDto fundSearchDto){
         Pageable pageable = PageRequest.of(0, fundSearchDto.getPage(), Sort.by(fundSearchDto.getSort(), fundSearchDto.getSortValue()));
@@ -81,13 +85,18 @@ public class FundService {
     public FundDetailDto selectFundDetail(int fundNo){
         Fund fund = fundRepository.findByFundNo(fundNo)
                 .orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND));
+        ArrayList<ImgUrl> imgUrls = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(fundNo, FabcTypeEnum.FUND, KcTypeEnum.KING);
+        String[] imgUrlList = imgUrls.stream().map(e -> e.getImgUrl()).collect(Collectors.toList()).toArray(new String[0]);
+//        ArrayList<ImgUrlListDto> imgUrlListDtos = (ArrayList<ImgUrlListDto>) imgUrls.stream().map(ImgUrlListDto::new).collect(Collectors.toList());
+        System.out.println(imgUrlList);
         return new FundDetailDto(   //매개변수(Fund, RewardListDto, OrderLog 엔티티의 totalPrice의 합계
                 fund,
                 fund.getRewardList().stream()
                         .map(RewardListDto::new)
                         .collect(Collectors.toList()),
                 fund.getOrderLogList().stream()
-                        .mapToInt(OrderLog::getTotalPrice).sum()
+                        .mapToInt(OrderLog::getTotalPrice).sum(),
+                imgUrlList
                 );
     }
 

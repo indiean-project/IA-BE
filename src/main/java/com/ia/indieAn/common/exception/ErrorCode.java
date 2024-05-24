@@ -19,7 +19,9 @@ public enum ErrorCode {
     //펀딩 관련
     FUND_NOT_FOUND(HttpStatus.NOT_FOUND, "fund-001", "존재하는 펀딩이 없습니다."),
     //콘서트 관련
-    CONCERT_NOT_FOUND(HttpStatus.NOT_FOUND, "concert-001", "존재하는 콘서트가 없습니다.");
+    CONCERT_NOT_FOUND(HttpStatus.NOT_FOUND, "concert-001", "존재하는 콘서트가 없습니다."),
+    // 게시글 관련
+    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "board-001", "존재하는 게시글이 없습니다.");
 
 
 

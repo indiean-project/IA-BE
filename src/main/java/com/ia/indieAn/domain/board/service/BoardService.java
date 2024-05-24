@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.board.service;
 
 import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.board.dto.BoardDto;
@@ -119,7 +120,13 @@ public class BoardService {
     }
 
     public BoardDto boardDetail(int boardNo) {
-        BoardProjection bp = boardRepository.findDetail(boardNo);
+        BoardProjection bp = boardRepository.findDetail(boardNo)
+                .orElseThrow(()->new CustomException(ErrorCode.BOARD_NOT_FOUND));
+
+        log.info("bp : {}", bp);
+//        if(bp == null) {
+//            throw new CustomException(ErrorCode.BOARD_NOT_FOUND);
+//        }
 
         BoardDto b = BoardDto.builder()
                 .boardNo(bp.getBoardNo())
