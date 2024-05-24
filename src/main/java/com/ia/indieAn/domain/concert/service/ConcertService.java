@@ -78,11 +78,9 @@ public class ConcertService {
 
     public ConcertDetailDto concertDetail(int concertNo) {
 
-        Concert concert = concertRepository.findByConcertNo(concertNo);
-        log.info("concert={}",concert);
-        if(concert == null){
-            throw new CustomException(ErrorCode.CONCERT_NOT_FOUND);
-        }
+        Concert concert = concertRepository.findByConcertNo(concertNo)
+                .orElseThrow(()->new CustomException(ErrorCode.CONCERT_NOT_FOUND));
+
         ArrayList<ImgUrl> imgUrl = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(concertNo, FabcTypeEnum.CONCERT, KcTypeEnum.KING);
         List<LineupPorjection> lineups = concertLineupRepository.findByLinupList(concertNo);
         List<ConcertLineupDto> concertLineupDtos = lineups.stream().map(ConcertLineupDto::convertToLineupDto).toList();

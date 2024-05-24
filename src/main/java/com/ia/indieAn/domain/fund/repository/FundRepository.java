@@ -26,19 +26,24 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
             "            END_DATE AS endDate,\n" +
             "            FUND_INFO as fundInfo,\n" +
             "            FUND_TYPE_NO as fundTypeNo,\n" +
-            "            FUND_DESCRIPTION as fundDescription, \n" +
-            "            ARTIST_NAME AS artistName\n" +
+            "            FUND_DESCRIPTION as fundDescription,\n" +
+            "            ARTIST_NAME AS artistName,\n" +
+            "            IMG_URL AS imgUrl\n" +
             "        FROM\n" +
-            "            FUND F \n" +
+            "            FUND F          \n" +
             "        LEFT JOIN\n" +
-            "            (SELECT\n" +
-            "                FUND_NO, SUM(TOTAL_PRICE) AS REVENUE \n" +
-            "            FROM\n" +
-            "                ORDER_LOG \n" +
+            "            (SELECT FUND_NO, SUM(TOTAL_PRICE) AS REVENUE              \n" +
+            "            FROM ORDER_LOG              \n" +
             "            GROUP BY\n" +
-            "                FUND_NO) O  \n" +
-            "                ON (F.FUND_NO = O.FUND_NO) \n" +
-            "        LEFT JOIN ARTIST USING(USER_NO)\n";
+            "                FUND_NO) O                   \n" +
+            "                ON (F.FUND_NO = O.FUND_NO)          \n" +
+            "        LEFT JOIN ARTIST USING(USER_NO)\n" +
+            "        LEFT JOIN (\n" +
+            "                SELECT CONTENT_NO, IMG_URL FROM\n" +
+            "                (SELECT CONTENT_NO, IMG_URL, ROW_NUMBER() OVER(PARTITION BY CONTENT_NO ORDER BY DBMS_RANDOM.VALUE) AS RN FROM IMG_URL \n" +
+            "                WHERE KC_TYPE = 'K' AND FABC_TYPE = 'F')\n" +
+            "                WHERE RN = 1\n" +
+            "            ) ON (F.FUND_NO = CONTENT_NO)\n";
 
     Optional<Fund> findByFundNo(int fundNo);
 
