@@ -138,7 +138,45 @@ public class MyPageController {
         }
     }
 
-
+//    @ResponseBody
+//    @RequestMapping("/myPage/replies")
+//    public ResponseEntity<ResponseTemplate> userFundOrderHistory(@RequestParam(name = "userNo") int userNo) {
+//        System.out.println(userNo);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        ResponseTemplate response = new ResponseTemplate();
+//
+//        List<UserFundOrderDto> folist = userService.userFundOrderHistory(userNo);
+//
+//        if (folist != null) {
+//            response.setStatus(StatusEnum.SUCCESS);
+//            response.setData(folist);
+//            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+//        } else {
+//            response.setStatus(StatusEnum.FAIL);
+//            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    @ResponseBody
+//    @RequestMapping("/myPage/report")
+//    public ResponseEntity<ResponseTemplate> userFundOrderHistory(@RequestParam(name="userNo") int userNo){
+//        System.out.println(userNo);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        ResponseTemplate response = new ResponseTemplate();
+//
+//        List<UserFundOrderDto> folist = userService.userFundOrderHistory(userNo);
+//
+//        if(folist != null) {
+//            response.setStatus(StatusEnum.SUCCESS);
+//            response.setData(folist);
+//            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+//        } else {
+//            response.setStatus(StatusEnum.FAIL);
+//            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     @RequestMapping("/tempImg")
     public ResponseEntity<ResponseTemplate> tempImg(@RequestParam(value="image") MultipartFile image) throws IOException {
@@ -211,7 +249,6 @@ public class MyPageController {
                 file.delete();
             }
         }
-
 
         Files.move(Paths.get(savePath+member.getUserProfileImg())
                 , Paths.get(nUserPath+member.getUserProfileImg())
