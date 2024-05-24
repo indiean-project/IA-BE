@@ -8,6 +8,7 @@ import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
+import com.ia.indieAn.entity.user.Question;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,4 +150,30 @@ public class UserService {
                 .map(UserRewardOrderDto::rewardOrderHistory)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(rollbackFor = CustomException.class)
+    public void enrollQuestion(Question question) {
+        log.info("enter {}", question);
+//        userRepository.save(question);
+    }
+
+//    @Transactional(rollbackFor = CustomException.class)
+//    public void signUpUser(Member member){
+//        // null 값에 대한 검증은 controller에서 (HasID, NICKNAME)
+//        // 이미 객체쪽에서 유효성 검사를 하기에, 전화번호 외에는 별도로 하지 않는다.
+//        // 랜덤 닉네임 개체를 저장하는게 필요하다. -> 여기서 조회도 필요하긴 하다. 랜덤이긴 하겠지만은.
+//        log.info("enter {}", member);
+//        if (!member.getSocialStatus().equals("N")) { // socialLogin checking
+//            member.setUserPwd("");
+//        } else {
+//            if (userRepository.existsByPhone(member.getPhone())) {
+//                throw new CustomException(ErrorCode.HAS_PHONE);
+//            }
+//        }
+//        String uniqueNickname = generateUniqueNickname();
+//        member.setNickname(uniqueNickname);
+//
+//        log.info("222222 {}", member);
+//        userRepository.save(member);
+//    }
 }
