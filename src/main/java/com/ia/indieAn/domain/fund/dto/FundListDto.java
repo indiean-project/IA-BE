@@ -25,6 +25,7 @@ public class FundListDto {
     private Integer revenue;
     private Integer rate;
     private String artistName;
+    private String imgUrl;
 
 //    public FundListDto(FundListByRevenueInterface fund) {
 //        this.fundNo = fund.getFundNo();
@@ -57,6 +58,7 @@ public class FundListDto {
                 .revenue(fi.getRevenue())
                 .rate(fi.getRate())
                 .artistName(fi.getArtistName())
+                .imgUrl(fi.getImgUrl())
                 .build();
     }
 }
