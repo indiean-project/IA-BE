@@ -1,5 +1,6 @@
 package com.ia.indieAn.domain.fund.dto;
 
+import com.ia.indieAn.domain.imgurl.dto.ImgUrlListDto;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
@@ -29,8 +30,9 @@ public class FundDetailDto {
     private int revenue;
     private int people;
     private List<RewardListDto> rewardList = new ArrayList<>();
+    private String[] imgUrlList;
 
-    public FundDetailDto(Fund fund , List<RewardListDto> rewardListDtos, int revenue){
+    public FundDetailDto(Fund fund , List<RewardListDto> rewardListDtos, int revenue, String[] imgUrlList){
         this.fundNo = fund.getFundNo();
         this.userId = fund.getMember().getUserNo();
         this.fundType = String.valueOf(FundTypeEnum.find(fund.getFundTypeNo().getCode()));
@@ -47,6 +49,6 @@ public class FundDetailDto {
         this.revenue = revenue;
         this.people = fund.getOrderLogList().size();
         this.rewardList = rewardListDtos;
-
+        this.imgUrlList = imgUrlList;
     }
 }
