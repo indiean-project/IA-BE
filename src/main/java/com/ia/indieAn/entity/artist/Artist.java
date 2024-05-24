@@ -41,6 +41,7 @@ public class Artist implements Serializable {
 
     private String artistInfo;
 
+    @Column(columnDefinition = "char(1) default 'N'")
     private String artistStatus;
 
     private String youtubeLink;
