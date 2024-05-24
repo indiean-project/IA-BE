@@ -3,6 +3,7 @@ package com.ia.indieAn.domain.user.service;
 import com.ia.indieAn.config.email.EmailService;
 import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.user.dto.*;
+import com.ia.indieAn.domain.user.repository.QuestionRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.repository.UserRepository;
@@ -26,6 +27,10 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    QuestionRepository questionRepository;
+
 
     private final EmailService emailService;
 
@@ -154,7 +159,10 @@ public class UserService {
     @Transactional(rollbackFor = CustomException.class)
     public void enrollQuestion(Question question) {
         log.info("enter {}", question);
-//        userRepository.save(question);
+        if(question.getQuestionContent().isEmpty()) {
+            throw new CustomException(ErrorCode.QUESTION_NULL);
+        }
+        questionRepository.save(question);
     }
 
 //    @Transactional(rollbackFor = CustomException.class)
