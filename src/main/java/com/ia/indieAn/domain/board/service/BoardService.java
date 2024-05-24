@@ -7,16 +7,11 @@ import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.board.dto.BoardProjection;
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ContentLikeLogRepository;
-import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.ContentLikeLog;
-import com.ia.indieAn.entity.board.ImgUrl;
 import com.ia.indieAn.entity.user.Member;
-import com.ia.indieAn.type.enumType.BrTypeEnum;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
-import com.ia.indieAn.type.enumType.FabcTypeEnum;
-import com.ia.indieAn.type.enumType.KcTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,8 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -41,11 +37,8 @@ public class BoardService {
     @Autowired
     ContentLikeLogRepository contentLikeLogRepository;
 
-    @Autowired
-    ImgUrlRepository imgUrlRepository;
-
-    public ListDto boardList(Pageable pageable, String deleteYn, ContentTypeEnum contentTypeEnum) {
-        Page<BoardProjection> pages = boardRepository.findAll(pageable, Integer.parseInt(contentTypeEnum.getCode()), "");
+    public ListDto boardList(Pageable pageable, ContentTypeEnum contentTypeEnum, String title) {
+        Page<BoardProjection> pages = boardRepository.findAll(pageable, Integer.parseInt(contentTypeEnum.getCode()), title);
         Page<BoardDto> pagesDto = pages.map(BoardDto::convertBoardDto);
 
         int totalPage = pagesDto.getTotalPages(); //전체 페이지 개수
@@ -53,16 +46,6 @@ public class BoardService {
         int totalCount = (int) pagesDto.getTotalElements(); //전체 테이블 건수
         int boardLimit = 10;
         PageInfo pageInfo = new PageInfo(totalPage, currentPage, totalCount, boardLimit);
-
-
-        if(contentTypeEnum == ContentTypeEnum.PROUD) {
-//            for(int i = 0; i < boardListDto.size(); i++) {
-//                ArrayList<ImgUrl> result = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(boardListDto.get(i).getBoardNo(), FabcTypeEnum.BOARD, KcTypeEnum.CONTENT);
-//                if(result.size() > 0) {
-//                    boardListDto.get(i).setImgUrl(result.get(0).getImgUrl());
-//                }
-//            }
-        }
 
         ListDto listDto  = ListDto.builder()
                 .listDto(pagesDto.getContent())
@@ -72,13 +55,21 @@ public class BoardService {
         return listDto;
     }
 
-
-
     @Transactional(rollbackFor = CustomException.class)
     public Board boardEnroll(Board board) {
         Member member = userRepository.findByUserNo(board.getMember().getUserNo());
-        board.setMember(member);
-        return boardRepository.save(board);
+        Board b = boardRepository.findByBoardNo(board.getBoardNo());
+
+        if (b == null) {
+            board.setMember(member);
+            return boardRepository.save(board);
+        }
+        b.setUpdateDate(Date.valueOf(LocalDate.now()));
+        b.setBoardTitle(board.getBoardTitle());
+        b.setBoardContent(board.getBoardContent());
+
+
+        return boardRepository.save(b);
     }
 
     @Transactional(rollbackFor = CustomException.class)
@@ -118,6 +109,33 @@ public class BoardService {
         amountList.add(coloAmount);
 
         return amountList;
+    }
+
+    @Transactional(rollbackFor = CustomException.class)
+    public void boardDelete(Board board) {
+        Board b = boardRepository.findByBoardNo(board.getBoardNo());
+        b.setDeleteYn("Y");
+        boardRepository.save(b);
+    }
+
+    public BoardDto boardDetail(int boardNo) {
+        BoardProjection bp = boardRepository.findDetail(boardNo);
+
+        BoardDto b = BoardDto.builder()
+                .boardNo(bp.getBoardNo())
+                .boardContent(bp.getBoardContent())
+                .boardTitle(bp.getBoardTitle())
+                .userNo(bp.getUserNo())
+                .nickname(bp.getNickname())
+                .enrollDate(bp.getEnrollDate())
+                .updateDate(bp.getUpdateDate())
+                .viewCount(bp.getViewCount())
+                .userRole(bp.getUserRole())
+                .likeCount(bp.getLikeCount())
+                .replies(bp.getReplies())
+                .build();
+
+        return b;
     }
 
 }

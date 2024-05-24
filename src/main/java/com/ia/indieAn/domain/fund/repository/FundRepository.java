@@ -4,6 +4,7 @@ import com.ia.indieAn.domain.fund.dto.FundListByRevenueInterface;
 import com.ia.indieAn.entity.fund.Fund;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,25 +15,87 @@ import java.util.Optional;
 
 public interface FundRepository extends JpaRepository<Fund, Integer> {
 
-    String generalFundQuery = "SELECT F.FUND_NO AS fundNo, target, NVL(O.REVENUE, 0) AS revenue, NVL(O.REVENUE/target, 0) AS rate, USER_NO AS userNo, FUND_TITLE AS fundTitle, START_DATE AS startDate, END_DATE AS endDate, FUND_INFO as fundInfo, FUND_TYPE_NO as fundTypeNo, FUND_DESCRIPTION as fundDescription\n" +
-            "FROM FUND F\n" +
-            "LEFT JOIN (SELECT FUND_NO, SUM(TOTAL_PRICE) AS REVENUE\n" +
-            "FROM ORDER_LOG\n" +
-            "GROUP BY FUND_NO) O  ON (F.FUND_NO = O.FUND_NO)\n";
+    String generalFundQuery = "SELECT\n" +
+            "            F.FUND_NO AS fundNo,\n" +
+            "            target,\n" +
+            "            NVL(O.REVENUE, 0) AS revenue,\n" +
+            "            NVL(O.REVENUE/target, 0) AS rate,\n" +
+            "            USER_NO AS userNo,\n" +
+            "            FUND_TITLE AS fundTitle,\n" +
+            "            START_DATE AS startDate,\n" +
+            "            END_DATE AS endDate,\n" +
+            "            FUND_INFO as fundInfo,\n" +
+            "            FUND_TYPE_NO as fundTypeNo,\n" +
+            "            FUND_DESCRIPTION as fundDescription, \n" +
+            "            ARTIST_NAME AS artistName\n" +
+            "        FROM\n" +
+            "            FUND F \n" +
+            "        LEFT JOIN\n" +
+            "            (SELECT\n" +
+            "                FUND_NO, SUM(TOTAL_PRICE) AS REVENUE \n" +
+            "            FROM\n" +
+            "                ORDER_LOG \n" +
+            "            GROUP BY\n" +
+            "                FUND_NO) O  \n" +
+            "                ON (F.FUND_NO = O.FUND_NO) \n" +
+            "        LEFT JOIN ARTIST USING(USER_NO)\n";
 
     Optional<Fund> findByFundNo(int fundNo);
 
 
     @Query(
-            value = generalFundQuery +
-                    "WHERE FUND_TITLE LIKE '%' || :title || '%' AND FUND_INFO LIKE '%' || :content || '%' AND (FUND_TITLE LIKE '%' || :all || '%' AND FUND_INFO LIKE '%' || :all || '%')",
+            value = "SELECT * FROM(" + generalFundQuery +
+                    " WHERE\n" +
+                    "                FUND_TITLE LIKE '%' || :keyword || '%' \n" +
+                    "                or FUND_INFO LIKE '%' || :keyword || '%'\n" +
+                    "                or ARTIST_NAME LIKE '%' || :keyword || '%')",
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+                    " WHERE\n" +
+                    "                fundTitle LIKE '%' || :keyword || '%' \n" +
+                    "                or fundInfo LIKE '%' || :keyword || '%'\n" +
+                    "                or artistName LIKE '%' || :keyword || '%'",
             nativeQuery = true
     )
-    Page<FundListByRevenueInterface> findAllFundList(Pageable pageable, @Param(value = "title")String title, @Param(value = "content")String content, @Param(value = "all")String all);
+    Slice<FundListByRevenueInterface> findByAllKeywordFundList(Pageable pageable, @Param(value = "keyword")String keyword);
+
+    @Query(
+            value = "SELECT * FROM(" + generalFundQuery +
+                    " WHERE\n" +
+                    "                FUND_TITLE LIKE '%' || :keyword || '%' )",
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+                    " WHERE\n" +
+                    "                fundTitle LIKE '%' || :keyword || '%' \n",
+            nativeQuery = true
+    )
+    Slice<FundListByRevenueInterface> findByTitleKeywordFundList(Pageable pageable, @Param(value = "keyword")String keyword);
+
+    @Query(
+            value = "SELECT * FROM(" + generalFundQuery +
+                    " WHERE\n" +
+                    "                FUND_INFO LIKE '%' || :keyword || '%')",
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+                    " WHERE\n" +
+                    "                fundInfo LIKE '%' || :keyword || '%'",
+            nativeQuery = true
+    )
+    Slice<FundListByRevenueInterface> findByContentKeywordFundList(Pageable pageable, @Param(value = "keyword")String keyword);
+
+    @Query(
+            value = "SELECT * FROM(" + generalFundQuery +
+                    " WHERE\n" +
+                    "                ARTIST_NAME LIKE '%' || :keyword || '%')",
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+                    " WHERE\n" +
+                    "                artistName LIKE '%' || :keyword || '%'",
+            nativeQuery = true
+    )
+    Slice<FundListByRevenueInterface> findByArtistKeywordFundList(Pageable pageable, @Param(value = "keyword")String keyword);
 
     @Query(
             value = generalFundQuery +
                     "WHERE END_DATE >= SYSDATE",
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+                    "WHERE endDate >= SYSDATE",
             nativeQuery = true
     )
     Page<FundListByRevenueInterface> findSoonFundList(Pageable pageable);

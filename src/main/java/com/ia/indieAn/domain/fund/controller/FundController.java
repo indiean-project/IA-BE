@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,17 +44,9 @@ public class FundController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-
-
-
-        switch (fundSearchDto.getSearchValue()) {
-            case "artist" -> fundSearchDto.setArtistKeyword(fundSearchDto.getKeyword());
-            case "fundTitle" -> fundSearchDto.setTitleKeyword(fundSearchDto.getKeyword());
-            case "fundContent" -> fundSearchDto.setContentKeyword(fundSearchDto.getKeyword());
-            case "all" -> fundSearchDto.setAllKeyword(fundSearchDto.getKeyword());
-        }
         System.out.println(fundSearchDto);
-        Page<FundListDto> fundListDtos = fundService.selectAllFund(fundSearchDto);
+
+        Slice<FundListDto> fundListDtos = fundService.selectAllFund(fundSearchDto);
         response.setStatus(StatusEnum.SUCCESS);
         response.setData(fundListDtos.getContent());
 
@@ -113,13 +106,6 @@ public class FundController {
         payload.price = orderReserveDto.getTotalPrice();
         payload.orderId = orderReserveDto.getFundNo() + "/" + orderReserveDto.getUserNo();
 
-//        SimpleDateFormat trans = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Date endDate = trans.parse(fund.getEndDate()+" 00:00:00");
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(endDate);
-//        cal.add(Calendar.DATE, 1);
-//
-//        Date paymentDate = new Date(cal.getTimeInMillis());
         orderReserveDto.setPaymentDate(fund.getPaymentDate());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss XXX");
@@ -148,7 +134,12 @@ public class FundController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        fundService.enrollFund(fundEnrollDto);
+        fundEnrollDto.setFundInfo(fundEnrollDto.getFundInfo().replace("<img src=\"/public/tempImg", "<img src=\"/public/img"));
+        fundEnrollDto.setArtistInfo(fundEnrollDto.getArtistInfo().replace("<img src=\"/public/tempImg", "<img src=\"/public/img"));
+
+        int fundNo = fundService.enrollFund(fundEnrollDto);
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(fundNo);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
