@@ -5,6 +5,9 @@ import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.board.dto.NoticeDto;
 import com.ia.indieAn.domain.board.dto.NoticeProjection;
 import com.ia.indieAn.domain.board.repository.NoticeRepository;
+import com.ia.indieAn.entity.board.Notice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,5 +37,20 @@ public class NoticeService {
                 .build();
 
         return listDto;
+    }
+
+    public NoticeDto noticeDetail(int noticeNo) {
+        Notice n = noticeRepository.findByNoticeNoAndDeleteYn(noticeNo, "N");
+        NoticeDto nDto = NoticeDto.builder()
+                .noticeNo(n.getNoticeNo())
+                .noticeTitle(n.getNoticeTitle())
+                .noticeContent(n.getNoticeContent())
+                .viewCount(n.getViewCount())
+                .updateDate(String.valueOf(n.getUpdateDate()))
+                .enrollDate(String.valueOf(n.getEnrollDate()))
+                .nickName(n.getMember().getNickname())
+                .build();
+
+        return nDto;
     }
 }
