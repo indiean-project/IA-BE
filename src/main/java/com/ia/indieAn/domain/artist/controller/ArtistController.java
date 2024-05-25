@@ -72,4 +72,16 @@ public class ArtistController {
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @RequestMapping("/home")
+    public ResponseEntity<ResponseTemplate> getHomeArtist(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application","json",Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        response.setData(artistService.getHomeArtist());
+        response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }
