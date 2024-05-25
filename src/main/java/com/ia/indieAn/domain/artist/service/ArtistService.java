@@ -92,4 +92,10 @@ public class ArtistService {
 
         return artistRepository.save(artist);
     }
+
+    public List<HomeArtistDto> getHomeArtist(){
+        Pageable pageable = PageRequest.of(1, 5);
+        return artistRepository.getHomeArtist(pageable).getContent().stream()
+                .map(HomeArtistDto::convertToProjection).toList();
+    }
 }

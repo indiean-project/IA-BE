@@ -86,9 +86,8 @@ public class FundService {
         Fund fund = fundRepository.findByFundNo(fundNo)
                 .orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND));
         ArrayList<ImgUrl> imgUrls = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(fundNo, FabcTypeEnum.FUND, KcTypeEnum.KING);
-        String[] imgUrlList = imgUrls.stream().map(e -> e.getImgUrl()).collect(Collectors.toList()).toArray(new String[0]);
-//        ArrayList<ImgUrlListDto> imgUrlListDtos = (ArrayList<ImgUrlListDto>) imgUrls.stream().map(ImgUrlListDto::new).collect(Collectors.toList());
-        System.out.println(imgUrlList);
+        String[] imgUrlList = imgUrls.stream().map(e -> e.getImgUrl()).toList().toArray(new String[0]);
+
         return new FundDetailDto(   //매개변수(Fund, RewardListDto, OrderLog 엔티티의 totalPrice의 합계
                 fund,
                 fund.getRewardList().stream()
