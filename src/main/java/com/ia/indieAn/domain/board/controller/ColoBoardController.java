@@ -87,4 +87,16 @@ public class ColoBoardController {
         response.setData(list);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @RequestMapping("weekly")
+    public ResponseEntity<ResponseTemplate> getWeeklyColoList(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        response.setData(coloBoardService.getWeeklyColoList());
+        response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }
