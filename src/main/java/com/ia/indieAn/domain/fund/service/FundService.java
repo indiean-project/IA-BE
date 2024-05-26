@@ -2,6 +2,7 @@ package com.ia.indieAn.domain.fund.service;
 
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
+import com.ia.indieAn.domain.artist.repository.ArtistRepository;
 import com.ia.indieAn.domain.fund.dto.*;
 import com.ia.indieAn.domain.fund.repository.FundLogRepository;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
@@ -10,6 +11,7 @@ import com.ia.indieAn.domain.fund.repository.RewardRepository;
 import com.ia.indieAn.domain.imgurl.dto.ImgUrlListDto;
 import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
+import com.ia.indieAn.entity.artist.Artist;
 import com.ia.indieAn.entity.board.ImgUrl;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.fund.FundLog;
@@ -46,6 +48,8 @@ public class FundService {
     FundLogRepository fundLogRepository;
     @Autowired
     ImgUrlRepository imgUrlRepository;
+    @Autowired
+    ArtistRepository artistRepository;
 
     public Slice<FundListDto> selectAllFund(FundSearchDto fundSearchDto){
         Pageable pageable = PageRequest.of(0, fundSearchDto.getPage(), Sort.by(fundSearchDto.getSort(), fundSearchDto.getSortValue()));
@@ -87,6 +91,7 @@ public class FundService {
         Fund fund = fundRepository.findByFundNo(fundNo)
                 .orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND));
         ArrayList<ImgUrl> imgUrls = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(fundNo, FabcTypeEnum.FUND, KcTypeEnum.KING);
+        Artist artist = artistRepository.findByMember(fund.getMember());
         String[] imgUrlList = imgUrls.stream().map(e -> e.getImgUrl()).toList().toArray(new String[0]);
 
         return new FundDetailDto(   //매개변수(Fund, RewardListDto, OrderLog 엔티티의 totalPrice의 합계
@@ -96,7 +101,8 @@ public class FundService {
                         .collect(Collectors.toList()),
                 fund.getOrderLogList().stream()
                         .mapToInt(OrderLog::getTotalPrice).sum(),
-                imgUrlList
+                imgUrlList,
+                artist.getArtistNo()
                 );
     }
 

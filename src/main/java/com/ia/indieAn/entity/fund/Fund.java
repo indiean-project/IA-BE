@@ -151,6 +151,7 @@ public class Fund implements Serializable {
                 .budgetManage(fundEnrollDto.getBudgetInfo())
                 .schedule(fundEnrollDto.getScheduleInfo())
                 .paymentDate(fundEnrollDto.getPaymentDate())
+                .fundStatus(fundEnrollDto.getFundStatus())
                 .build();
     }
 }
