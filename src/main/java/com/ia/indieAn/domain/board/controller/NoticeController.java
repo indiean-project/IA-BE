@@ -60,4 +60,47 @@ public class NoticeController {
         response.setData(nDto);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @RequestMapping("enroll")
+    public ResponseEntity<ResponseTemplate> noticeEnroll(@RequestBody Notice notice) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        int noticeNo = 0;
+
+        if(notice.getNoticeNo() != 0) {
+            noticeNo = noticeService.noticeUpdate(notice);
+        } else {
+            noticeNo = noticeService.noticeEnroll(notice);
+        }
+
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(noticeNo);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("delete")
+    public ResponseEntity<ResponseTemplate> noticeDelete(@RequestBody int noticeNo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        noticeService.noticeDelete(noticeNo);
+
+        response.setStatus(StatusEnum.SUCCESS);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("viewCount")
+    public ResponseEntity<ResponseTemplate> noticeViewCount(@RequestBody int noticeNo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        noticeService.noticeViewCount(noticeNo);
+
+        response.setStatus(StatusEnum.SUCCESS);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }
