@@ -121,7 +121,8 @@ class IndieAnApplicationTests {
 			fund.setRewardInfo(content);
 			fund.setBudgetManage(content);
 			fund.setSchedule(content);
-			fund.setFundStatus("Y");
+			fund.setFundStatus(FundStatusEnum.AWAIT);
+
 
 			Fund fundResult = fundRepository.save(fund);
 
@@ -203,70 +204,69 @@ class IndieAnApplicationTests {
 			boardColo.setColRightTitle("후라이드 치킨");
 			coloBoardRepository.save(boardColo);
 		}
-		for (int i = 0; i < 2; i++) {
-			Fund fund = new Fund();
-			fund.setMember(userRepository.findByUserNo(i+1));
-			fund.setFundTypeNo(FundTypeEnum.CONCERT);
-			fund.setFundTitle("240702 새소년 정기공연 1"+i);
-			fund.setFundDescription("Brbrbrbrbr...");
-			int random1 = (int)(Math.random() * 10);
-			int random2 = (int)(Math.random() * 2) + 1;
-			int random3 = (int)(Math.random() * 8) + 1;
-			fund.setStartDate(Date.valueOf(String.format("2024-0%d-%d%d", 5, 2, 3)));
-			fund.setEndDate(Date.valueOf(String.format("2024-0%d-%d%d", 6, 3, 0)));
-			fund.setPaymentDate(Date.valueOf("2024-07-10"));
-			fund.setTarget(((int)(Math.random() * 100) + 1) * 100000);
-			fund.setFundInfo("테스트용 Html 작성 중");
-			fund.setArtistInfo("테스트용 Html 작성 중");
-			fund.setRewardInfo("테스트용 Html 작성 중");
-			fund.setBudgetManage("테스트용 Html 작성 중");
-			fund.setSchedule("테스트용 Html 작성 중");
-			fund.setFundStatus("Y");
-
-			Fund fundResult = fundRepository.save(fund);
-
-			Reward reward1 = new Reward();
-			reward1.setFund(fundResult);
-			reward1.setRewardName("리워드1");
-			reward1.setRewardPrice(1000);
-			reward1.setRewardInfo("대단하지 않은 보상");
-			reward1.setLimitYn("Y");
-			reward1.setLimitAmount(60);
-
-			rewardRepository.save(reward1);
-
-			Reward reward2 = new Reward();
-			reward2.setFund(fundResult);
-			reward2.setRewardName("리워드2");
-			reward2.setRewardPrice(1000);
-			reward2.setRewardInfo("대단하지 않은 보상");
-			reward2.setLimitYn("N");
-
-			rewardRepository.save(reward2);
-
-			Reward reward3 = new Reward();
-			reward3.setFund(fundResult);
-			reward3.setRewardName("리워드3");
-			reward3.setRewardPrice(3000);
-			reward3.setRewardInfo("대단하지 않은 보상");
-			reward3.setLimitYn("N");
-
-			rewardRepository.save(reward3);
-		}
-		for (int i = 0; i < 200; i++) {
-			int ranNum = (int)(Math.random() * 100) + 1;
-			for (int j = 0; j < ranNum; j++) {
-				OrderLog orderLog1 = new OrderLog();
-				orderLog1.setMember(userRepository.findByUserNo((int)(Math.random()*100) + 1));
-				int random1 = (int)(Math.random() * 100) + 1;
-				orderLog1.setFund(fundRepository.findByFundNo(random1).orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND)));
-				orderLog1.setTotalPrice((int)(Math.random()* 100000) + 1);
-				orderLog1.setReceiptId("test");
-				orderLog1.setBillingKey("test");
-				orderLog1.setPaymentDate(orderLog1.getFund().getPaymentDate());
-				orderLogRepository.save(orderLog1);
-			}
-		}
+//		for (int i = 0; i < 2; i++) {
+//			Fund fund = new Fund();
+//			fund.setMember(userRepository.findByUserNo(i+1));
+//			fund.setFundTypeNo(FundTypeEnum.CONCERT);
+//			fund.setFundTitle("240702 새소년 정기공연 1"+i);
+//			fund.setFundDescription("Brbrbrbrbr...");
+//			int random1 = (int)(Math.random() * 10);
+//			int random2 = (int)(Math.random() * 2) + 1;
+//			int random3 = (int)(Math.random() * 8) + 1;
+//			fund.setStartDate(Date.valueOf(String.format("2024-0%d-%d%d", 5, 2, 3)));
+//			fund.setEndDate(Date.valueOf(String.format("2024-0%d-%d%d", 6, 3, 0)));
+//			fund.setPaymentDate(Date.valueOf("2024-07-10"));
+//			fund.setTarget(((int)(Math.random() * 100) + 1) * 100000);
+//			fund.setFundInfo("테스트용 Html 작성 중");
+//			fund.setArtistInfo("테스트용 Html 작성 중");
+//			fund.setRewardInfo("테스트용 Html 작성 중");
+//			fund.setBudgetManage("테스트용 Html 작성 중");
+//			fund.setSchedule("테스트용 Html 작성 중");
+//
+//			Fund fundResult = fundRepository.save(fund);
+//
+//			Reward reward1 = new Reward();
+//			reward1.setFund(fundResult);
+//			reward1.setRewardName("리워드1");
+//			reward1.setRewardPrice(1000);
+//			reward1.setRewardInfo("대단하지 않은 보상");
+//			reward1.setLimitYn("Y");
+//			reward1.setLimitAmount(60);
+//
+//			rewardRepository.save(reward1);
+//
+//			Reward reward2 = new Reward();
+//			reward2.setFund(fundResult);
+//			reward2.setRewardName("리워드2");
+//			reward2.setRewardPrice(1000);
+//			reward2.setRewardInfo("대단하지 않은 보상");
+//			reward2.setLimitYn("N");
+//
+//			rewardRepository.save(reward2);
+//
+//			Reward reward3 = new Reward();
+//			reward3.setFund(fundResult);
+//			reward3.setRewardName("리워드3");
+//			reward3.setRewardPrice(3000);
+//			reward3.setRewardInfo("대단하지 않은 보상");
+//			reward3.setLimitYn("N");
+//
+//			rewardRepository.save(reward3);
+//		}
+//		for (int i = 0; i < 200; i++) {
+//			int ranNum = (int)(Math.random() * 100) + 1;
+//			for (int j = 0; j < ranNum; j++) {
+//				OrderLog orderLog1 = new OrderLog();
+//				orderLog1.setMember(userRepository.findByUserNo((int)(Math.random()*100) + 1));
+//				int random1 = (int)(Math.random() * 100) + 1;
+//				orderLog1.setFund(fundRepository.findByFundNo(random1).orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND)));
+//				orderLog1.setTotalPrice((int)(Math.random()* 100000) + 1);
+//				orderLog1.setReceiptId("test");
+//				orderLog1.setBillingKey("test");
+//				orderLog1.setPaymentDate(orderLog1.getFund().getPaymentDate());
+//				orderLogRepository.save(orderLog1);
+//			}
+//		}
 		for(int i = 1; i < 20; i++){
 			Concert concert = new Concert();
 			concert.setConcertNo(i);

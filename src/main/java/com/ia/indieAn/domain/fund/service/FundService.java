@@ -17,6 +17,7 @@ import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.enumType.FabcTypeEnum;
+import com.ia.indieAn.type.enumType.FundStatusEnum;
 import com.ia.indieAn.type.enumType.KcTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -128,6 +129,7 @@ public class FundService {
 
     @Transactional(rollbackFor = CustomException.class)
     public int enrollFund(FundEnrollDto fundEnrollDto) throws ParseException {
+        fundEnrollDto.setFundStatus(FundStatusEnum.AWAIT);
         Member member = userRepository.findByUserNo(fundEnrollDto.getUserNo());
         Fund fund = fundRepository.save(Fund.convertFormFundEnrollDto(fundEnrollDto, member));
 
