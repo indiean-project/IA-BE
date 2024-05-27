@@ -4,6 +4,7 @@ import com.ia.indieAn.domain.artist.dto.ArtistDtoProjection;
 import com.ia.indieAn.domain.artist.dto.HomeArtistProjection;
 import com.ia.indieAn.entity.artist.Artist;
 import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.entity.user.Member;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,4 +57,6 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
            nativeQuery = true
    )
    Page<HomeArtistProjection> getHomeArtist(Pageable pageable);
+
+   Artist findByMember(Member member);
 }
