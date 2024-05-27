@@ -51,4 +51,16 @@ public class ReplyController {
         response.setStatus(StatusEnum.SUCCESS);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @RequestMapping("delete")
+    public ResponseEntity<ResponseTemplate> replyDelete(@RequestBody int contentNo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        replyService.replyDelete(contentNo);
+
+        response.setStatus(StatusEnum.SUCCESS);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }

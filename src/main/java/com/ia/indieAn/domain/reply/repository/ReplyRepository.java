@@ -7,4 +7,5 @@ import java.util.ArrayList;
 
 public interface ReplyRepository extends JpaRepository<Reply, Integer> {
     ArrayList<Reply> findAllByBoard_BoardNo(int contentNo);
+    Reply findByReplyNo(int replyNo);
 }
