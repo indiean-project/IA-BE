@@ -2,6 +2,7 @@ package com.ia.indieAn.admin.user.dto;
 
 
 import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.type.enumType.FundStatusEnum;
 import lombok.Data;
 
 @Data
@@ -11,7 +12,7 @@ public class FundingAdminUserDto {
     private int userNo;
     private int fundTypeNo;
     private String fundTitle;
-    private String fundStatus;
+    private FundStatusEnum fundStatus;
 
     public FundingAdminUserDto(Fund fund){
         this.fundNo = fund.getFundNo();

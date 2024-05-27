@@ -1,13 +1,10 @@
 package com.ia.indieAn.domain.fund.dto;
 
-import com.ia.indieAn.domain.imgurl.dto.ImgUrlListDto;
 import com.ia.indieAn.entity.fund.Fund;
-import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import lombok.Data;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +12,7 @@ import java.util.List;
 public class FundDetailDto {
 
     private int fundNo;
-    private int userId;
+    private int userNo;
     private String fundType;
     private String fundTitle;
     private int target;
@@ -31,10 +28,11 @@ public class FundDetailDto {
     private int people;
     private List<RewardListDto> rewardList = new ArrayList<>();
     private String[] imgUrlList;
+    private int artistNo;
 
-    public FundDetailDto(Fund fund , List<RewardListDto> rewardListDtos, int revenue, String[] imgUrlList){
+    public FundDetailDto(Fund fund , List<RewardListDto> rewardListDtos, int revenue, String[] imgUrlList, int artistNo){
         this.fundNo = fund.getFundNo();
-        this.userId = fund.getMember().getUserNo();
+        this.userNo = fund.getMember().getUserNo();
         this.fundType = String.valueOf(FundTypeEnum.find(fund.getFundTypeNo().getCode()));
         this.fundTitle = fund.getFundTitle();
         this.target = fund.getTarget();
@@ -50,5 +48,6 @@ public class FundDetailDto {
         this.people = fund.getOrderLogList().size();
         this.rewardList = rewardListDtos;
         this.imgUrlList = imgUrlList;
+        this.artistNo = artistNo;
     }
 }
