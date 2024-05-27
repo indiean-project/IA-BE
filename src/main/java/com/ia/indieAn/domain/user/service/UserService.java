@@ -4,7 +4,6 @@ import com.ia.indieAn.config.email.EmailService;
 import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.user.dto.*;
 import com.ia.indieAn.domain.user.repository.QuestionRepository;
-import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.common.exception.CustomException;
@@ -157,12 +156,28 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = CustomException.class)
-    public void enrollQuestion(Question question) {
-        log.info("enter {}", question);
-        if(question.getQuestionContent().isEmpty()) {
+    public void enrollQuestion(QuestionEnrollDto qe) {
+        log.info("Received question: {}", qe);
+        log.info("Received member userNo: {}", qe.getUserNo() != 0 ? qe.getUserNo() : "null");
+
+        if (qe.getUserNo() == 0 ) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+        Member member = userRepository.findByUserNo(qe.getUserNo());
+        if (member == null) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+        log.info("enter {}", member);
+
+        if(qe.getQuestionContent() == null || qe.getQuestionContent().isEmpty()) {
             throw new CustomException(ErrorCode.QUESTION_NULL);
         }
-        questionRepository.save(question);
+        log.info("enter {}", qe);
+        Question q = new Question();
+        q.setMember(member);
+        q.setQuestionContent(qe.getQuestionContent());
+
+        questionRepository.save(q);
     }
 
 //    @Transactional(rollbackFor = CustomException.class)
