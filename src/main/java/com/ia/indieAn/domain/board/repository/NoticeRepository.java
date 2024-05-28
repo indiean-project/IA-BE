@@ -25,4 +25,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer> {
             nativeQuery = true
     )
     Page<NoticeProjection> findAll(Pageable pageable, String title);
+
+    Notice findByNoticeNoAndDeleteYn(int noticeNo, String deleteYn);
 }
