@@ -17,7 +17,7 @@ public class ReplyService {
     ReplyRepository replyRepository;
 
     public ArrayList<ReplyDto> replyList(int contentNo) {
-        ArrayList<Reply> list = replyRepository.findAllByBoard_BoardNo(contentNo);
+        ArrayList<Reply> list = replyRepository.findAllByBoard_BoardNoAndDeleteYnOrderByReplyNoDesc(contentNo, "N");
         ArrayList<ReplyDto> listDto = new ArrayList<>();
 
         for(int i = 0; i < list.size(); i++) {
