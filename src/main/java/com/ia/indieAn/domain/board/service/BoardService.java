@@ -123,10 +123,9 @@ public class BoardService {
         BoardProjection bp = boardRepository.findDetail(boardNo)
                 .orElseThrow(()->new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
-        log.info("bp : {}", bp);
-//        if(bp == null) {
-//            throw new CustomException(ErrorCode.BOARD_NOT_FOUND);
-//        }
+        if (bp.getContentTypeNo() == 3) {
+            throw new CustomException(ErrorCode.COLO_BOARD_NOT_FOUND);
+        }
 
         BoardDto b = BoardDto.builder()
                 .boardNo(bp.getBoardNo())
@@ -141,6 +140,8 @@ public class BoardService {
                 .likeCount(bp.getLikeCount())
                 .replies(bp.getReplies())
                 .build();
+
+        b.setContentTypeNo(bp.getContentTypeNo());
 
         return b;
     }

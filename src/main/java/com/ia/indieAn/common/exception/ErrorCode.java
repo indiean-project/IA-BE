@@ -22,8 +22,7 @@ public enum ErrorCode {
     CONCERT_NOT_FOUND(HttpStatus.NOT_FOUND, "concert-001", "존재하는 콘서트가 없습니다."),
     // 게시글 관련
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "board-001", "존재하는 게시글이 없습니다."),
-    // 댓글 관련
-    REPLY_NOT_FOUND(HttpStatus.NOT_FOUND, "reply-001", "댓글을 입력하지 않았습니다.");
+    COLO_BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "board-002", "잘못된 접근입니다.");
 
 
 

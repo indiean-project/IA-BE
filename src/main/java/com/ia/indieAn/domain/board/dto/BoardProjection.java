@@ -18,4 +18,5 @@ public interface BoardProjection {
     String getColRightTitle();
     Integer getColLeftCount();
     Integer getColRightCount();
+    Integer getContentTypeNo();
 }

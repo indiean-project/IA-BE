@@ -63,4 +63,16 @@ public class ReplyController {
         response.setStatus(StatusEnum.SUCCESS);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @RequestMapping("update")
+    public ResponseEntity<ResponseTemplate> replyUpdate(@RequestBody Reply reply) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        replyService.replyUpdate(reply);
+
+        response.setStatus(StatusEnum.SUCCESS);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }

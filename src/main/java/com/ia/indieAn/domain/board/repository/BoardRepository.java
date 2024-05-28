@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Integer> {
-    Page<Board> findAllByDeleteYnAndContentTypeNo(Pageable pageable, String deleteYn, ContentTypeEnum contentTypeNo);
-
     @Query(value =
             "select b.board_no as boardNo, board_title as boardTitle, board_content as boardContent\n" +
                     "                                        , (select count(*) from reply r where r.board_no = b.board_no and r.delete_yn = 'N') as replies\n" +
@@ -99,7 +97,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                 "    , to_char(enroll_date, 'YYYY-MM-DD') as enrollDate, to_char(update_date, 'YYYY-MM-DD') as updateDate, board_title as boardTitle\n" +
                 "    , board_content as boardContent, view_count as viewCount, user_role as userRole\n" +
                 "    , (select count(*) from content_like_log l where b.board_no = l.content_no and br_type = 'B' and like_yn = 'Y') as likeCount\n" +
-                "    , (select count(*) from reply r where b.board_no = r.board_no and delete_yn = 'N') replies\n" +
+                "    , (select count(*) from reply r where b.board_no = r.board_no and delete_yn = 'N') replies, b.content_type_no as contentTypeNo\n" +
                 "from board b\n" +
                 "join member m on (b.user_no = m.user_no)\n" +
                 "where b.board_no = :boardNo and b.delete_yn = 'N'",

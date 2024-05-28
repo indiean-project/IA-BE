@@ -45,4 +45,12 @@ public class ReplyService {
         replyRepository.save(reply);
     }
 
+    @Transactional(rollbackFor = CustomException.class)
+    public void replyUpdate(Reply reply) {
+        Reply r = replyRepository.findByReplyNo(reply.getReplyNo());
+        r.setReplyContent(reply.getReplyContent());
+
+        replyRepository.save(r);
+    }
+
 }
