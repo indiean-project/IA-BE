@@ -9,6 +9,7 @@ import com.ia.indieAn.domain.user.service.UserService;
 import com.ia.indieAn.entity.user.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,8 +36,11 @@ public class MyPageController {
     @Autowired
     UserService userService;
 
-    private String savePath = "C:\\workspace\\final_project\\IA-FE\\public\\tempImg\\";
-    private String userPath = "C:\\workspace\\final_project\\IA-FE\\public\\img\\user\\";
+    @Value("${savePath}")
+    private String savePath;
+
+    @Value("${userPath}")
+    private String userPath;
 
     @ResponseBody
     @RequestMapping("/myPage")

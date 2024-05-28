@@ -1,9 +1,12 @@
 package com.ia.indieAn.domain.artist.repository;
 
 import com.ia.indieAn.domain.artist.dto.ArtistDtoProjection;
+import com.ia.indieAn.domain.artist.dto.HomeArtistProjection;
 import com.ia.indieAn.entity.artist.Artist;
 import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.entity.user.Member;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,4 +47,16 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
    Slice<ArtistDtoProjection> findByArtistListDebut(Pageable pageable,@Param(value = "name") String keyword);
 
    Optional<Artist> findByArtistNoAndArtistStatus(int artistNo, String y);
+
+   @Query(
+           value = "select artist_no as artistNo, artist_name as artistName, img_url as imgUrl\n" +
+                   "from artist\n" +
+                   "left join img_url on (artist_no = content_no)\n" +
+                   "order by dbms_random.value()",
+           countQuery = "select count(*) from artist",
+           nativeQuery = true
+   )
+   Page<HomeArtistProjection> getHomeArtist(Pageable pageable);
+
+   Artist findByMember(Member member);
 }

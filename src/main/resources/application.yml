@@ -52,5 +52,7 @@ spring:
   profiles:
     include: key
 
-
+newPath: C:\\final_project\\IA-FE\\public\\img\\
+savePath: C:\\final_project\\IA-FE\\public\\tempImg\\
+userPath: C:\\final_project\\IA-FE\\public\\img\\user\\
 

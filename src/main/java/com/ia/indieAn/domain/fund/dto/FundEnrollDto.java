@@ -1,5 +1,6 @@
 package com.ia.indieAn.domain.fund.dto;
 
+import com.ia.indieAn.type.enumType.FundStatusEnum;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import lombok.Data;
 
@@ -23,5 +24,6 @@ public class FundEnrollDto {
     private Date endDate;
     private Date paymentDate;
     private int target;
+    private FundStatusEnum fundStatus;
     private List<RewardListDto> reward = new ArrayList<>();
 }

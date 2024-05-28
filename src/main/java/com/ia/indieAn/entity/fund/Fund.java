@@ -3,9 +3,12 @@ package com.ia.indieAn.entity.fund;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ia.indieAn.domain.fund.dto.FundEnrollDto;
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.type.converter.FundStatusConverter;
 import com.ia.indieAn.type.converter.FundTypeConverter;
+import com.ia.indieAn.type.enumType.FundStatusEnum;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -72,9 +75,11 @@ public class Fund implements Serializable {
     private Date paymentDate;   // 결제 예정일
 
     @Column(nullable = false)
+    @Size(max = 4000)
     private String fundInfo;
 
     @Column(nullable = false)
+    @Size(max = 4000)
     private String artistInfo;
 
     private String rewardInfo;
@@ -85,8 +90,11 @@ public class Fund implements Serializable {
     @Column(nullable = false)
     private String schedule;
 
-    @Column(columnDefinition = "char(1) default 'N'")
-    private String fundStatus; //임시저장, 승인대기, 반려, 승인 Enum 작업 필요
+    @Convert(converter = FundStatusConverter.class)
+    @Column(nullable = false)
+    private FundStatusEnum fundStatus; //승인대기(N), 반려(R), 승인(A) Enum 작업 완료
+
+    private Date responseDate;
 
     @JsonIgnoreProperties({"fund"})
     @OneToMany(mappedBy = "fund")
@@ -143,6 +151,7 @@ public class Fund implements Serializable {
                 .budgetManage(fundEnrollDto.getBudgetInfo())
                 .schedule(fundEnrollDto.getScheduleInfo())
                 .paymentDate(fundEnrollDto.getPaymentDate())
+                .fundStatus(fundEnrollDto.getFundStatus())
                 .build();
     }
 }

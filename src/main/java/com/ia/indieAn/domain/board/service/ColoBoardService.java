@@ -15,11 +15,14 @@ import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -88,5 +91,12 @@ public class ColoBoardService {
 
 
         return listDto;
+    }
+
+    public List<ColoBoardDto> getWeeklyColoList(){
+        Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "viewCount"));
+        Page<BoardProjection> pages = boardRepository.findAll(pageable, Integer.parseInt(ContentTypeEnum.COLO.getCode()), "");
+
+        return pages.map(ColoBoardDto::convertColoBoardDto).getContent();
     }
 }
