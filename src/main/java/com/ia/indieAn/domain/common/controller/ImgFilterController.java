@@ -2,6 +2,7 @@ package com.ia.indieAn.domain.common.controller;
 
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,8 +25,11 @@ import java.util.Date;
 @CrossOrigin
 public class ImgFilterController {
 
-    private String savePath = "C:\\workspace\\indiean\\IA-FE\\public\\tempImg\\";
-    private String newPath = "C:\\workspace\\indiean\\IA-FE\\public\\img\\";
+    @Value("${savePath}")
+    private String savePath;
+
+    @Value("${newPath}")
+    private String newPath;
 
     @RequestMapping("/tempImg")
     public ResponseEntity<ResponseTemplate> tempImg(@RequestParam(value="image") MultipartFile image) throws IOException {
