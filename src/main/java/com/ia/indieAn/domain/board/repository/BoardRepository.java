@@ -17,22 +17,21 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     Page<Board> findAllByDeleteYnAndContentTypeNo(Pageable pageable, String deleteYn, ContentTypeEnum contentTypeNo);
 
     @Query(value =
-            "select distinct b.board_no as boardNo, board_title as boardTitle, board_content as boardContent\n" +
-                    "                    , (select count(*) from reply r where r.board_no = b.board_no and r.delete_yn = 'N') as replies\n" +
-                    "                    , m.user_no as userNo, nickname as nickname, user_role as userRole, to_char(enroll_date, 'YYYY-MM-DD') as enrollDate, to_char(update_date, 'YYYY-MM-DD') as updateDate, view_count as viewCount\n" +
-                    "                    , (select count(*) from content_like_log l where l.content_no = b.board_no and l.br_type = 'B' and l.like_yn = 'Y') as likeCount\n" +
-                    "                    , colo_no as coloNo\n" +
-                    "                    , col_left_title as colLeftTitle, col_right_title as colRightTitle\n" +
-                    "                    , (select count(*) from colo_log cl where vote = 'L' and cancel_yn = 'N' and c.colo_no = cl.colo_no ) as colLeftCount\n" +
-                    "                    , (select count(*) from colo_log cl where vote = 'R' and cancel_yn = 'N' and c.colo_no = cl.colo_no ) as colRightCount\n" +
-                    "                    , img_url as imgUrl\n" +
-                    "                    from board b\n" +
-                    "                    join member m on (m.user_no = b.user_no)\n" +
-                    "                    left join board_colo c on (b.board_no = c.board_no)\n" +
-                    "                    left join (select img_url, content_no from img_url where fabc_type = 'B' and kc_type = 'C') u on (b.board_no = u.content_no)\n" +
-                    "                    where b.delete_yn = 'N'\n" +
-                    "                    and content_type_no = :contentType\n" +
-                    "                    and board_title like '%' || :title || '%'",
+            "select b.board_no as boardNo, board_title as boardTitle, board_content as boardContent\n" +
+                    "                                        , (select count(*) from reply r where r.board_no = b.board_no and r.delete_yn = 'N') as replies\n" +
+                    "                                        , m.user_no as userNo, nickname as nickname, user_role as userRole, to_char(enroll_date, 'YYYY-MM-DD') as enrollDate, to_char(update_date, 'YYYY-MM-DD') as updateDate, view_count as viewCount\n" +
+                    "                                        , (select count(*) from content_like_log l where l.content_no = b.board_no and l.br_type = 'B' and l.like_yn = 'Y') as likeCount\n" +
+                    "                                        , colo_no as coloNo\n" +
+                    "                                        , col_left_title as colLeftTitle, col_right_title as colRightTitle\n" +
+                    "                                        , (select count(*) from colo_log cl where vote = 'L' and cancel_yn = 'N' and c.colo_no = cl.colo_no ) as colLeftCount\n" +
+                    "                                        , (select count(*) from colo_log cl where vote = 'R' and cancel_yn = 'N' and c.colo_no = cl.colo_no ) as colRightCount\n" +
+                    "                                        , (select img_url from img_url i where i.fabc_type = 'B' and kc_type = 'C' and i.content_no = b.board_no and rownum <= 1) as imgUrl\n" +
+                    "                                        from board b\n" +
+                    "                                        join member m on (m.user_no = b.user_no)\n" +
+                    "                                        left join board_colo c on (b.board_no = c.board_no)\n" +
+                    "                                        where b.delete_yn = 'N'\n" +
+                    "                                        and content_type_no = :contentType\n" +
+                    "                                        and board_title like '%' || :title || '%'",
             countQuery = "select count(*) from board where content_type_no = :contentType and delete_yn = 'N' and board_title like '%' || :title || '%'",
             nativeQuery = true
     )

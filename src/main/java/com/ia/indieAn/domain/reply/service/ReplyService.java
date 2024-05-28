@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.reply.service;
 
 import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.domain.reply.dto.ReplyDto;
 import com.ia.indieAn.domain.reply.repository.ReplyRepository;
 import com.ia.indieAn.entity.board.Reply;
