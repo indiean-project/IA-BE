@@ -6,6 +6,7 @@ import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.concert.dto.ConcertDetailDto;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.domain.concert.dto.ConcertDto;
+import com.ia.indieAn.domain.concert.dto.ConcertReplyDto;
 import com.ia.indieAn.domain.concert.service.ConcertService;
 
 import com.ia.indieAn.entity.concert.Concert;
@@ -22,6 +23,7 @@ import java.nio.charset.Charset;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -78,6 +80,15 @@ public class ConcertController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
+        List<ConcertReplyDto> result = concertService.cocnertReplyList(concertNo);
+
+        if(result !=null){
+            response.setData(result);
+            response.setStatus(StatusEnum.SUCCESS);
+        }else{
+            response.setData(result);
+            response.setStatus(StatusEnum.FAIL);
+        }
 
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
@@ -87,9 +98,26 @@ public class ConcertController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-
-
-
+        ConcertReply result = concertService.concertAddReply(concertReply);
+        if(result !=null){
+            response.setStatus(StatusEnum.SUCCESS);
+        }else {
+            response.setStatus(StatusEnum.FAIL);
+        }
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+    @RequestMapping("/deleteReply")
+    public ResponseEntity<ResponseTemplate> concertDeleteReply(@RequestBody int contentNo){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+        log.info("contentNo={}",contentNo );
+        ConcertReply result = concertService.concertDeleteReply(contentNo);
+        if(result !=null){
+            response.setStatus(StatusEnum.SUCCESS);
+        }else {
+            response.setStatus(StatusEnum.FAIL);
+        }
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
