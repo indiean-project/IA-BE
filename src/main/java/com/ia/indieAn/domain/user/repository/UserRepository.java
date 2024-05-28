@@ -56,4 +56,8 @@ public interface UserRepository extends JpaRepository<Member, Integer> {
     )
     List<UserRewardOrderProjection> findUserRewardOrderByUserNoAndFundNo(@Param(value="userNo") int userNo,
                                                                          @Param(value="fundNo") int fundNo);
+
+//    List<QuestionSelectDto> findUserQuestionByUserNo(@Param(value="userNo") int userNo);
+//
+//    List<ReportSelectDto> findUserReportByUserNo(@Param(value="userNo") int userNo);
 }
