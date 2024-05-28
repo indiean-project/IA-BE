@@ -27,6 +27,9 @@ public class FundingAdminService {
         }
         return fundingAdminUserDtoArrayList;
     }
+//    public ArrayList<FundingAdminUserDto> updateFundStatus(fundNo, String fundStatus){
+//        Fund fund = fundingAdminUserRepository.findByFundStatus(fundNo).orElseThrow();
+//    }
 //
 //    public ArrayList<FundingAdminUserDto> selectFundListByUserId(FundingAdminSearchOptionDto fo){
 //        ArrayList<Fund> fundSearchList = (ArrayList<Fund>) fundingAdminUserRepository.findByFundTypeNoContainingAndFundStatusContainingAndFundTitleContaining(fo.getType(), "Y" ,fo.getKeyword());

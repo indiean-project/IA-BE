@@ -25,7 +25,6 @@ public class AuthorityAdminDto {
         this.musicCategory = artist.getMusicCategory();
         this.artistInfo = artist.getArtistInfo();
         this.debutDate = artist.getDebutDate();
-        this.artistRoleStatus = artist.getArtistRoleStatus().getValue();
         this.member = artist.getMember();
 
 

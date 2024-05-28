@@ -27,6 +27,7 @@ public class AuthorityAdminController {
     @Autowired
     AuthorityAdminService authorityAdminService;
 
+
     @ResponseBody
     @RequestMapping("/userAuthority")
     public ResponseEntity<ResponseTemplate> userAuthority() {

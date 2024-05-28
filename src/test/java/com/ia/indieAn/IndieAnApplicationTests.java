@@ -73,21 +73,9 @@ class IndieAnApplicationTests {
 	@Autowired
 	NoticeRepository noticeRepository;
 
-	@Autowired
-	ColoLogRepository coloLogRepository;
 
-	@Autowired
-	ContentLikeLogRepository contentLikeLogRepository;
-	@Autowired
-	ArtistRepository artistRepository;
 
-	@Autowired
-	NoticeRepository noticeRepository;
 
-	@Autowired
-	QuestionAdminRepository questionAdminRepository;
-    @Autowired
-    private ReportAdminRepository reportAdminRepository;
 
 	@Test
 	void contextLoads() throws Exception{
@@ -136,6 +124,7 @@ class IndieAnApplicationTests {
 			fund.setStartDate(Date.valueOf(String.format("2024-0%d-%d%d", random3, random2, random1)));
 			fund.setEndDate(Date.valueOf(String.format("2024-0%d-%d%d", random3 + 1, random2, random1)));
 			fund.setPaymentDate(Date.valueOf("2024-07-10"));
+			fund.setResponseDate(Date.valueOf("2024-08-19"));
 			fund.setTarget(((int)(Math.random() * 100) + 1) * 10000000);
 			fund.setFundInfo(content);
 			fund.setArtistInfo(content);

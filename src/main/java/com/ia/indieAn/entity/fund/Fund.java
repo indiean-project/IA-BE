@@ -123,6 +123,7 @@ public class Fund implements Serializable {
                 ", endYn='" + endYn + '\'' +
                 ", compYn='" + compYn + '\'' +
                 ", startDate=" + startDate +
+                ", responseDate=" + responseDate +
                 ", endDate=" + endDate +
                 ", paymentDate=" + paymentDate +
                 ", fundInfo='" + fundInfo + '\'' +

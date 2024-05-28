@@ -16,4 +16,5 @@ public interface FundingAdminUserRepository extends JpaRepository<Fund, Integer>
     ArrayList<Fund> findByFundTypeNo(FundTypeEnum fundTypeNo);
     ArrayList<Fund> findByFundStatus(String fundStatus);
     ArrayList<Fund> findByFundTitleContaining(String fundTitle);
+
 }
