@@ -2,6 +2,7 @@ package com.ia.indieAn.domain.user.controller;
 
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
+import com.ia.indieAn.domain.user.dto.QuestionEnrollDto;
 import com.ia.indieAn.domain.user.service.UserService;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.entity.user.Question;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/question")
@@ -26,13 +28,14 @@ public class QuestionController {
 
     @ResponseBody
     @RequestMapping("/enroll")
-    public ResponseEntity<ResponseTemplate> enrollQuestion(@RequestBody Question question) {
-        log.info("enter /enroll {}, question");
+    public ResponseEntity<ResponseTemplate> enrollQuestion(@RequestBody QuestionEnrollDto qe) {
+        log.info("enter /enroll {}" , qe);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        userService.enrollQuestion(question);
+        userService.enrollQuestion(qe);
+
         response.setStatus(StatusEnum.SUCCESS);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);

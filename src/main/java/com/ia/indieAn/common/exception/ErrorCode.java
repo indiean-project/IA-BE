@@ -21,10 +21,9 @@ public enum ErrorCode {
     //콘서트 관련
     CONCERT_NOT_FOUND(HttpStatus.NOT_FOUND, "concert-001", "존재하는 콘서트가 없습니다."),
     // 게시글 관련
-    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "board-001", "존재하는 게시글이 없습니다.");
+    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "board-001", "존재하는 게시글이 없습니다."),
     // 문의 관련
     QUESTION_NULL(HttpStatus.BAD_REQUEST, "question-001", "문의 내용이 없습니다.");
-
 
     private final HttpStatus httpStatus;
     private final String code;

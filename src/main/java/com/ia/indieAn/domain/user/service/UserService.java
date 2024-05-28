@@ -4,7 +4,8 @@ import com.ia.indieAn.config.email.EmailService;
 import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.user.dto.*;
 import com.ia.indieAn.domain.user.repository.QuestionRepository;
-import com.ia.indieAn.entity.board.Board;
+import com.ia.indieAn.domain.user.repository.UserReportRepository;
+import com.ia.indieAn.entity.board.ContentReportLog;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.common.exception.CustomException;
@@ -31,6 +32,8 @@ public class UserService {
     @Autowired
     QuestionRepository questionRepository;
 
+    @Autowired
+    UserReportRepository userReportRepository;
 
     private final EmailService emailService;
 
@@ -157,31 +160,42 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = CustomException.class)
-    public void enrollQuestion(Question question) {
-        log.info("enter {}", question);
-        if(question.getQuestionContent().isEmpty()) {
+    public void enrollQuestion(QuestionEnrollDto qe) {
+        log.info("Received question: {}", qe);
+        log.info("Received member userNo: {}", qe.getUserNo() != 0 ? qe.getUserNo() : "null");
+
+        if (qe.getUserNo() == 0 ) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+        Member member = userRepository.findByUserNo(qe.getUserNo());
+        if (member == null) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+        log.info("enter {}", member);
+
+        if(qe.getQuestionContent() == null || qe.getQuestionContent().isEmpty()) {
             throw new CustomException(ErrorCode.QUESTION_NULL);
         }
-        questionRepository.save(question);
+        log.info("enter {}", qe);
+        Question q = new Question();
+        q.setMember(member);
+        q.setQuestionContent(qe.getQuestionContent());
+
+        questionRepository.save(q);
     }
 
-//    @Transactional(rollbackFor = CustomException.class)
-//    public void signUpUser(Member member){
-//        // null 값에 대한 검증은 controller에서 (HasID, NICKNAME)
-//        // 이미 객체쪽에서 유효성 검사를 하기에, 전화번호 외에는 별도로 하지 않는다.
-//        // 랜덤 닉네임 개체를 저장하는게 필요하다. -> 여기서 조회도 필요하긴 하다. 랜덤이긴 하겠지만은.
-//        log.info("enter {}", member);
-//        if (!member.getSocialStatus().equals("N")) { // socialLogin checking
-//            member.setUserPwd("");
-//        } else {
-//            if (userRepository.existsByPhone(member.getPhone())) {
-//                throw new CustomException(ErrorCode.HAS_PHONE);
-//            }
-//        }
-//        String uniqueNickname = generateUniqueNickname();
-//        member.setNickname(uniqueNickname);
-//
-//        log.info("222222 {}", member);
-//        userRepository.save(member);
-//    }
+    public QuestionSelectDto userQuestionHistory(Question question) {
+        Question q = questionRepository.findByUserNo(question.getMember().getUserNo())
+                .orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return new QuestionSelectDto(q);
+    }
+
+    public ReportSelectDto userReportHistory(ContentReportLog crl) {
+        ContentReportLog crlLog = userReportRepository.findByUserNo(crl.getMember().getUserNo())
+                .orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return new ReportSelectDto(crlLog);
+    }
+
 }

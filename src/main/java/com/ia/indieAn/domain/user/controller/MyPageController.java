@@ -3,10 +3,11 @@ package com.ia.indieAn.domain.user.controller;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.board.dto.BoardDto;
-import com.ia.indieAn.domain.fund.dto.FundListDto;
 import com.ia.indieAn.domain.user.dto.*;
 import com.ia.indieAn.domain.user.service.UserService;
+import com.ia.indieAn.entity.board.ContentReportLog;
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.entity.user.Question;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -142,45 +143,45 @@ public class MyPageController {
         }
     }
 
-//    @ResponseBody
-//    @RequestMapping("/myPage/replies")
-//    public ResponseEntity<ResponseTemplate> userFundOrderHistory(@RequestParam(name = "userNo") int userNo) {
-//        System.out.println(userNo);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//        ResponseTemplate response = new ResponseTemplate();
-//
-//        List<UserFundOrderDto> folist = userService.userFundOrderHistory(userNo);
-//
-//        if (folist != null) {
-//            response.setStatus(StatusEnum.SUCCESS);
-//            response.setData(folist);
-//            return new ResponseEntity<>(response, headers, HttpStatus.OK);
-//        } else {
-//            response.setStatus(StatusEnum.FAIL);
-//            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
-//        }
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping("/myPage/report")
-//    public ResponseEntity<ResponseTemplate> userFundOrderHistory(@RequestParam(name="userNo") int userNo){
-//        System.out.println(userNo);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//        ResponseTemplate response = new ResponseTemplate();
-//
-//        List<UserFundOrderDto> folist = userService.userFundOrderHistory(userNo);
-//
-//        if(folist != null) {
-//            response.setStatus(StatusEnum.SUCCESS);
-//            response.setData(folist);
-//            return new ResponseEntity<>(response, headers, HttpStatus.OK);
-//        } else {
-//            response.setStatus(StatusEnum.FAIL);
-//            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @ResponseBody
+    @RequestMapping("/myPage/question")
+    public ResponseEntity<ResponseTemplate> userQuestionHistory(@RequestBody Question question) {
+        System.out.println(question);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        QuestionSelectDto qlist = userService.userQuestionHistory(question);
+
+        if (qlist != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(qlist);
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/myPage/report")
+    public ResponseEntity<ResponseTemplate> userReportHistory(@RequestBody ContentReportLog crl){
+        System.out.println(crl);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        ReportSelectDto reportList = userService.userReportHistory(crl);
+
+        if(reportList != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(reportList);
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @RequestMapping("/tempImg")
     public ResponseEntity<ResponseTemplate> tempImg(@RequestParam(value="image") MultipartFile image) throws IOException {
@@ -231,7 +232,6 @@ public class MyPageController {
     }
 
     @RequestMapping("/imgMove")
-//    public ResponseEntity<ResponseTemplate> imgMove(@RequestParam("usedImage") String usedImage, @RequestParam("value=userNo") int userNo) throws IOException {
     public ResponseEntity<ResponseTemplate> imgMove(@RequestBody Member member) throws IOException {
 
         HttpHeaders headers = new HttpHeaders();
@@ -253,6 +253,7 @@ public class MyPageController {
                 file.delete();
             }
         }
+        log.info("파일 저장됌? {}", member.getUserProfileImg());
 
         Files.move(Paths.get(savePath+member.getUserProfileImg())
                 , Paths.get(nUserPath+member.getUserProfileImg())
