@@ -23,8 +23,9 @@ import java.util.Date;
 @RequestMapping("/api/imgfilter")
 @CrossOrigin
 public class ImgFilterController {
-    private String savePath = "C:\\workspace\\IndieAn\\IA-FE\\public\\tempImg\\";
-    private String newPath = "C:\\workspace\\IndieAn\\IA-FE\\public\\img\\";
+
+    private String savePath = "C:\\Workspace\\final_project\\IA-FE\\public\\tempImg\\";
+    private String newPath = "C:\\Workspace\\final_project\\IA-FE\\public\\img\\";
 
     @RequestMapping("/tempImg")
     public ResponseEntity<ResponseTemplate> tempImg(@RequestParam(value="image") MultipartFile image) throws IOException {
@@ -73,8 +74,8 @@ public class ImgFilterController {
 
         for (int i = 0; i < imgList.length; i++) {
             Files.move(Paths.get(savePath + imgList[i])
-            , Paths.get(newPath + imgList[i])
-            , StandardCopyOption.ATOMIC_MOVE);
+                    , Paths.get(newPath + imgList[i])
+                    , StandardCopyOption.ATOMIC_MOVE);
 
             list.add(newPath + imgList[i]);
         }

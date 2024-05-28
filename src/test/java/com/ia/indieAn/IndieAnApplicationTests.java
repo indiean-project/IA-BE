@@ -1,7 +1,10 @@
 package com.ia.indieAn;
 
-import com.ia.indieAn.admin.user.repository.QuestionAdminRepository;
-import com.ia.indieAn.admin.user.repository.ReportAdminRepository;
+import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
+import com.ia.indieAn.domain.artist.repository.ArtistRepository;
+import com.ia.indieAn.domain.board.repository.*;
+
 import com.ia.indieAn.domain.board.repository.BoardRepository;
 import com.ia.indieAn.domain.board.repository.ColoBoardRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
@@ -9,6 +12,9 @@ import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.fund.repository.OrderLogRepository;
 import com.ia.indieAn.domain.fund.repository.RewardRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
+import com.ia.indieAn.entity.artist.Artist;
+import com.ia.indieAn.entity.board.*;
+
 import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.BoardColo;
 import com.ia.indieAn.entity.board.ContentReportLog;
@@ -17,8 +23,14 @@ import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.entity.fund.Reward;
 import com.ia.indieAn.entity.user.Member;
-import com.ia.indieAn.entity.user.Question;
+
 import com.ia.indieAn.type.enumType.*;
+
+
+import com.ia.indieAn.type.enumType.ContentTypeEnum;
+import com.ia.indieAn.type.enumType.FundTypeEnum;
+import com.ia.indieAn.type.enumType.UserRoleEnum;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,12 +63,42 @@ class IndieAnApplicationTests {
 	ColoBoardRepository coloBoardRepository;
 
 	@Autowired
+	ColoLogRepository coloLogRepository;
+
+	@Autowired
+	ContentLikeLogRepository contentLikeLogRepository;
+	@Autowired
+	ArtistRepository artistRepository;
+
+	@Autowired
+	NoticeRepository noticeRepository;
+
+	@Autowired
+	ColoLogRepository coloLogRepository;
+
+	@Autowired
+	ContentLikeLogRepository contentLikeLogRepository;
+	@Autowired
+	ArtistRepository artistRepository;
+
+	@Autowired
+	NoticeRepository noticeRepository;
+
+	@Autowired
 	QuestionAdminRepository questionAdminRepository;
     @Autowired
     private ReportAdminRepository reportAdminRepository;
 
 	@Test
 	void contextLoads() throws Exception{
+		Member admin = new Member();
+		admin.setUserId("admin@indiean.com");
+		admin.setUserPwd("phs1470!@");
+		admin.setUserName("박혜성");
+		admin.setNickname("관리자");
+		admin.setPhone("01012341234");
+		admin.setUserRole(UserRoleEnum.ADMIN);
+		userRepository.save(admin);
 
 		for (int i = 0; i < 100; i++) {
 			Member member = new Member();
@@ -100,7 +142,8 @@ class IndieAnApplicationTests {
 			fund.setRewardInfo(content);
 			fund.setBudgetManage(content);
 			fund.setSchedule(content);
-			fund.setFundStatus("Y");
+			fund.setFundStatus(FundStatusEnum.AWAIT);
+
 
 			Fund fundResult = fundRepository.save(fund);
 
@@ -138,7 +181,8 @@ class IndieAnApplicationTests {
 				OrderLog orderLog1 = new OrderLog();
 				orderLog1.setMember(userRepository.findByUserNo((int)(Math.random()*100) + 1));
 				int random1 = (int)(Math.random() * 100) + 1;
-				orderLog1.setFund(fundRepository.findByFundNo(random1));
+				orderLog1.setFund(fundRepository.findByFundNo(random1)
+						.orElseThrow(()->new CustomException(ErrorCode.FUND_NOT_FOUND)));
 				orderLog1.setTotalPrice((int)(Math.random()* 100000) + 1);
 				orderLog1.setReceiptId("test");
 				orderLog1.setBillingKey("test");
@@ -180,45 +224,6 @@ class IndieAnApplicationTests {
 			boardColo.setColLeftTitle("양념치킨");
 			boardColo.setColRightTitle("후라이드 치킨");
 			coloBoardRepository.save(boardColo);
-		}
-
-		// 문의사항 테스트 DB
-		for (int i=0; i <10; i++){
-			Question question = new Question();
-
-			question.setMember(userRepository.findByUserNo(i+1));
-			question.setAnsYn("N");
-			question.setQuestionDate(Date.valueOf("2024-05-10"));
-			question.setAnsDate(Date.valueOf("2024-05-17"));
-			question.setQuestionContent("이거또한 테스트."+i);
-			question.setAnsContent("테스트입니다."+i);
-
-			Question q = questionAdminRepository.save(question);
-		}
-
-		// 신고사항 테스트 DB
-		initContentReportLog();
-	}
-
-
-	@Test
-	public void initContentReportLog() {
-		// 신고사항 테스트 DB
-		for (int i=0; i <5; i++){
-			ContentReportLog report = new ContentReportLog();
-
-			report.setMember(userRepository.findByUserNo(i+1));
-			report.setReportNo(i+1);
-			report.setReportTypeNo(ReportTypeEnum.values()[(i)]);
-			report.setSolveYn("N");
-			report.setReportDate(Date.valueOf("2024-05-10"));
-			report.setContentNo(1);
-			report.setBrType(BrTypeEnum.BOARD);
-
-			System.out.println(report);
-
-
-			reportAdminRepository.save(report);
 		}
 	}
 }

@@ -24,6 +24,8 @@ public class FundListDto {
     //펀딩액 현황
     private Integer revenue;
     private Integer rate;
+    private String artistName;
+    private String imgUrl;
 
 //    public FundListDto(FundListByRevenueInterface fund) {
 //        this.fundNo = fund.getFundNo();
@@ -55,6 +57,8 @@ public class FundListDto {
                 .target(fi.getTarget())
                 .revenue(fi.getRevenue())
                 .rate(fi.getRate())
+                .artistName(fi.getArtistName())
+                .imgUrl(fi.getImgUrl())
                 .build();
     }
 }

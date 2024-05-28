@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor
+@Builder
 @Getter @Setter
 @DynamicInsert
 @Entity
@@ -37,11 +38,24 @@ public class Artist implements Serializable {
     private String artistName;
 
     private String musicCategory;
+
     private String artistInfo;
+
+    @Column(columnDefinition = "char(1) default 'N'")
+    private String artistStatus;
+
+    private String youtubeLink;
+
+    private String instagramLink;
 
     @JsonIgnoreProperties({"artist"})
     @OneToMany(mappedBy = "artist")
     private List<Board> boards = new ArrayList<>();
+
+    @JsonIgnoreProperties({"artist"})
+    @OneToMany(mappedBy = "artist")
+    private List<ConcertLineup> ConcertLineups = new ArrayList<>();
+
 
 
     @Override
@@ -56,4 +70,6 @@ public class Artist implements Serializable {
                 ", boards=" + boards.size() +
                 '}';
     }
+
+
 }

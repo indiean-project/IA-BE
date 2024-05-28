@@ -1,18 +1,20 @@
 package com.ia.indieAn.entity.fund;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ia.indieAn.domain.fund.dto.FundEnrollDto;
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.type.converter.FundStatusConverter;
 import com.ia.indieAn.type.converter.FundTypeConverter;
+import com.ia.indieAn.type.enumType.FundStatusEnum;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @DynamicInsert
 @Entity
 @Table(name = "fund")
@@ -72,12 +75,13 @@ public class Fund implements Serializable {
     private Date paymentDate;   // 결제 예정일
 
     @Column(nullable = false)
+    @Size(max = 4000)
     private String fundInfo;
 
     @Column(nullable = false)
+    @Size(max = 4000)
     private String artistInfo;
 
-    @Column(nullable = false)
     private String rewardInfo;
 
     @Column(nullable = false)
@@ -86,8 +90,11 @@ public class Fund implements Serializable {
     @Column(nullable = false)
     private String schedule;
 
+    @Convert(converter = FundStatusConverter.class)
     @Column(nullable = false)
-    private String fundStatus; //임시저장, 승인대기, 반려, 승인 Enum 작업 필요
+    private FundStatusEnum fundStatus; //승인대기(N), 반려(R), 승인(A) Enum 작업 완료
+
+    private Date responseDate;
 
     @JsonIgnoreProperties({"fund"})
     @OneToMany(mappedBy = "fund")
@@ -128,5 +135,23 @@ public class Fund implements Serializable {
                 ", orderLogList=" + orderLogList.size() +
                 ", rewardList=" + rewardList.size() +
                 '}';
+    }
+
+    public static Fund convertFormFundEnrollDto(FundEnrollDto fundEnrollDto, Member member){
+        return Fund.builder()
+                .fundTitle(fundEnrollDto.getFundTitle())
+                .member(member)
+                .fundDescription(fundEnrollDto.getFundDescription())
+                .fundTypeNo(fundEnrollDto.getCategory())
+                .target(fundEnrollDto.getTarget())
+                .startDate(fundEnrollDto.getStartDate())
+                .endDate(fundEnrollDto.getEndDate())
+                .fundInfo(fundEnrollDto.getFundInfo())
+                .artistInfo(fundEnrollDto.getArtistInfo())
+                .budgetManage(fundEnrollDto.getBudgetInfo())
+                .schedule(fundEnrollDto.getScheduleInfo())
+                .paymentDate(fundEnrollDto.getPaymentDate())
+                .fundStatus(fundEnrollDto.getFundStatus())
+                .build();
     }
 }

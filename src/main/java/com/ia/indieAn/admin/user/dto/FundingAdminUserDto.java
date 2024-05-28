@@ -2,16 +2,17 @@ package com.ia.indieAn.admin.user.dto;
 
 
 import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.type.enumType.FundStatusEnum;
 import lombok.Data;
 
 @Data
 public class FundingAdminUserDto {
 
-    private int fundNo;         // sequence-> pk값
-    private int userNo;         // 유저정보 PK값
-    private String fundTypeNo;  // 펀딩 타입
-    private String fundTitle;   // 펀딩 요청글 제목
-    private String fundStatus;  // 펀딩 처리상태 Y/N
+    private int fundNo;
+    private int userNo;
+    private int fundTypeNo;
+    private String fundTitle;
+    private FundStatusEnum fundStatus;
 
     public FundingAdminUserDto(Fund fund){
         this.fundNo = fund.getFundNo();

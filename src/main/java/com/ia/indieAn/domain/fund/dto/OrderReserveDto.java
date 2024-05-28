@@ -2,6 +2,7 @@ package com.ia.indieAn.domain.fund.dto;
 
 import lombok.Data;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,4 +14,5 @@ public class OrderReserveDto {
     private int totalPrice;
     private List<RewardReserveListDto> reward = new ArrayList<>();
     private String receiptId;
+    private Date paymentDate;
 }

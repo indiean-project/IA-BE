@@ -4,12 +4,10 @@ import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
-import com.ia.indieAn.domain.board.dto.ColoBoardDto;
-import com.ia.indieAn.domain.board.service.BoardService;
+import com.ia.indieAn.domain.board.dto.ColoLogDto;
 import com.ia.indieAn.domain.board.service.ColoBoardService;
-import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.BoardColo;
-import com.ia.indieAn.type.enumType.BrTypeEnum;
+import com.ia.indieAn.entity.board.ColoLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -36,9 +34,6 @@ public class ColoBoardController {
     @Autowired
     ColoBoardService coloBoardService;
 
-    @Autowired
-    BoardService boardService;
-
     @RequestMapping("enroll")
     public ResponseEntity<ResponseTemplate> coloBoardEnroll(@RequestBody BoardColo boardColo) {
         HttpHeaders headers = new HttpHeaders();
@@ -59,9 +54,48 @@ public class ColoBoardController {
 
         Pageable pageable = PageRequest.of(boardInfoDto.getPage()-1, 5, Sort.by(Sort.Direction.DESC, boardInfoDto.getSort()));
 
-        ListDto list = coloBoardService.coloBoardList(pageable, "N");
+        ListDto list = coloBoardService.coloBoardList(pageable, boardInfoDto.getKeyword());
 
+        response.setStatus(StatusEnum.SUCCESS);
         response.setData(list);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("vote")
+    public ResponseEntity<ResponseTemplate> voteEnroll(@RequestBody ColoLog coloLog) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        coloBoardService.voteEnroll(coloLog);
+
+
+        response.setStatus(StatusEnum.SUCCESS);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("selectVote")
+    public ResponseEntity<ResponseTemplate> voteSelect(@RequestBody ColoLog coloLog) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        ArrayList<ColoLogDto> list = coloBoardService.voteSelect(coloLog.getMember().getUserNo());
+
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(list);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("weekly")
+    public ResponseEntity<ResponseTemplate> getWeeklyColoList(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        response.setData(coloBoardService.getWeeklyColoList());
+        response.setStatus(StatusEnum.SUCCESS);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }

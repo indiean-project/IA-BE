@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.imgurl.controller;
 
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
+import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.imgurl.dto.ImgUrlDto;
 import com.ia.indieAn.domain.imgurl.service.ImgUrlService;
 import com.ia.indieAn.entity.board.ImgUrl;
@@ -33,17 +34,21 @@ public class ImgUrlController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        System.out.println(imgUrlDto.getImgUrlList()[1]);
         for(int i = 0; i < imgUrlDto.getImgUrlList().length; i++) {
             ImgUrl imgUrl = new ImgUrl();
             imgUrl.setImgUrl(imgUrlDto.getImgUrlList()[i]);
             imgUrl.setContentNo(imgUrlDto.getContentNo());
-            imgUrl.setFabcType(FabcTypeEnum.BOARD);
-            imgUrl.setKcType(KcTypeEnum.CONTENT);
+            imgUrl.setFabcType(imgUrlDto.getFabcTypeEnum());
+            imgUrl.setKcType(imgUrlDto.getKcTypeEnum());
 
-            imgUrlService.imgEnroll(imgUrl);
+            ImgUrl imgUrl1 = imgUrlService.imgEnroll(imgUrl);
+
+            if(imgUrl1 !=null){
+                response.setStatus(StatusEnum.SUCCESS);
+            }else{
+                response.setStatus(StatusEnum.FAIL);
+            }
         }
-
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 }

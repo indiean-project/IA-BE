@@ -5,6 +5,7 @@ import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.concert.dto.ConcertDetailDto;
 import com.ia.indieAn.common.pageDto.ListDto;
+import com.ia.indieAn.domain.concert.dto.ConcertDto;
 import com.ia.indieAn.domain.concert.service.ConcertService;
 
 import com.ia.indieAn.entity.concert.Concert;
@@ -54,7 +55,7 @@ public class ConcertController {
         Date firstDate = Date.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
         Date LastDate = Date.valueOf(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
 
-        List<Concert> result = concertService.calendarList(firstDate,LastDate);
+        List<ConcertDto> result = concertService.calendarList(firstDate,LastDate);
 
         response.setData(result);
         response.setStatus(StatusEnum.SUCCESS);
