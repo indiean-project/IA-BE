@@ -4,6 +4,7 @@ import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
+import com.ia.indieAn.domain.board.dto.NoticeDto;
 import com.ia.indieAn.domain.board.service.NoticeService;
 import com.ia.indieAn.entity.board.Notice;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,62 @@ public class NoticeController {
 
         response.setStatus(StatusEnum.SUCCESS);
         response.setData(listDto);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("detail")
+    public ResponseEntity<ResponseTemplate> noticeDetail(@RequestBody long noticeNo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        NoticeDto nDto = noticeService.noticeDetail((int)noticeNo);
+
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(nDto);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("enroll")
+    public ResponseEntity<ResponseTemplate> noticeEnroll(@RequestBody Notice notice) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        int noticeNo = 0;
+
+        if(notice.getNoticeNo() != 0) {
+            noticeNo = noticeService.noticeUpdate(notice);
+        } else {
+            noticeNo = noticeService.noticeEnroll(notice);
+        }
+
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(noticeNo);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("delete")
+    public ResponseEntity<ResponseTemplate> noticeDelete(@RequestBody int noticeNo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        noticeService.noticeDelete(noticeNo);
+
+        response.setStatus(StatusEnum.SUCCESS);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("viewCount")
+    public ResponseEntity<ResponseTemplate> noticeViewCount(@RequestBody int noticeNo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        noticeService.noticeViewCount(noticeNo);
+
+        response.setStatus(StatusEnum.SUCCESS);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 }

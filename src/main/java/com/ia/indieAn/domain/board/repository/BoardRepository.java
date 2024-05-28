@@ -18,7 +18,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 
     @Query(value =
             "select distinct b.board_no as boardNo, board_title as boardTitle, board_content as boardContent\n" +
-                    "                    , (select count(*) from reply r where r.board_no = b.board_no) as replies\n" +
+                    "                    , (select count(*) from reply r where r.board_no = b.board_no and r.delete_yn = 'N') as replies\n" +
                     "                    , m.user_no as userNo, nickname as nickname, user_role as userRole, to_char(enroll_date, 'YYYY-MM-DD') as enrollDate, to_char(update_date, 'YYYY-MM-DD') as updateDate, view_count as viewCount\n" +
                     "                    , (select count(*) from content_like_log l where l.content_no = b.board_no and l.br_type = 'B' and l.like_yn = 'Y') as likeCount\n" +
                     "                    , colo_no as coloNo\n" +
@@ -97,7 +97,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 
     @Query(value =
         "select board_no as boardNo, b.user_no as userNo, nickname as nickName\n" +
-                "    , enroll_date as enrollDate, update_date as updateDate, board_title as boardTitle\n" +
+                "    , to_char(enroll_date, 'YYYY-MM-DD') as enrollDate, to_char(update_date, 'YYYY-MM-DD') as updateDate, board_title as boardTitle\n" +
                 "    , board_content as boardContent, view_count as viewCount, user_role as userRole\n" +
                 "    , (select count(*) from content_like_log l where b.board_no = l.content_no and br_type = 'B' and like_yn = 'Y') as likeCount\n" +
                 "    , (select count(*) from reply r where b.board_no = r.board_no and delete_yn = 'N') replies\n" +
