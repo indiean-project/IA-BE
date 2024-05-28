@@ -39,5 +39,17 @@ public class ConcertReply {
     @Column(nullable = false)
     private String replyContent;
 
+    @Override
+    public String toString() {
+        return "Reply{" +
+                "replyNo=" + concertReplyNo +
+                ", userNo=" + member.getUserNo() +
+                ", concertNo=" + concert.getConcertNo() +
+                ", createDate=" + createDate +
+                ", deleteYn='" + deleteYn + '\'' +
+                ", replyContent='" + replyContent + '\'' +
+                '}';
+    }
+
 
 }

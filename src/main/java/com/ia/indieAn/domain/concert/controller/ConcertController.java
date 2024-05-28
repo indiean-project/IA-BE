@@ -9,6 +9,7 @@ import com.ia.indieAn.domain.concert.dto.ConcertDto;
 import com.ia.indieAn.domain.concert.service.ConcertService;
 
 import com.ia.indieAn.entity.concert.Concert;
+import com.ia.indieAn.entity.concert.ConcertReply;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -69,6 +70,25 @@ public class ConcertController {
         ConcertDetailDto result = concertService.concertDetail(concertNo);
         response.setData(result);
         response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+    @RequestMapping("/replyList")
+    public ResponseEntity<ResponseTemplate> concertReplyList(@RequestParam(value = "concertNo") int concertNo){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+    @RequestMapping("/addReply")
+    public ResponseEntity<ResponseTemplate> concertAddReply(@RequestBody ConcertReply concertReply){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
