@@ -32,7 +32,6 @@ public class Notice implements Serializable {
     @Column(nullable = false)
     private String noticeTitle;
 
-    @Size(max = 4000)
     @Column(nullable = false)
     @Size(max = 4000)
     private String noticeContent;
