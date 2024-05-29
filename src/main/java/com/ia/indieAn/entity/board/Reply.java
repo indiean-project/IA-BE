@@ -2,6 +2,7 @@ package com.ia.indieAn.entity.board;
 
 import com.ia.indieAn.entity.user.Member;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,6 +41,7 @@ public class Reply implements Serializable {
     private String deleteYn;
 
     @Column(nullable = false)
+    @Size(max = 4000)
     private String replyContent;
 
     @Override

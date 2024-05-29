@@ -38,6 +38,7 @@ public class Artist implements Serializable {
     @Column(nullable = false, unique = true)
     private String artistName;
 
+    @Column(nullable = false)
     private String musicCategory;
 
     @Column(nullable = false)
