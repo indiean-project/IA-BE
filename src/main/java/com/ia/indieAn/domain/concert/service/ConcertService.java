@@ -7,11 +7,13 @@ import com.ia.indieAn.common.pageDto.PageInfo;
 import com.ia.indieAn.domain.concert.dto.*;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.domain.concert.repository.ConcertLineupRepository;
+import com.ia.indieAn.domain.concert.repository.ConcertReplyRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
 import com.ia.indieAn.entity.board.ImgUrl;
 import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.concert.ConcertLineup;
+import com.ia.indieAn.entity.concert.ConcertReply;
 import com.ia.indieAn.type.enumType.FabcTypeEnum;
 import com.ia.indieAn.type.enumType.KcTypeEnum;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -36,6 +39,8 @@ public class ConcertService {
     private final ConcertRepository concertRepository;
     private final ConcertLineupRepository concertLineupRepository;
     private final ImgUrlRepository imgUrlRepository;
+    private final ConcertReplyRepository concertReplyRepository;
+
     public ListDto concertList(BoardInfoDto bInfo) {
         if (bInfo.getSort().equals("createDate")) {
             Pageable pageable = PageRequest.of(bInfo.getPage() - 1, 8);
@@ -101,5 +106,36 @@ public class ConcertService {
         }
 
         return concertDetailDto;
+    }
+
+    public List<ConcertReplyDto> cocnertReplyList(int concertNo) {
+        List<ConcertReplyDto> concertReplyDtos = null;
+        List<ConcertReply> concertReplies = concertReplyRepository.findAllByConcert_ConcertNoAndDeleteYnOrderByConcertReplyNoDesc(concertNo,"N");
+        if(concertReplies != null){
+            concertReplyDtos = concertReplies.stream().map(ConcertReplyDto::new).toList();
+        }
+
+        return concertReplyDtos;
+    }
+
+    public ConcertReply concertAddReply(ConcertReply concertReply) {
+       ConcertReply reply = concertReplyRepository.save(concertReply);
+       return reply;
+    }
+    @Transactional
+    public ConcertReply concertDeleteReply(int contentNo) {
+        ConcertReply concertReply = concertReplyRepository.findByConcertReplyNo(contentNo);
+        if(concertReply != null){
+            concertReply.setDeleteYn("Y");
+        }
+        return concertReply;
+    }
+    @Transactional
+    public ConcertReply concertUpdateReply(ConcertReply concertReply) {
+        ConcertReply result = concertReplyRepository.findByConcertReplyNo(concertReply.getConcertReplyNo());
+        if(concertReply != null){
+            result.setReplyContent(concertReply.getReplyContent());
+        }
+        return result;
     }
 }

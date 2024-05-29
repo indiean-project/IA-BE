@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.reply.service;
 
 import com.ia.indieAn.common.exception.CustomException;
+import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.domain.reply.dto.ReplyDto;
 import com.ia.indieAn.domain.reply.repository.ReplyRepository;
 import com.ia.indieAn.entity.board.Reply;
@@ -42,6 +43,14 @@ public class ReplyService {
         Reply reply = replyRepository.findByReplyNo(contentNo);
         reply.setDeleteYn("Y");
         replyRepository.save(reply);
+    }
+
+    @Transactional(rollbackFor = CustomException.class)
+    public void replyUpdate(Reply reply) {
+        Reply r = replyRepository.findByReplyNo(reply.getReplyNo());
+        r.setReplyContent(reply.getReplyContent());
+
+        replyRepository.save(r);
     }
 
 }

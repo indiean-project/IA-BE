@@ -6,6 +6,7 @@ import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.converter.ContentTypeConverter;
 import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -51,6 +52,7 @@ public class Board implements Serializable {
     private String boardTitle;
 
     @Column(nullable = false)
+    @Size(max = 4000)
     private String boardContent;
 
     @Column(columnDefinition = "char(1) default 'N'")
