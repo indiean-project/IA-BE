@@ -22,7 +22,7 @@ public class QuestionAdminService {
     QuestionAdminRepository questionAdminRepository;
 
     public ArrayList<QuestionAdminDto> selectAllQuestionList(){
-        ArrayList<Question> questionArrayList = (ArrayList<Question>) questionAdminRepository.findAll(Sort.by(Sort.Direction.ASC, "questionDate"));
+        ArrayList<Question> questionArrayList = (ArrayList<Question>) questionAdminRepository.findAll(Sort.by(Sort.Direction.ASC, "questionNo"));
         ArrayList<QuestionAdminDto> questionAdminDtoArrayList = new ArrayList<>(); // []
         for(int i=0; i<questionArrayList.size(); i++){
             questionAdminDtoArrayList.add(new QuestionAdminDto(questionArrayList.get(i)));

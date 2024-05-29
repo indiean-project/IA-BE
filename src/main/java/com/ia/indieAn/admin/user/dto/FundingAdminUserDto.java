@@ -4,10 +4,12 @@ package com.ia.indieAn.admin.user.dto;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.type.enumType.FundStatusEnum;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class FundingAdminUserDto {
 
     private int fundNo;

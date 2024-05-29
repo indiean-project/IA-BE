@@ -107,4 +107,5 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
     Page<FundListByRevenueInterface> findSoonFundList(Pageable pageable);
 
 
+
 }

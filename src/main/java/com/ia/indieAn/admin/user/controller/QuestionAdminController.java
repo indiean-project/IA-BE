@@ -27,7 +27,7 @@ public class QuestionAdminController {
     QuestionAdminService questionService;
 
     @ResponseBody
-    @RequestMapping("/questions")
+    @RequestMapping("/question/list")
     public ResponseEntity<ResponseTemplate> questionList(){
 
         HttpHeaders headers = new HttpHeaders();

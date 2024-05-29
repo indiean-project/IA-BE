@@ -11,9 +11,13 @@ public class QuestionAdminDto {
 
     private int questionNo;
     private int userNo;
+    private String userId;
+    private String userName;
     private String questionContent;
     private String ansYn;
     private Date questionDate;
+    private Date answerDate;
+    private String ansContent;
 
 
     public QuestionAdminDto(Question question) {
@@ -22,5 +26,11 @@ public class QuestionAdminDto {
         this.questionContent = question.getQuestionContent();
         this.ansYn = question.getAnsYn();
         this.questionDate = question.getQuestionDate();
+        this.answerDate = question.getAnsDate();
+        this.userId = question.getMember().getUserId();
+        this.userName = question.getMember().getUserName();
+        this.questionNo = question.getQuestionNo();
+        this.ansContent = question.getAnsContent();
+
     }
 }

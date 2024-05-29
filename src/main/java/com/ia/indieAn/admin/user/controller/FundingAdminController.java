@@ -1,12 +1,14 @@
 package com.ia.indieAn.admin.user.controller;
 
 
+import com.ia.indieAn.admin.user.dto.FundingAdminSearchDto;
 import com.ia.indieAn.admin.user.dto.FundingAdminSearchOptionDto;
 import com.ia.indieAn.admin.user.dto.FundingAdminUserDto;
 import com.ia.indieAn.admin.user.service.FundingAdminService;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.type.enumType.FundStatusEnum;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
@@ -44,63 +46,41 @@ public class FundingAdminController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
 
     }
-//    @ResponseBody
-//    @RequestMapping("/fund/updateStatus")
-//    public ResponseEntity<ResponseTemplate> fundUpdateStatus(String status){
-//        log.info("fundUpdateStatus ~~~~~~~~~~{}" , "테스트");
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//        ResponseTemplate response = new ResponseTemplate();
-//
-//        ArrayList<FundingAdminUserDto> result = fundingService.selectFundListByFundStatus(status);
-//        response.setStatus(StatusEnum.SUCCESS);
-//        response.setData(result);
-//
-//        return new ResponseEntity<>(response, headers, HttpStatus.OK);
-//    }
-//    @ResponseBody
-//    @RequestMapping("/fund/type/{type}")
-//    public ResponseEntity<ResponseTemplate> fund(@PathVariable FundTypeEnum type){
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//        ResponseTemplate response = new ResponseTemplate();
-//
-//        ArrayList<FundingAdminUserDto> result = fundingService.selectFundListByFundType(type);
-//        response.setStatus(StatusEnum.SUCCESS);
-//        response.setData(result);
-//
-//        return new ResponseEntity<>(response, headers, HttpStatus.OK);
-//    }
-//    @ResponseBody
-//    @RequestMapping ("/fund/status/{status}")
-//    public ResponseEntity<ResponseTemplate> fundStatus(@PathVariable String status){
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//        ResponseTemplate response = new ResponseTemplate();
-//
-//        ArrayList<FundingAdminUserDto> result = fundingService.selectFundListByFundStatus(status);
-//        response.setStatus(StatusEnum.SUCCESS);
-//        response.setData(result);
-//
-//        return new ResponseEntity<>(response, headers, HttpStatus.OK);
-//
-//
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping("/fund/title/{title}")
-//    public ResponseEntity<ResponseTemplate> fundSearch(@PathVariable String title ){
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//        ResponseTemplate response = new ResponseTemplate();
-//
-//        ArrayList<FundingAdminUserDto> result = fundingService.selectFundListByFundTitle(title);
-//        response.setStatus(StatusEnum.SUCCESS);
-//        response.setData(result);
-//
-//        return new ResponseEntity<>(response, headers, HttpStatus.OK);
-//
-//    }
+    @ResponseBody
+    @RequestMapping("/fund/updateStatus")
+    public ResponseEntity<ResponseTemplate> fundUpdateStatus(@RequestBody FundingAdminUserDto fundingAdminUserDto){
+        log.info("fundUpdateStatus ~~~~~~~~~~{}" , "테스트");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        FundStatusEnum fundStatus = fundingAdminUserDto.getFundStatus();
+        int fundNo = fundingAdminUserDto.getFundNo();
+
+        fundingService.updateFundStatus(String.valueOf(fundStatus), fundNo);
+
+
+        response.setStatus(StatusEnum.SUCCESS);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping("/fund/searchList")
+    public ResponseEntity<ResponseTemplate> fundSearchList(@RequestBody FundingAdminSearchDto fundingAdminSearchDto){
+        log.info("fundSearchList ~~~~~~{}" , "테스트");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+
+        ArrayList<FundingAdminUserDto> result = fundingService.searchList(fundingAdminSearchDto);
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(result);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+
 
 
 }
