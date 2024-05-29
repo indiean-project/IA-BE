@@ -19,6 +19,8 @@ public interface UserRepository extends JpaRepository<Member, Integer> {
     boolean existsByPhone(String phone);
     boolean existsByPhoneAndUserNoNot(String phone, int userNo);
     Member findByNickname(String nickname);
+    Optional<Member> findByPhone(String phone);
+
 
     @Query(value=
             "select board_no as boardNo, board_title as boardTitle\n" +

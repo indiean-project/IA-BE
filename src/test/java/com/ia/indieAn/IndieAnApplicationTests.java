@@ -71,7 +71,5 @@ class IndieAnApplicationTests {
 	@Test
 	void contextLoads() throws Exception{
 
-}
-
 	}
 }
