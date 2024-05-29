@@ -2,10 +2,9 @@ package com.ia.indieAn.entity.board;
 
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.converter.BrTypeConverter;
-import com.ia.indieAn.type.enumType.BrTypeEnum;
+import com.ia.indieAn.type.enumType.BrcTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
@@ -39,7 +38,7 @@ public class ContentLikeLog implements Serializable {
 
     @Convert(converter = BrTypeConverter.class)
     @Column(nullable = false)
-    private BrTypeEnum brType; //게시글(B)인지 댓글(R)인지 구분
+    private BrcTypeEnum brType; //게시글(B)인지 댓글(R)인지 구분
 
     @Override
     public String toString() {

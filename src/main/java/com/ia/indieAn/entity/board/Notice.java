@@ -34,6 +34,7 @@ public class Notice implements Serializable {
 
     @Size(max = 4000)
     @Column(nullable = false)
+    @Size(max = 4000)
     private String noticeContent;
 
     @CreationTimestamp

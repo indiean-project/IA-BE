@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.board.dto;
 
 import com.ia.indieAn.entity.board.Board;
+import com.ia.indieAn.type.enumType.ContentTypeEnum;
 import lombok.*;
 
 @Setter
@@ -21,6 +22,7 @@ public class BoardDto {
     private int likeCount;
     private int replies;
     private String imgUrl;
+    private int contentTypeNo;
 
     public BoardDto(Board board) {
         this.boardNo = board.getBoardNo();
@@ -35,6 +37,7 @@ public class BoardDto {
         this.likeCount = getLikeCount();
         this.replies = board.getReplies().size();
         this.imgUrl = getImgUrl();
+        this.contentTypeNo = Integer.parseInt(board.getContentTypeNo().getCode());
     }
 
     @Override
@@ -49,7 +52,8 @@ public class BoardDto {
                 + "userRole = " + userRole
                 + "viewCount = " + viewCount
                 + "replies = " + replies
-                + "imgUrl = " + imgUrl;
+                + "imgUrl = " + imgUrl
+                + "contentTypeNo = " + contentTypeNo;
     }
 
     public static BoardDto convertBoardDto(BoardProjection bp) {
