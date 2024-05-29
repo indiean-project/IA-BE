@@ -133,15 +133,20 @@ public class UserService {
         mem.setUserFavoriteMusic(result.getUserFavoriteMusic());
     }
 
-    public List<BoardDto> userBoardHistory(int userNo) {
+    public List<UserBoardDto> userBoardHistory(int userNo) {
         List<UserBoardProjection> boardProjections = userRepository.findUserBoardsByMemberUserNo(userNo);
 
-        List<UserBoardDto> userBoardHistory = boardProjections.stream()
-                .map(UserBoardDto::fromProjection)
+        return boardProjections.stream()
+                .map(UserBoardDto::userBoardHistory)
                 .collect(Collectors.toList());
 
-        return userBoardHistory.stream()
-                .map(UserBoardDto::toBoardDto)
+    }
+
+    public List<UserReplyDto> userReplyHistory(int userNo) {
+        List<UserReplyProjection> replyProjection = userRepository.findUserRepliesByMemberUserNo(userNo);
+
+        return replyProjection.stream()
+                .map(UserReplyDto::userReplyHistory)
                 .collect(Collectors.toList());
     }
 
@@ -156,6 +161,22 @@ public class UserService {
         List<UserRewardOrderProjection> rewardOrderProjections = userRepository.findUserRewardOrderByUserNoAndFundNo(userNo, fundNo);
         return rewardOrderProjections.stream()
                 .map(UserRewardOrderDto::rewardOrderHistory)
+                .collect(Collectors.toList());
+    }
+
+    public List<QuestionSelectDto> userQuestionHistory(int userNo) {
+        List<QuestionSelectProjection> qsProjection = userRepository.findUserQuestionByUserNo(userNo);
+
+        return qsProjection.stream()
+                .map(QuestionSelectDto::questionHistory)
+                .collect(Collectors.toList());
+    }
+
+    public List<ReportSelectDto> userReportHistory(int userNo) {
+        List<ReportSelectProjection> crlProjection = userRepository.findUserReportByUserNo(userNo);
+
+        return crlProjection.stream()
+                .map(ReportSelectDto::reportHistory)
                 .collect(Collectors.toList());
     }
 
@@ -183,19 +204,4 @@ public class UserService {
 
         questionRepository.save(q);
     }
-
-    public QuestionSelectDto userQuestionHistory(Question question) {
-        Question q = questionRepository.findByUserNo(question.getMember().getUserNo())
-                .orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        return new QuestionSelectDto(q);
-    }
-
-    public ReportSelectDto userReportHistory(ContentReportLog crl) {
-        ContentReportLog crlLog = userReportRepository.findByUserNo(crl.getMember().getUserNo())
-                .orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        return new ReportSelectDto(crlLog);
-    }
-
 }

@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface UserReportRepository extends JpaRepository<ContentReportLog, Integer> {
-    Optional<ContentReportLog> findByUserNo(@Param(value="userNo") int userNo);
+
+
+    Optional<ContentReportLog> findByMember_UserNo(int userNo);
 }
 

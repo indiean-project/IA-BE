@@ -8,5 +8,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
-    Optional<Question> findByUserNo(@Param(value="userNo") int userNo);
+    Optional<Question> findByMember_UserNo(int userNo);
 }

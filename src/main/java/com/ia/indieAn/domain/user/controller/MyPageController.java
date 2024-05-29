@@ -89,7 +89,7 @@ public class MyPageController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        List<BoardDto> blist = userService.userBoardHistory(userNo);
+        List<UserBoardDto> blist = userService.userBoardHistory(userNo);
 
         if(blist != null) {
             response.setStatus(StatusEnum.SUCCESS);
@@ -100,6 +100,25 @@ public class MyPageController {
             return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @ResponseBody
+    @RequestMapping("/myPage/reply")
+    public ResponseEntity<ResponseTemplate> userReplyHistory(@RequestParam(name="userNo") int userNo) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        List<UserReplyDto> rlist = userService.userReplyHistory(userNo);
+
+        if(rlist != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(rlist);
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ResponseBody
@@ -145,13 +164,12 @@ public class MyPageController {
 
     @ResponseBody
     @RequestMapping("/myPage/question")
-    public ResponseEntity<ResponseTemplate> userQuestionHistory(@RequestBody Question question) {
-        System.out.println(question);
+    public ResponseEntity<ResponseTemplate> userQuestionHistory(@RequestParam(name="userNo") int userNo) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        QuestionSelectDto qlist = userService.userQuestionHistory(question);
+        List<QuestionSelectDto> qlist = userService.userQuestionHistory(userNo);
 
         if (qlist != null) {
             response.setStatus(StatusEnum.SUCCESS);
@@ -165,14 +183,13 @@ public class MyPageController {
 
     @ResponseBody
     @RequestMapping("/myPage/report")
-    public ResponseEntity<ResponseTemplate> userReportHistory(@RequestBody ContentReportLog crl){
-        System.out.println(crl);
+    public ResponseEntity<ResponseTemplate> userReportHistory(@RequestParam(name="userNo") int userNo){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        ReportSelectDto reportList = userService.userReportHistory(crl);
-
+        List<ReportSelectDto> reportList = userService.userReportHistory(userNo);
+        log.info("신고 {}", reportList);
         if(reportList != null) {
             response.setStatus(StatusEnum.SUCCESS);
             response.setData(reportList);
