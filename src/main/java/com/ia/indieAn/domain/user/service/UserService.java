@@ -3,11 +3,14 @@ package com.ia.indieAn.domain.user.service;
 import com.ia.indieAn.config.email.EmailService;
 import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.user.dto.*;
-import com.ia.indieAn.entity.board.Board;
+import com.ia.indieAn.domain.user.repository.QuestionRepository;
+import com.ia.indieAn.domain.user.repository.UserReportRepository;
+import com.ia.indieAn.entity.board.ContentReportLog;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
+import com.ia.indieAn.entity.user.Question;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,12 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    QuestionRepository questionRepository;
+
+    @Autowired
+    UserReportRepository userReportRepository;
 
     private final EmailService emailService;
 
@@ -124,15 +133,20 @@ public class UserService {
         mem.setUserFavoriteMusic(result.getUserFavoriteMusic());
     }
 
-    public List<BoardDto> userBoardHistory(int userNo) {
+    public List<UserBoardDto> userBoardHistory(int userNo) {
         List<UserBoardProjection> boardProjections = userRepository.findUserBoardsByMemberUserNo(userNo);
 
-        List<UserBoardDto> userBoardHistory = boardProjections.stream()
-                .map(UserBoardDto::fromProjection)
+        return boardProjections.stream()
+                .map(UserBoardDto::userBoardHistory)
                 .collect(Collectors.toList());
 
-        return userBoardHistory.stream()
-                .map(UserBoardDto::toBoardDto)
+    }
+
+    public List<UserReplyDto> userReplyHistory(int userNo) {
+        List<UserReplyProjection> replyProjection = userRepository.findUserRepliesByMemberUserNo(userNo);
+
+        return replyProjection.stream()
+                .map(UserReplyDto::userReplyHistory)
                 .collect(Collectors.toList());
     }
 
@@ -148,5 +162,46 @@ public class UserService {
         return rewardOrderProjections.stream()
                 .map(UserRewardOrderDto::rewardOrderHistory)
                 .collect(Collectors.toList());
+    }
+
+    public List<QuestionSelectDto> userQuestionHistory(int userNo) {
+        List<QuestionSelectProjection> qsProjection = userRepository.findUserQuestionByUserNo(userNo);
+
+        return qsProjection.stream()
+                .map(QuestionSelectDto::questionHistory)
+                .collect(Collectors.toList());
+    }
+
+    public List<ReportSelectDto> userReportHistory(int userNo) {
+        List<ReportSelectProjection> crlProjection = userRepository.findUserReportByUserNo(userNo);
+
+        return crlProjection.stream()
+                .map(ReportSelectDto::reportHistory)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(rollbackFor = CustomException.class)
+    public void enrollQuestion(QuestionEnrollDto qe) {
+        log.info("Received question: {}", qe);
+        log.info("Received member userNo: {}", qe.getUserNo() != 0 ? qe.getUserNo() : "null");
+
+        if (qe.getUserNo() == 0 ) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+        Member member = userRepository.findByUserNo(qe.getUserNo());
+        if (member == null) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+        log.info("enter {}", member);
+
+        if(qe.getQuestionContent() == null || qe.getQuestionContent().isEmpty()) {
+            throw new CustomException(ErrorCode.QUESTION_NULL);
+        }
+        log.info("enter {}", qe);
+        Question q = new Question();
+        q.setMember(member);
+        q.setQuestionContent(qe.getQuestionContent());
+
+        questionRepository.save(q);
     }
 }

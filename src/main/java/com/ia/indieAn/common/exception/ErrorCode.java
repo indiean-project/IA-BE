@@ -24,9 +24,10 @@ public enum ErrorCode {
 
     // 게시글 관련
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "board-001", "존재하는 게시글이 없습니다."),
+
+    QUESTION_NULL(HttpStatus.BAD_REQUEST, "question-001", "문의 내용이 없습니다.");
+
     COLO_BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "board-002", "잘못된 접근입니다.");
-
-
 
 
     private final HttpStatus httpStatus;
