@@ -58,12 +58,13 @@ public class ConcertController {
         Date firstDate = Date.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
         Date LastDate = Date.valueOf(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
 
-        List<ConcertDto> result = concertService.calendarList(firstDate,LastDate);
+        List<ConcertDto> result = concertService.calendarList(firstDate, LastDate);
 
         response.setData(result);
         response.setStatus(StatusEnum.SUCCESS);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
     @RequestMapping("/detail")
     public ResponseEntity<ResponseTemplate> concertDetail(@RequestParam(value = "concertNo") int concertNo) {
         HttpHeaders headers = new HttpHeaders();
@@ -75,17 +76,18 @@ public class ConcertController {
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
     @RequestMapping("/replyList")
-    public ResponseEntity<ResponseTemplate> concertReplyList(@RequestParam(value = "concertNo") int concertNo){
+    public ResponseEntity<ResponseTemplate> concertReplyList(@RequestParam(value = "concertNo") int concertNo) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
         List<ConcertReplyDto> result = concertService.cocnertReplyList(concertNo);
 
-        if(result !=null){
+        if (result != null) {
             response.setData(result);
             response.setStatus(StatusEnum.SUCCESS);
-        }else{
+        } else {
             response.setData(result);
             response.setStatus(StatusEnum.FAIL);
         }
@@ -93,29 +95,45 @@ public class ConcertController {
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
     @RequestMapping("/addReply")
-    public ResponseEntity<ResponseTemplate> concertAddReply(@RequestBody ConcertReply concertReply){
+    public ResponseEntity<ResponseTemplate> concertAddReply(@RequestBody ConcertReply concertReply) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
         ConcertReply result = concertService.concertAddReply(concertReply);
-        if(result !=null){
+        if (result != null) {
             response.setStatus(StatusEnum.SUCCESS);
-        }else {
+        } else {
             response.setStatus(StatusEnum.FAIL);
         }
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
     @RequestMapping("/deleteReply")
-    public ResponseEntity<ResponseTemplate> concertDeleteReply(@RequestBody int contentNo){
+    public ResponseEntity<ResponseTemplate> concertDeleteReply(@RequestBody int contentNo) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        log.info("contentNo={}",contentNo );
+        log.info("contentNo={}", contentNo);
         ConcertReply result = concertService.concertDeleteReply(contentNo);
-        if(result !=null){
+        if (result != null) {
             response.setStatus(StatusEnum.SUCCESS);
-        }else {
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+        }
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping("/updateReply")
+    public ResponseEntity<ResponseTemplate> concertUpdateReply(@RequestBody ConcertReply concertReply) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+        ConcertReply result = concertService.concertUpdateReply(concertReply);
+        if (result != null) {
+            response.setStatus(StatusEnum.SUCCESS);
+        } else {
             response.setStatus(StatusEnum.FAIL);
         }
         return new ResponseEntity<>(response, headers, HttpStatus.OK);

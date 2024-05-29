@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -121,12 +122,20 @@ public class ConcertService {
        ConcertReply reply = concertReplyRepository.save(concertReply);
        return reply;
     }
-
+    @Transactional
     public ConcertReply concertDeleteReply(int contentNo) {
         ConcertReply concertReply = concertReplyRepository.findByConcertReplyNo(contentNo);
         if(concertReply != null){
             concertReply.setDeleteYn("Y");
         }
         return concertReply;
+    }
+    @Transactional
+    public ConcertReply concertUpdateReply(ConcertReply concertReply) {
+        ConcertReply result = concertReplyRepository.findByConcertReplyNo(concertReply.getConcertReplyNo());
+        if(concertReply != null){
+            result.setReplyContent(concertReply.getReplyContent());
+        }
+        return result;
     }
 }
