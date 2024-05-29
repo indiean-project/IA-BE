@@ -61,6 +61,8 @@ public class ArtistController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json",Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
+        String changeUrl = artistEnrollDto.getArtistInfo().replace("<img src=\"/public/tempImg", "<img src=\"/public/img");
+        artistEnrollDto.setArtistInfo(changeUrl);
         Artist artist = artistService.artistEnroll(artistEnrollDto);
 
         if(artist != null){
