@@ -44,7 +44,7 @@ public class Question implements Serializable {
     public String toString() {
         return "Question{" +
                 "questionNo=" + questionNo +
-                ", userNo=" + member.getUserNo() +
+                ", userNo=" + (member != null ? member.getUserNo() : "null") +
                 ", ansYn='" + ansYn + '\'' +
                 ", questionDate=" + questionDate +
                 ", ansDate=" + ansDate +

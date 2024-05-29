@@ -38,6 +38,17 @@ public interface UserRepository extends JpaRepository<Member, Integer> {
     List<UserBoardProjection> findUserBoardsByMemberUserNo(@Param(value="userNo") int userNo);
 
     @Query(value=
+        "select r.reply_no as replyNo, r.board_no as boardNo," +
+                "    b.content_type_no as contentTypeNo, r.reply_content as replyContent, " +
+                "    to_char(r.create_date,'YYYY-MM-DD') as createDate\n" +
+                "    from reply r join board b on (r.board_no = b.board_no)\n" +
+                "    where r.user_no = :userNo\n" +
+                "    order by createDate desc",
+            nativeQuery = true
+    )
+    List<UserReplyProjection> findUserRepliesByMemberUserNo(@Param(value="userNo") int userNo);
+
+    @Query(value=
             "select f.fund_no as fundNo, fund_title as fundTitle, total_price as totalPrice\n" +
                     ", to_char(order_date, 'YYYY-MM-DD') as orderDate\n" +
                     ", to_char(ol.payment_date, 'YYYY-MM-DD') as paymentDate\n" +
@@ -56,4 +67,26 @@ public interface UserRepository extends JpaRepository<Member, Integer> {
     )
     List<UserRewardOrderProjection> findUserRewardOrderByUserNoAndFundNo(@Param(value="userNo") int userNo,
                                                                          @Param(value="fundNo") int fundNo);
+
+    @Query(value=
+        "select question_no as questionNo, question_content as questionContent,\n" +
+                " ans_yn as ansYn, ans_content as ansContent,\n" +
+                " to_char(question_date, 'YYYY-MM-DD') as questionDate, \n" +
+                " to_char(ans_date, 'YYYY-MM-DD') as ansDate\n" +
+                "    from question\n" +
+                "    where user_no = :userNo",
+            nativeQuery = true
+    )
+    List<QuestionSelectProjection> findUserQuestionByUserNo(@Param(value="userNo") int userNo);
+
+    @Query(value=
+        "select report_no as reportNo, nickname as nickname, \n" +
+            " report_type_no reportTypeNo, solve_yn as solveYn, \n" +
+            " to_char(report_date, 'YYYY-MM-DD') as reportDate \n" +
+            "   from content_report_log crl\n" +
+            "       join member using (user_no) \n" +
+            "       where user_no = :userNo",
+            nativeQuery = true
+    )
+    List<ReportSelectProjection> findUserReportByUserNo(@Param(value="userNo") int userNo);
 }

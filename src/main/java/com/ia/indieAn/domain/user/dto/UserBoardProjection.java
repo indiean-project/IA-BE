@@ -9,4 +9,5 @@ public interface UserBoardProjection {
     String getUpdateDate();
     Integer getViewCount();
     Integer getLikeCount();
+    Integer getContentTypeNo();
 }
