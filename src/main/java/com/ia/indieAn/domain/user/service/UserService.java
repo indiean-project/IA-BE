@@ -1,11 +1,8 @@
 package com.ia.indieAn.domain.user.service;
 
 import com.ia.indieAn.config.email.EmailService;
-import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.user.dto.*;
 import com.ia.indieAn.domain.user.repository.QuestionRepository;
-import com.ia.indieAn.domain.user.repository.UserReportRepository;
-import com.ia.indieAn.entity.board.ContentReportLog;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.common.exception.CustomException;
@@ -32,9 +29,6 @@ public class UserService {
     @Autowired
     QuestionRepository questionRepository;
 
-    @Autowired
-    UserReportRepository userReportRepository;
-
     private final EmailService emailService;
 
     public LoginUserDto loginUser(Member member) {
@@ -43,7 +37,6 @@ public class UserService {
                 .orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (!result.getSocialStatus().equals("N") && result.getUserPwd() == null) {
-            // getUserPwd가 null인 경우는 socialStatus != "N"인 경우뿐이므로 빠른 return 가능
             return new LoginUserDto(result);
         }
 
@@ -55,11 +48,28 @@ public class UserService {
         return new LoginUserDto(result);
     }
 
+    public FindUserIdDto checkPhone(Member member) {
+        Member findUserId = userRepository.findByPhone(member.getPhone())
+                .orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return new FindUserIdDto(findUserId);
+    }
+
+    public boolean findPassword(String userId, String updatePwd) {
+        Optional<Member> user = userRepository.findByUserId(userId);
+        if (user.isPresent()) {
+            Member existingUser = user.get();
+            existingUser.setUserPwd(updatePwd);
+            userRepository.save(existingUser);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     @Transactional(rollbackFor = CustomException.class)
     public void signUpUser(Member member){
-        // null 값에 대한 검증은 controller에서 (HasID, NICKNAME)
-        // 이미 객체쪽에서 유효성 검사를 하기에, 전화번호 외에는 별도로 하지 않는다.
-        // 랜덤 닉네임 개체를 저장하는게 필요하다. -> 여기서 조회도 필요하긴 하다. 랜덤이긴 하겠지만은.
         log.info("enter {}", member);
         if (!member.getSocialStatus().equals("N")) { // socialLogin checking
             member.setUserPwd("");

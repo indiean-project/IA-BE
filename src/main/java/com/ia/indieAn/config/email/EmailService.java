@@ -1,5 +1,6 @@
 package com.ia.indieAn.config.email;
 
+import com.ia.indieAn.domain.user.repository.UserRepository;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -23,29 +24,48 @@ public class EmailService {
     @Autowired
     JavaMailSender emailSender;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Value("${spring.mail.username}")
     private String sender;
 
     private String sendNum;
 
     // 메일 내용
-    public MimeMessage sendMessage(String userId) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage sendMessage(String userId, boolean isRegistration) throws MessagingException, UnsupportedEncodingException {
         log.info("보내는 사람 : {} ", sender);
         log.info("받는 사람 : {}", userId);
         log.info("인증 번호 : {}", sendNum);
 
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(Message.RecipientType.TO, userId);
-        message.setSubject("INDIE:AN 회원 가입 이메일 인증");
 
-        String msg = "<h2>INDIE:AN 이메일 인증 번호 입니다.</h2><br>";
-        msg += "<div style='border:1px solid black; font-size:120%'>"+sendNum+"</div>";
-        msg += "<br>감사합니다.";
-        message.setText(msg, "UTF-8", "html");
-        message.setFrom(sender);
+        if (isRegistration) {
+            message.setSubject("INDIE:AN 회원 가입 이메일 인증");
+
+            String msg = "<h2>INDIE:AN 이메일 인증 번호 입니다.</h2><br>";
+            msg += "<div style='border:1px solid black; font-size:120%'>"+sendNum+"</div>";
+            msg += "<br>감사합니다.";
+            message.setText(msg, "UTF-8", "html");
+            message.setFrom(sender);
+        } else {
+            message.setSubject("INDIE:AN 비밀번호 변경 확인 이메일 인증");
+
+            String msg = "<h2>INDIE:AN 비밀번호 변경 확인 인증 번호 입니다.</h2><br>";
+            msg += "<div style='border:1px solid black; font-size:120%'>"+sendNum+"</div>";
+            msg += "<br>감사합니다.";
+            message.setText(msg, "UTF-8", "html");
+            message.setFrom(sender);
+        }
 
         return message;
     }
+
+    public boolean isUserIdExists(String userId) {
+        return userRepository.existsByUserId(userId);
+    }
+
 
     // 랜덤 인증 코드 작성
     public String createKey() {
@@ -70,7 +90,7 @@ public class EmailService {
     public String sendVerifyMessage(String userId) throws MessagingException, UnsupportedEncodingException {
         sendNum = createKey();  // 랜덤 인증번호 생성
 
-        MimeMessage message = sendMessage(userId);
+        MimeMessage message = sendMessage(userId, true);
         try {
             emailSender.send(message);
         } catch (MailException e) {
@@ -79,4 +99,18 @@ public class EmailService {
         }
         return sendNum;
     }
+
+    public String sendMessageForFindPwd(String userId) throws MessagingException, UnsupportedEncodingException {
+        sendNum = createKey();  // 랜덤 인증번호 생성
+
+        MimeMessage message = sendMessage(userId, false);
+        try {
+            emailSender.send(message);
+        } catch (MailException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+        return sendNum;
+    }
+
 }
