@@ -9,6 +9,7 @@ import com.ia.indieAn.domain.artist.service.ArtistService;
 import com.ia.indieAn.entity.artist.Artist;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

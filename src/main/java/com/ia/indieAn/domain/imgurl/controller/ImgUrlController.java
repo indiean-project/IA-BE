@@ -34,6 +34,8 @@ public class ImgUrlController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
+        System.out.println(imgUrlDto);
+
         for(int i = 0; i < imgUrlDto.getImgUrlList().length; i++) {
             ImgUrl imgUrl = new ImgUrl();
             imgUrl.setImgUrl(imgUrlDto.getImgUrlList()[i]);

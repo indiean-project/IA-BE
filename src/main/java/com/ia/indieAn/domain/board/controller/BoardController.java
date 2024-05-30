@@ -8,6 +8,7 @@ import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.board.ContentLikeLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,13 +30,19 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @Value("${oldUrl}")
+    private String oldUrl;
+
+    @Value("${newUrl}")
+    private String newUrl;
+
     @RequestMapping("/enroll")
     public ResponseEntity<ResponseTemplate> freeBoardEnroll(@RequestBody Board board) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        String changeUrl = board.getBoardContent().replace("<img src=\"/public/tempImg", "<img src=\"/public/img");
+        String changeUrl = board.getBoardContent().replace(oldUrl, newUrl);
         board.setBoardContent(changeUrl);
         Board b = boardService.boardEnroll(board);
 
