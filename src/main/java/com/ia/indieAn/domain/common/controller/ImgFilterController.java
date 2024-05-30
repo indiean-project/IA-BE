@@ -33,12 +33,6 @@ public class ImgFilterController {
 
     private final AmazonS3 amazonS3;
 
-    @Value("${savePath}")
-    private String savePath;
-
-    @Value("${newPath}")
-    private String newPath;
-
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -55,15 +49,14 @@ public class ImgFilterController {
         String chgName = currTime + randNum + ext;
 
         //aws s3 저장 로직
-
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(image.getSize());
         metadata.setContentType(image.getContentType());
 
-        amazonS3.putObject(bucket, chgName, image.getInputStream(), metadata);
+        amazonS3.putObject(bucket, "tempImg/"+chgName, image.getInputStream(), metadata);
 
         response.setStatus(StatusEnum.SUCCESS);
-        response.setData(amazonS3.getUrl(bucket, chgName).toString());
+        response.setData(amazonS3.getUrl(bucket, "tempImg/"+chgName));
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
@@ -80,7 +73,6 @@ public class ImgFilterController {
         }
 
         response.setStatus(StatusEnum.SUCCESS);
-
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
@@ -89,15 +81,15 @@ public class ImgFilterController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
+        int sliceName = "https://indiebucket.s3.ap-northeast-2.amazonaws.com".length() + 1;
+        int sliceName2 = "https://indiebucket.s3.ap-northeast-2.amazonaws.com/tempImg".length() + 1;
 
         ArrayList list = new ArrayList();
 
         for (int i = 0; i < imgList.length; i++) {
-            Files.move(Paths.get(savePath + imgList[i])
-                    , Paths.get(newPath + imgList[i])
-                    , StandardCopyOption.ATOMIC_MOVE);
-
-            list.add(newPath + imgList[i]);
+            amazonS3.copyObject(bucket, imgList[i].substring(sliceName), bucket, "img/"+imgList[i].substring(sliceName2));
+            amazonS3.deleteObject(bucket, imgList[i].substring(sliceName));
+            list.add(amazonS3.getUrl(bucket, "img/"+imgList[i].substring(sliceName2)));
         }
 
         response.setStatus(StatusEnum.SUCCESS);

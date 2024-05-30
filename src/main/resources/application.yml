@@ -56,4 +56,7 @@ newPath: C:\\final_project\\IA-FE\\public\\img\\
 savePath: C:\\final_project\\IA-FE\\public\\tempImg\\
 userPath: C:\\final_project\\IA-FE\\public\\img\\user\\
 
+oldUrl: https://indiebucket.s3.ap-northeast-2.amazonaws.com/tempImg
+newUrl: https://indiebucket.s3.ap-northeast-2.amazonaws.com/img
+
 

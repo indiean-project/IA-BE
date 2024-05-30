@@ -39,6 +39,12 @@ public class FundController {
     @Value("${bootPay.private-key}")
     private String private_key;
 
+    @Value("${oldUrl}")
+    private String oldUrl;
+
+    @Value("${newUrl}")
+    private String newUrl;
+
     @RequestMapping("/allList")
     public ResponseEntity<ResponseTemplate> selectAllFund(@RequestBody FundSearchDto fundSearchDto){
         HttpHeaders headers = new HttpHeaders();
@@ -134,8 +140,8 @@ public class FundController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        fundEnrollDto.setFundInfo(fundEnrollDto.getFundInfo().replace("<img src=\"/public/tempImg", "<img src=\"/public/img"));
-        fundEnrollDto.setArtistInfo(fundEnrollDto.getArtistInfo().replace("<img src=\"/public/tempImg", "<img src=\"/public/img"));
+        fundEnrollDto.setFundInfo(fundEnrollDto.getFundInfo().replace(oldUrl, newUrl));
+        fundEnrollDto.setArtistInfo(fundEnrollDto.getArtistInfo().replace(oldUrl, newUrl));
 
         int fundNo = fundService.enrollFund(fundEnrollDto);
         response.setStatus(StatusEnum.SUCCESS);
