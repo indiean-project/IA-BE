@@ -16,7 +16,7 @@ spring:
       max-request-size: 10MB
 
   profiles:
-    include: oracle, oauth, email # include application-oracle.yml (오라클 접속정보 숨김)
+    include: oracle, oauth, email, s3 # include application-oracle.yml (오라클 접속정보 숨김)
     # include oauth, email 를 통해 application-oauth & email 정보를 숨긴다
 
   data:
