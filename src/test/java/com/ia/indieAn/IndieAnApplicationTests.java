@@ -244,7 +244,11 @@ class IndieAnApplicationTests {
 			reportLog.setSolveYn("N");
 			reportLog.setReportDate(Date.valueOf("2024-05-"+(i+1)));
 			reportLog.setContentNo(i);
-			reportLog.setBrType(BrTypeEnum.BOARD);
+			if(i<10) {
+				reportLog.setBrType(BrTypeEnum.BOARD);
+			}else{
+				reportLog.setBrType(BrTypeEnum.REPLY);
+			}
 
 			reportAdminRepository.save(reportLog);
 
