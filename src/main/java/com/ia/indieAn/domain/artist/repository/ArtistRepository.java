@@ -21,7 +21,7 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
            "from artist\n" +
            "left join (select img_url,content_no\n" +
            "from img_url\n" +
-           "where fabc_type = 'A' and kc_type = 'K') on (content_no=artist_no)\n" +
+           "where fabc_type = 'A' and kc_type = 'K') A on (content_no=artist_no)\n" +
            "where artist_name like '%'|| :name ||'%'\n" +
            "and artist.artist_status ='Y'\n";
 
@@ -52,7 +52,7 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
            value = "select artist_no as artistNo, artist_name as artistName, img_url as imgUrl\n" +
                    "from artist\n" +
                    "left join img_url on (artist_no = content_no)\n" +
-                   "order by dbms_random.value()",
+                   "order by random()",
            countQuery = "select count(*) from artist",
            nativeQuery = true
    )
