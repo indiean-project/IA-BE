@@ -16,7 +16,7 @@ spring:
       max-request-size: 10MB
 
   profiles:
-    include: oracle, oauth, email # include application-oracle.yml (오라클 접속정보 숨김)
+    include: oracle, oauth, email, s3 # include application-oracle.yml (오라클 접속정보 숨김)
     # include oauth, email 를 통해 application-oauth & email 정보를 숨긴다
 
   data:
@@ -52,7 +52,9 @@ spring:
   profiles:
     include: key
 
-newPath: C:\\final_project\\IA-FE\\public\\img\\
-savePath: C:\\final_project\\IA-FE\\public\\tempImg\\
-userPath: C:\\final_project\\IA-FE\\public\\img\\user\\
+
+
+oldUrl: https://indiebucket.s3.ap-northeast-2.amazonaws.com/tempImg
+newUrl: https://indiebucket.s3.ap-northeast-2.amazonaws.com/img
+
 

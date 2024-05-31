@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface NoticeRepository extends JpaRepository<Notice, Integer> {
     @Query(value =
@@ -21,10 +22,10 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer> {
                     "    from notice n\n" +
                     "    join member using (user_no)\n" +
                     "    where n.delete_yn = 'N'\n" +
-                    "    and notice_title like '%' || '' || '%'",
+                    "    and notice_title like '%' || :title || '%'",
             nativeQuery = true
     )
-    Page<NoticeProjection> findAll(Pageable pageable, String title);
+    Page<NoticeProjection> findAll(Pageable pageable, @Param("title")String title);
 
     Notice findByNoticeNoAndDeleteYn(int noticeNo, String deleteYn);
 }

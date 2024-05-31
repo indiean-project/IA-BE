@@ -1,7 +1,12 @@
 package com.ia.indieAn.domain.common.controller;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,13 +28,13 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/imgfilter")
 @CrossOrigin
+@RequiredArgsConstructor
 public class ImgFilterController {
 
-    @Value("${savePath}")
-    private String savePath;
+    private final AmazonS3 amazonS3;
 
-    @Value("${newPath}")
-    private String newPath;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @RequestMapping("/tempImg")
     public ResponseEntity<ResponseTemplate> tempImg(@RequestParam(value="image") MultipartFile image) throws IOException {
@@ -38,17 +43,20 @@ public class ImgFilterController {
         ResponseTemplate response = new ResponseTemplate();
 
         String orgName = image.getOriginalFilename();
-
         String currTime = new SimpleDateFormat("yyyyMMdd").format(new Date());
         int randNum = (int)(Math.random() * 90000 + 10000);
         String ext = orgName.substring(orgName.lastIndexOf("."));
-
         String chgName = currTime + randNum + ext;
 
-        image.transferTo(new File(savePath + chgName));
+        //aws s3 저장 로직
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(image.getSize());
+        metadata.setContentType(image.getContentType());
+
+        amazonS3.putObject(bucket, "tempImg/"+chgName, image.getInputStream(), metadata);
 
         response.setStatus(StatusEnum.SUCCESS);
-        response.setData(chgName);
+        response.setData(amazonS3.getUrl(bucket, "tempImg/"+chgName));
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
@@ -58,13 +66,13 @@ public class ImgFilterController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
+        int sliceName = "https://indiebucket.s3.ap-northeast-2.amazonaws.com".length() + 1;
 
         for (int i = 0; i < imgList.length; i++) {
-            new File(savePath + imgList[i]).delete();
+            amazonS3.deleteObject(bucket, imgList[i].substring(sliceName));
         }
 
         response.setStatus(StatusEnum.SUCCESS);
-
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
@@ -73,15 +81,15 @@ public class ImgFilterController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
+        int sliceName = "https://indiebucket.s3.ap-northeast-2.amazonaws.com".length() + 1;
+        int sliceName2 = "https://indiebucket.s3.ap-northeast-2.amazonaws.com/tempImg".length() + 1;
 
         ArrayList list = new ArrayList();
 
         for (int i = 0; i < imgList.length; i++) {
-            Files.move(Paths.get(savePath + imgList[i])
-                    , Paths.get(newPath + imgList[i])
-                    , StandardCopyOption.ATOMIC_MOVE);
-
-            list.add(newPath + imgList[i]);
+            amazonS3.copyObject(bucket, imgList[i].substring(sliceName), bucket, "img/"+imgList[i].substring(sliceName2));
+            amazonS3.deleteObject(bucket, imgList[i].substring(sliceName));
+            list.add(amazonS3.getUrl(bucket, "img/"+imgList[i].substring(sliceName2)));
         }
 
         response.setStatus(StatusEnum.SUCCESS);

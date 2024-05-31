@@ -10,41 +10,40 @@ import lombok.Data;
 public class UserBoardDto {
     private int userNo;
     private int boardNo;
-    private String nickname;
     private String updateDate;
+    private String nickname;
     private String boardTitle;
     private String boardContent;
     private String userRole;
     private int viewCount;
     private int likeCount;
-    private int contentTypeNo;
+    private String contentType;
     private int replies;
 
-    public static UserBoardDto fromProjection(UserBoardProjection bp) {
+    public static UserBoardDto userBoardHistory(UserBoardProjection bp) {
         return UserBoardDto.builder()
                 .boardNo(bp.getBoardNo())
                 .boardTitle(bp.getBoardTitle())
                 .replies(bp.getReplies())
-                .nickname(bp.getNickname())
                 .userRole(bp.getUserRole())
+                .nickname(bp.getNickname())
 //                .contentTypeNo
                 .updateDate(bp.getUpdateDate())
                 .viewCount(bp.getViewCount())
                 .likeCount(bp.getLikeCount())
+                .contentType(getContentTypeValue(bp.getContentTypeNo()))
                 .build();
     }   // Projection 형성은 interface에서 가져오기에 from을 붙임
 
-    public BoardDto toBoardDto() {
-        return BoardDto.builder()
-                .boardNo(this.boardNo)
-                .nickname(this.nickname)
-                .updateDate(this.updateDate)
-                .boardTitle(this.boardTitle)
-                .boardContent(this.boardContent)
-                .userRole(this.userRole)
-                .viewCount(this.viewCount)
-                .likeCount(this.likeCount)
-                .replies(this.replies)
-                .build();
-    }   // 실제로 가져온 객체를 전송할때는 to객체로 build해서 보냄.
+    private static String getContentTypeValue(Integer contentTypeNo) {
+        if (contentTypeNo == null) {
+            return "";
+        }
+        for (ContentTypeEnum type : ContentTypeEnum.values()) {
+            if (type.getCode().equals(String.valueOf(contentTypeNo))) {
+                return type.getValue();
+            }
+        }
+        return "";
+    }
 }

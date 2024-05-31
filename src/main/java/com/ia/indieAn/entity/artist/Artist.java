@@ -5,6 +5,7 @@ import com.ia.indieAn.entity.board.Board;
 import com.ia.indieAn.entity.concert.ConcertLineup;
 import com.ia.indieAn.entity.user.Member;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -37,8 +38,11 @@ public class Artist implements Serializable {
     @Column(nullable = false, unique = true)
     private String artistName;
 
+    @Column(nullable = false)
     private String musicCategory;
 
+    @Column(nullable = false)
+    @Size(max = 4000)
     private String artistInfo;
 
     @Column(columnDefinition = "char(1) default 'N'")

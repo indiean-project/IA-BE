@@ -87,9 +87,6 @@ public class ColoBoardService {
             listDto.add(new ColoLogDto(list.get(i).getBoardColo().getColoNo(), list.get(i).getMember().getUserNo(), list.get(i).getCancelYn(), list.get(i).getVote()));
         }
 
-
-
-
         return listDto;
     }
 

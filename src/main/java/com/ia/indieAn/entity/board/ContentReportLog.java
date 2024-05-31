@@ -3,17 +3,15 @@ package com.ia.indieAn.entity.board;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.converter.BrTypeConverter;
 import com.ia.indieAn.type.converter.ReportTypeConverter;
-import com.ia.indieAn.type.enumType.BrTypeEnum;
+import com.ia.indieAn.type.enumType.BrcTypeEnum;
 import com.ia.indieAn.type.enumType.ReportTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -52,7 +50,7 @@ public class ContentReportLog implements Serializable {
 
     @Convert(converter = BrTypeConverter.class)
     @Column(nullable = false)
-    private BrTypeEnum brType; //게시글(B)인지 댓글(R)인지 구분
+    private BrcTypeEnum brType; //게시글(B)인지 댓글(R)인지 구분
 
     @Override
     public String toString() {

@@ -3,6 +3,7 @@ package com.ia.indieAn.domain.user.controller;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.config.email.EmailService;
+import com.ia.indieAn.domain.user.dto.FindUserIdDto;
 import com.ia.indieAn.domain.user.dto.LoginUserDto;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.domain.user.service.UserService;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -49,6 +52,55 @@ public class UserController {
             response.setStatus(StatusEnum.FAIL);
             return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping("/find/userId")
+    public ResponseEntity<ResponseTemplate> findUserId(@RequestBody Member member){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        FindUserIdDto findUserId = userService.checkPhone(member);
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(findUserId);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping("/find/sendEmail")
+    public String sendEmailForFindPwd (@RequestParam("userId") String userId) throws Exception {
+        log.info("체크아이디 : {}", userId);
+
+        if (!emailService.isUserIdExists(userId)) {
+            log.warn("존재하지 않는 아이디입니다: {}", userId);
+            return "User ID does not exist";
+        }
+
+        String code = emailService.sendMessageForFindPwd(userId);
+        log.info("인증코드 : {}", code);
+        return code;
+    }
+
+    @ResponseBody
+    @RequestMapping("/find/updatePwd")
+//    public ResponseEntity<ResponseTemplate> findPassword (@RequestParam("userId") String userId, @RequestParam("userPwd") String updatePwd) throws Exception {
+    public ResponseEntity<ResponseTemplate> findPassword (@RequestBody Member member) throws Exception {
+
+        log.info("비밀번호 변경 아이디 : {}", member.getUserId());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+        if (userService.findPassword(member.getUserId(), member.getUserPwd())) {
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData("Pwd is updated");
+            return new ResponseEntity<>(response, headers, HttpStatus.OK);
+        } else {
+            response.setStatus(StatusEnum.FAIL);
+            return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @ResponseBody
