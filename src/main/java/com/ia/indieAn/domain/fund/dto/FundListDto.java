@@ -14,8 +14,8 @@ public class FundListDto {
     private Integer fundNo;
     private Integer userNo;
     private String fundTitle;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private Date startDate;
+    private Date endDate;
     private String fundInfo;
     private String fundType;
     private String fundDescription;

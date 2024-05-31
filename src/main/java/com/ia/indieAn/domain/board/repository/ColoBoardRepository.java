@@ -22,10 +22,10 @@ public interface ColoBoardRepository extends JpaRepository<BoardColo, Integer> {
                 "                        , enroll_date\n" +
                 "                        , (select count(*) from colo_log where colo_no = b.board_no) coloCount\n" +
                 "                    from board b\n" +
-                "                    where enroll_date > sysdate - 7\n" +
+                "                    where enroll_date > now() - 7\n" +
                 "                    and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = :contentType\n" +
-                "                    order by coloCount desc)\n" +
-                "                    where rownum <= 5",
+                "                    order by coloCount desc) A\n" +
+                "                    limit 5",
             countQuery = "select count(*)\n" +
                     "    from\n" +
                     "    (select board_no, board_title, delete_yn\n" +
@@ -35,10 +35,10 @@ public interface ColoBoardRepository extends JpaRepository<BoardColo, Integer> {
                     "        , enroll_date\n" +
                     "        , (select count(*) from colo_log where colo_no = b.board_no) coloCount\n" +
                     "    from board b\n" +
-                    "    where enroll_date > sysdate - 7\n" +
+                    "    where enroll_date > now() - 7\n" +
                     "    and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = 3\n" +
-                    "    order by coloCount desc)\n" +
-                    "    where rownum <= 5",
+                    "    order by coloCount desc) A\n" +
+                    "    limit 5",
             nativeQuery = true
     )
     ArrayList<BoardSideBarProjection> findAllColo(@Param(value = "contentType") int contentType);

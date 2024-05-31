@@ -9,8 +9,8 @@ public interface FundListByRevenueInterface {
     Integer getFundNo();
     Integer getUserNo();
     String getFundTitle();
-    LocalDateTime getStartDate();
-    LocalDateTime getEndDate();
+    Date getStartDate();
+    Date getEndDate();
     String getFundInfo();
     String getFundTypeNo();
     String getFundDescription();
