@@ -1,9 +1,8 @@
-package com.ia.indieAn.admin.user.controller;
+package com.ia.indieAn.admin.user.Question.controller;
 
-import com.ia.indieAn.admin.user.dto.FundingAdminUserDto;
-import com.ia.indieAn.admin.user.dto.QuestionAdminDto;
-import com.ia.indieAn.admin.user.dto.QuestionAdminSearchDto;
-import com.ia.indieAn.admin.user.service.QuestionAdminService;
+import com.ia.indieAn.admin.user.Question.dto.QuestionAdminDto;
+import com.ia.indieAn.admin.user.Question.dto.QuestionAdminSearchDto;
+import com.ia.indieAn.admin.user.Question.service.QuestionAdminService;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import org.slf4j.Logger;

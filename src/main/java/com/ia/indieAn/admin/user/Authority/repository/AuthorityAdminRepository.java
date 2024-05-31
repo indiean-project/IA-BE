@@ -1,4 +1,4 @@
-package com.ia.indieAn.admin.user.repository;
+package com.ia.indieAn.admin.user.Authority.repository;
 
 import com.ia.indieAn.entity.artist.Artist;
 import org.springframework.data.jpa.repository.JpaRepository;

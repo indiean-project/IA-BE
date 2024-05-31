@@ -1,10 +1,9 @@
-package com.ia.indieAn.admin.user.service;
+package com.ia.indieAn.admin.user.Question.service;
 
 
-import com.ia.indieAn.admin.user.dto.FundingAdminUserDto;
-import com.ia.indieAn.admin.user.dto.QuestionAdminDto;
-import com.ia.indieAn.admin.user.dto.QuestionAdminSearchDto;
-import com.ia.indieAn.admin.user.repository.QuestionAdminRepository;
+import com.ia.indieAn.admin.user.Question.dto.QuestionAdminDto;
+import com.ia.indieAn.admin.user.Question.dto.QuestionAdminSearchDto;
+import com.ia.indieAn.admin.user.Question.repository.QuestionAdminRepository;
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.domain.user.repository.UserRepository;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.sql.Date;
 

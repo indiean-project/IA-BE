@@ -1,13 +1,14 @@
-package com.ia.indieAn.admin.user.dto;
+package com.ia.indieAn.admin.user.Report.dto;
 
 
 import com.ia.indieAn.entity.board.ContentReportLog;
-import com.ia.indieAn.entity.user.Member;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class ReportAdminDto {
 
     private int reportNo;

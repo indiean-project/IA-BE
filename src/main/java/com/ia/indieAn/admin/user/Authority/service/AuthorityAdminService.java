@@ -1,10 +1,9 @@
-package com.ia.indieAn.admin.user.service;
+package com.ia.indieAn.admin.user.Authority.service;
 
-import com.ia.indieAn.admin.user.dto.AuthorityAdminDto;
-import com.ia.indieAn.admin.user.repository.AuthorityAdminRepository;
+import com.ia.indieAn.admin.user.Authority.dto.AuthorityAdminDto;
+import com.ia.indieAn.admin.user.Authority.repository.AuthorityAdminRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.artist.Artist;
-import com.ia.indieAn.entity.user.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

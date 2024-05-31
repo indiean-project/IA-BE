@@ -1,7 +1,6 @@
-package com.ia.indieAn.admin.user.dto;
+package com.ia.indieAn.admin.user.Question.dto;
 
 import lombok.Data;
-import org.springframework.data.domain.Sort;
 
 @Data
 public class QuestionAdminSearchDto {

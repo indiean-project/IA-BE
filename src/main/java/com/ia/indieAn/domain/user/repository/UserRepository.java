@@ -19,6 +19,7 @@ public interface UserRepository extends JpaRepository<Member, Integer> {
     boolean existsByPhone(String phone);
     boolean existsByPhoneAndUserNoNot(String phone, int userNo);
     Member findByNickname(String nickname);
+    Member findByUserName(String userName);
 //    Optional<Member> findByUserProfileImg(String userProfileImg);
     Optional<Member> findByPhone(String phone);
 

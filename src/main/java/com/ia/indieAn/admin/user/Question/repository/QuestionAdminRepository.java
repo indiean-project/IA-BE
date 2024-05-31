@@ -1,4 +1,4 @@
-package com.ia.indieAn.admin.user.repository;
+package com.ia.indieAn.admin.user.Question.repository;
 
 
 import com.ia.indieAn.entity.user.Member;

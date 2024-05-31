@@ -1,17 +1,13 @@
-package com.ia.indieAn.admin.user.controller;
+package com.ia.indieAn.admin.user.Fund.controller;
 
 
-import com.ia.indieAn.admin.user.dto.FundingAdminSearchDto;
-import com.ia.indieAn.admin.user.dto.FundingAdminSearchOptionDto;
-import com.ia.indieAn.admin.user.dto.FundingAdminUserDto;
-import com.ia.indieAn.admin.user.service.FundingAdminService;
+import com.ia.indieAn.admin.user.Fund.dto.FundingAdminSearchDto;
+import com.ia.indieAn.admin.user.Fund.dto.FundingAdminUserDto;
+import com.ia.indieAn.admin.user.Fund.service.FundingAdminService;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
-import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.type.enumType.FundStatusEnum;
-import com.ia.indieAn.type.enumType.FundTypeEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

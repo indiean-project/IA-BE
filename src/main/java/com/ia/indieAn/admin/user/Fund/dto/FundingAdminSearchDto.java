@@ -1,11 +1,8 @@
-package com.ia.indieAn.admin.user.dto;
+package com.ia.indieAn.admin.user.Fund.dto;
 
 
-import com.ia.indieAn.entity.fund.Fund;
 import lombok.Data;
 import org.springframework.data.domain.Sort;
-
-import java.util.Date;
 
 @Data
 public class FundingAdminSearchDto {

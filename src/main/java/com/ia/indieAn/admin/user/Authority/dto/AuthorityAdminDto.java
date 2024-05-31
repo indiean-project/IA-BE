@@ -1,4 +1,4 @@
-package com.ia.indieAn.admin.user.dto;
+package com.ia.indieAn.admin.user.Authority.dto;
 
 import com.ia.indieAn.entity.artist.Artist;
 import com.ia.indieAn.entity.user.Member;

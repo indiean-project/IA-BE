@@ -1,8 +1,8 @@
-package com.ia.indieAn.admin.user.controller;
+package com.ia.indieAn.admin.user.Authority.controller;
 
 
-import com.ia.indieAn.admin.user.dto.AuthorityAdminDto;
-import com.ia.indieAn.admin.user.service.AuthorityAdminService;
+import com.ia.indieAn.admin.user.Authority.dto.AuthorityAdminDto;
+import com.ia.indieAn.admin.user.Authority.service.AuthorityAdminService;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;

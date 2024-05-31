@@ -1,8 +1,9 @@
-package com.ia.indieAn.admin.user.controller;
+package com.ia.indieAn.admin.user.Report.controller;
 
 
-import com.ia.indieAn.admin.user.dto.ReportAdminDto;
-import com.ia.indieAn.admin.user.service.ReportAdminService;
+import com.ia.indieAn.admin.user.Question.dto.QuestionAdminDto;
+import com.ia.indieAn.admin.user.Report.dto.ReportAdminDto;
+import com.ia.indieAn.admin.user.Report.service.ReportAdminService;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -43,17 +41,54 @@ public class ReportAdminController {
     }
 
     @ResponseBody
-    @RequestMapping("/report/selectBoardNo")
-    public ResponseEntity<ResponseTemplate> selectBoardNo(){
+    @RequestMapping("/report/updateStatus")
+    public ResponseEntity<ResponseTemplate> updateStatus(@RequestBody ReportAdminDto reportAdminDto){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
+        String solveYn = reportAdminDto.getSolveYn();
+        int reportNo = reportAdminDto.getReportNo();
+
+        reportAdminService.updateReportStatus(reportAdminDto.getReportNo(), reportAdminDto.getSolveYn());
         ArrayList<ReportAdminDto> result = reportAdminService.selectReportList();
         response.setStatus(StatusEnum.SUCCESS);
         response.setData(result);
-
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
-
     }
+    
+//    @ResponseBody
+//    @RequestMapping("/report/searchList")
+//    public ResponseEntity<ResponseTemplate> searchList(@RequestBody ReportAdminDto reportAdminDto){
+//
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        ResponseTemplate response = new ResponseTemplate();
+//
+//
+//        ArrayList<ReportAdminDto> result = reportAdminService.();
+//        response.setStatus(StatusEnum.SUCCESS);
+//        response.setData(result);
+//
+//        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+//    }
+
+
+
+//    @ResponseBody
+//    @RequestMapping("/report/selectBoardNo")
+//    public ResponseEntity<ResponseTemplate> selectBoardNo(){
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        ResponseTemplate response = new ResponseTemplate();
+//
+//        ArrayList<ReportAdminDto> result = reportAdminService.selectReportList();
+//        response.setStatus(StatusEnum.SUCCESS);
+//        response.setData(result);
+//
+//        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+//
+//    }
+
 }

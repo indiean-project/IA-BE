@@ -1,6 +1,5 @@
-package com.ia.indieAn.admin.user.repository;
+package com.ia.indieAn.admin.user.Fund.repository;
 
-import com.ia.indieAn.admin.user.dto.FundingAdminUserDto;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.enumType.FundTypeEnum;

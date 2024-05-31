@@ -1,11 +1,10 @@
-package com.ia.indieAn.admin.user.dto;
+package com.ia.indieAn.admin.user.Question.dto;
 
 
 import com.ia.indieAn.entity.user.Question;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.sql.Date;
 
 @Data

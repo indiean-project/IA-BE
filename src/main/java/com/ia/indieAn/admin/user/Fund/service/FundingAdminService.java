@@ -1,25 +1,21 @@
-package com.ia.indieAn.admin.user.service;
+package com.ia.indieAn.admin.user.Fund.service;
 
-import com.ia.indieAn.admin.user.dto.FundingAdminSearchDto;
-import com.ia.indieAn.admin.user.dto.FundingAdminSearchOptionDto;
-import com.ia.indieAn.admin.user.dto.FundingAdminUserDto;
-import com.ia.indieAn.admin.user.repository.FundingAdminUserRepository;
+import com.ia.indieAn.admin.user.Fund.dto.FundingAdminSearchDto;
+import com.ia.indieAn.admin.user.Fund.dto.FundingAdminUserDto;
+import com.ia.indieAn.admin.user.Fund.repository.FundingAdminUserRepository;
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
-import com.ia.indieAn.domain.fund.dto.FundListDto;
 import com.ia.indieAn.domain.fund.repository.FundRepository;
 import com.ia.indieAn.domain.user.repository.UserRepository;
 import com.ia.indieAn.entity.fund.Fund;
 import com.ia.indieAn.entity.user.Member;
 import com.ia.indieAn.type.enumType.FundStatusEnum;
-import com.ia.indieAn.type.enumType.FundTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 @Service
 @Transactional(readOnly = true)

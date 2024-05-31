@@ -1,4 +1,4 @@
-package com.ia.indieAn.admin.user.dto;
+package com.ia.indieAn.admin.user.Fund.dto;
 
 
 import com.ia.indieAn.entity.fund.Fund;
