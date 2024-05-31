@@ -24,7 +24,7 @@ public interface ColoBoardRepository extends JpaRepository<BoardColo, Integer> {
                 "                    from board b\n" +
                 "                    where enroll_date > now() - 7\n" +
                 "                    and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = :contentType\n" +
-                "                    order by coloCount desc)\n" +
+                "                    order by coloCount desc) A\n" +
                 "                    limit 5",
             countQuery = "select count(*)\n" +
                     "    from\n" +
@@ -37,7 +37,7 @@ public interface ColoBoardRepository extends JpaRepository<BoardColo, Integer> {
                     "    from board b\n" +
                     "    where enroll_date > now() - 7\n" +
                     "    and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = 3\n" +
-                    "    order by coloCount desc)\n" +
+                    "    order by coloCount desc) A\n" +
                     "    limit 5",
             nativeQuery = true
     )

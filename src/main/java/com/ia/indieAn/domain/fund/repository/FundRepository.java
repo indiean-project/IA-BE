@@ -37,11 +37,11 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
             "            GROUP BY\n" +
             "                FUND_NO) O                   \n" +
             "                ON (F.FUND_NO = O.FUND_NO)          \n" +
-            "        LEFT JOIN ARTIST USING(USER_NO) A\n" +
+            "        LEFT JOIN ARTIST A USING(USER_NO)\n" +
             "        LEFT JOIN (\n" +
             "                SELECT CONTENT_NO, IMG_URL FROM\n" +
-            "                (SELECT CONTENT_NO, IMG_URL, ROW_NUMBER() OVER(PARTITION BY CONTENT_NO ORDER BY DBMS_RANDOM.VALUE) AS RN FROM IMG_URL \n" +
-            "                WHERE KC_TYPE = 'K' AND FABC_TYPE = 'F')\n" +
+            "                (SELECT CONTENT_NO, IMG_URL, ROW_NUMBER() OVER(PARTITION BY CONTENT_NO ORDER BY RANDOM()) AS RN FROM IMG_URL \n" +
+            "                WHERE KC_TYPE = 'K' AND FABC_TYPE = 'F') U\n" +
             "                WHERE RN = 1\n" +
             "            ) I ON (F.FUND_NO = I.CONTENT_NO)\n" +
             "        WHERE FUND_STATUS = 'A' \n";
@@ -54,8 +54,8 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
                     " AND\n" +
                     "                (FUND_TITLE LIKE '%' || :keyword || '%' \n" +
                     "                or FUND_INFO LIKE '%' || :keyword || '%'\n" +
-                    "                or ARTIST_NAME LIKE '%' || :keyword || '%'))",
-            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+                    "                or ARTIST_NAME LIKE '%' || :keyword || '%')) A",
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +") A\n" +
                     " WHERE\n" +
                     "                fundTitle LIKE '%' || :keyword || '%' \n" +
                     "                or fundInfo LIKE '%' || :keyword || '%'\n" +
@@ -67,8 +67,8 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
     @Query(
             value = "SELECT * FROM(" + generalFundQuery +
                     " AND\n" +
-                    "                FUND_TITLE LIKE '%' || :keyword || '%' )",
-            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+                    "                FUND_TITLE LIKE '%' || :keyword || '%' ) A",
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +") A\n" +
                     " WHERE\n" +
                     "                fundTitle LIKE '%' || :keyword || '%' \n",
             nativeQuery = true
@@ -78,8 +78,8 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
     @Query(
             value = "SELECT * FROM(" + generalFundQuery +
                     " AND\n" +
-                    "                FUND_INFO LIKE '%' || :keyword || '%')",
-            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+                    "                FUND_INFO LIKE '%' || :keyword || '%') A",
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +") A\n" +
                     " WHERE\n" +
                     "                fundInfo LIKE '%' || :keyword || '%'",
             nativeQuery = true
@@ -89,8 +89,8 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
     @Query(
             value = "SELECT * FROM(" + generalFundQuery +
                     " AND\n" +
-                    "                ARTIST_NAME LIKE '%' || :keyword || '%')",
-            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+                    "                ARTIST_NAME LIKE '%' || :keyword || '%') A",
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +") A\n" +
                     " WHERE\n" +
                     "                artistName LIKE '%' || :keyword || '%'",
             nativeQuery = true
@@ -100,7 +100,7 @@ public interface FundRepository extends JpaRepository<Fund, Integer> {
     @Query(
             value = generalFundQuery +
                     "AND END_DATE >= now()",
-            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +")\n" +
+            countQuery = "SELECT COUNT(*) FROM ("+ generalFundQuery +") A\n" +
                     "WHERE endDate >= now()",
             nativeQuery = true
     )

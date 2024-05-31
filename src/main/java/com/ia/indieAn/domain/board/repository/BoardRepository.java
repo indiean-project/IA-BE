@@ -28,9 +28,9 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "                                        join member m on (m.user_no = b.user_no)\n" +
                     "                                        left join board_colo c on (b.board_no = c.board_no)\n" +
                     "                                        where b.delete_yn = 'N'\n" +
-                    "                                        and content_type_no = :contentType\n" +
+                    "                                        and cast(content_type_no as integer) = :contentType\n" +
                     "                                        and board_title like '%' || :title || '%'",
-            countQuery = "select count(*) from board where content_type_no = :contentType and delete_yn = 'N' and board_title like '%' || :title || '%'",
+            countQuery = "select count(*) from board where cast(content_type_no as integer) = :contentType and delete_yn = 'N' and board_title like '%' || :title || '%'",
             nativeQuery = true
     )
     Page<BoardProjection> findAll(Pageable pageable, @Param(value = "contentType") int contentTypeEnum, @Param(value = "title") String title);
@@ -48,8 +48,8 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , enroll_date\n" +
                     "from board b\n" +
                     "where enroll_date > now() - 7\n" +
-                    "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = :contentType\n" +
-                    "order by view_count desc)\n" +
+                    "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and cast(content_type_no as integer) = :contentType\n" +
+                    "order by view_count desc) A\n" +
                     "limit 5",
             countQuery = "select count(*)\n" +
                     "from\n" +
@@ -60,8 +60,8 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , enroll_date\n" +
                     "from board b\n" +
                     "where enroll_date > now() - 7\n" +
-                    "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = :contentType\n" +
-                    "order by view_count desc)\n" +
+                    "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and cast(content_type_no as integer) = :contentType\n" +
+                    "order by view_count desc) A\n" +
                     "limit 5",
             nativeQuery = true
     )
@@ -75,8 +75,8 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') as likeCount\n" +
                     "    , enroll_date\n" +
                     "from board b\n" +
-                    "where enroll_date > now() - 7 and delete_yn = 'N' and content_type_no = :contentType\n" +
-                    "order by likeCount desc)\n" +
+                    "where enroll_date > now() - 7 and delete_yn = 'N' and cast(content_type_no as integer) = :contentType\n" +
+                    "order by likeCount desc) A\n" +
                     "limit 5",
             countQuery = "select count(*) from\n" +
                     "(select board_no, board_title, delete_yn\n" +
@@ -85,8 +85,8 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') as likeCount\n" +
                     "    , enroll_date\n" +
                     "from board b\n" +
-                    "where enroll_date > now() - 7 and delete_yn = 'N' and content_type_no = :contentType\n" +
-                    "order by likeCount desc)\n" +
+                    "where enroll_date > now() - 7 and delete_yn = 'N' and cast(content_type_no as integer) = :contentType\n" +
+                    "order by likeCount desc) A\n" +
                     "limit 5",
             nativeQuery = true
     )
@@ -97,7 +97,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                 "    , to_char(enroll_date, 'YYYY-MM-DD') as enrollDate, to_char(update_date, 'YYYY-MM-DD') as updateDate, board_title as boardTitle\n" +
                 "    , board_content as boardContent, view_count as viewCount, user_role as userRole\n" +
                 "    , (select count(*) from content_like_log l where b.board_no = l.content_no and br_type = 'B' and like_yn = 'Y') as likeCount\n" +
-                "    , (select count(*) from reply r where b.board_no = r.board_no and delete_yn = 'N') replies, b.content_type_no as contentTypeNo\n" +
+                "    , (select count(*) from reply r where b.board_no = r.board_no and delete_yn = 'N') replies, cast(b.content_type_no as integer) as contentTypeNo\n" +
                 "from board b\n" +
                 "join member m on (b.user_no = m.user_no)\n" +
                 "where b.board_no = :boardNo and b.delete_yn = 'N'",
