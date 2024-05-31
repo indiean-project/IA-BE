@@ -16,7 +16,7 @@ spring:
       max-request-size: 10MB
 
   profiles:
-    include: oracle, oauth, email, s3 # include application-oracle.yml (오라클 접속정보 숨김)
+    include: psql, oauth, email, s3 # include application-psql.yml (오라클 접속정보 숨김)
     # include oauth, email 를 통해 application-oauth & email 정보를 숨긴다
 
   data:
@@ -25,7 +25,7 @@ spring:
         one-indexed-parameters: true
   jpa:
     hibernate:
-      ddl-auto: update # create -- 서버 restart시 table정보가 reset 됨
+      ddl-auto: create # create -- 서버 restart시 table정보가 reset 됨
       # 로컬에서 초기 개발시 사용. 일반적으로는 none옵션 권장
     show-sql: true
     properties:

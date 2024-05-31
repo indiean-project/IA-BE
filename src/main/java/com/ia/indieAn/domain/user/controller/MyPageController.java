@@ -37,11 +37,6 @@ public class MyPageController {
     @Autowired
     UserService userService;
 
-    @Value("${savePath}")
-    private String savePath;
-
-    @Value("${userPath}")
-    private String userPath;
 
     @ResponseBody
     @RequestMapping("/myPage")
@@ -208,24 +203,24 @@ public class MyPageController {
 
         String orgName = image.getOriginalFilename();
 
-        File saveDirectory = new File(savePath);
-        if (!saveDirectory.exists()) {
-            saveDirectory.mkdirs(); // 경로가 존재하지 않으면 디렉토리를 생성
-        }
-
-        String currTime = new SimpleDateFormat("yyyyMMdd").format(new Date());
-        int randNum = (int)(Math.random() * 90000 + 10000);
-        String ext = orgName.substring(orgName.lastIndexOf("."));
-
-        String chgName = currTime + randNum + ext;
-
-        image.transferTo(new File(savePath + chgName));
-        log.info("저장경로 {}", savePath+chgName);
-
-        response.setStatus(StatusEnum.SUCCESS);
-        response.setData(chgName);
-        log.info("응답값? {}",response.getData());
-        log.info("진짜 주소? {}", savePath+response.getData());
+//        File saveDirectory = new File(savePath);
+//        if (!saveDirectory.exists()) {
+//            saveDirectory.mkdirs(); // 경로가 존재하지 않으면 디렉토리를 생성
+//        }
+//
+//        String currTime = new SimpleDateFormat("yyyyMMdd").format(new Date());
+//        int randNum = (int)(Math.random() * 90000 + 10000);
+//        String ext = orgName.substring(orgName.lastIndexOf("."));
+//
+//        String chgName = currTime + randNum + ext;
+//
+//        image.transferTo(new File(savePath + chgName));
+//        log.info("저장경로 {}", savePath+chgName);
+//
+//        response.setStatus(StatusEnum.SUCCESS);
+//        response.setData(chgName);
+//        log.info("응답값? {}",response.getData());
+//        log.info("진짜 주소? {}", savePath+response.getData());
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
@@ -236,12 +231,12 @@ public class MyPageController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-
-        for (int i = 0; i < imgList.length; i++) {
-            log.info("{}",savePath + imgList[i]);
-            new File(savePath + imgList[i]).delete();
-            // userPath쪽에서 저장된 파일 외에도 지워야 할 것
-        }
+//
+//        for (int i = 0; i < imgList.length; i++) {
+//            log.info("{}",savePath + imgList[i]);
+//            new File(savePath + imgList[i]).delete();
+//            // userPath쪽에서 저장된 파일 외에도 지워야 할 것
+//        }
 
         response.setStatus(StatusEnum.SUCCESS);
 
@@ -255,29 +250,29 @@ public class MyPageController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-        String nUserPath = userPath+member.getUserNo()+"\\";
-        log.info("nUserPath? {}", nUserPath);
-
-        File userSaveDirectory = new File(nUserPath);
-
-        if (!userSaveDirectory.exists()) {
-            userSaveDirectory.mkdirs(); // 경로가 존재하지 않으면 디렉토리를 생성
-        }
-
-        File[] existingFiles = userSaveDirectory.listFiles();
-        if (existingFiles != null) {
-            for (File file : existingFiles) {
-                file.delete();
-            }
-        }
-        log.info("파일 저장됌? {}", member.getUserProfileImg());
-
-        Files.move(Paths.get(savePath+member.getUserProfileImg())
-                , Paths.get(nUserPath+member.getUserProfileImg())
-                , StandardCopyOption.ATOMIC_MOVE);
+//        String nUserPath = userPath+member.getUserNo()+"\\";
+//        log.info("nUserPath? {}", nUserPath);
+//
+//        File userSaveDirectory = new File(nUserPath);
+//
+//        if (!userSaveDirectory.exists()) {
+//            userSaveDirectory.mkdirs(); // 경로가 존재하지 않으면 디렉토리를 생성
+//        }
+//
+//        File[] existingFiles = userSaveDirectory.listFiles();
+//        if (existingFiles != null) {
+//            for (File file : existingFiles) {
+//                file.delete();
+//            }
+//        }
+//        log.info("파일 저장됌? {}", member.getUserProfileImg());
+//
+//        Files.move(Paths.get(savePath+member.getUserProfileImg())
+//                , Paths.get(nUserPath+member.getUserProfileImg())
+//                , StandardCopyOption.ATOMIC_MOVE);
 
         response.setStatus(StatusEnum.SUCCESS);
-        response.setData(nUserPath);
+//        response.setData(nUserPath);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }

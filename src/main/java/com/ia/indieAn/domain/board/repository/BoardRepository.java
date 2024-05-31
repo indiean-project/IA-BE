@@ -23,7 +23,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "                                        , col_left_title as colLeftTitle, col_right_title as colRightTitle\n" +
                     "                                        , (select count(*) from colo_log cl where vote = 'L' and cancel_yn = 'N' and c.colo_no = cl.colo_no ) as colLeftCount\n" +
                     "                                        , (select count(*) from colo_log cl where vote = 'R' and cancel_yn = 'N' and c.colo_no = cl.colo_no ) as colRightCount\n" +
-                    "                                        , (select img_url from img_url i where i.fabc_type = 'B' and kc_type = 'C' and i.content_no = b.board_no and rownum <= 1) as imgUrl\n" +
+                    "                                        , (select img_url from img_url i where i.fabc_type = 'B' and kc_type = 'C' and i.content_no = b.board_no limit 1) as imgUrl\n" +
                     "                                        from board b\n" +
                     "                                        join member m on (m.user_no = b.user_no)\n" +
                     "                                        left join board_colo c on (b.board_no = c.board_no)\n" +
@@ -47,10 +47,10 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') as likeCount\n" +
                     "    , enroll_date\n" +
                     "from board b\n" +
-                    "where enroll_date > sysdate - 7\n" +
+                    "where enroll_date > now() - 7\n" +
                     "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = :contentType\n" +
                     "order by view_count desc)\n" +
-                    "where rownum <= 5",
+                    "limit 5",
             countQuery = "select count(*)\n" +
                     "from\n" +
                     "(select board_no, board_title, delete_yn\n" +
@@ -59,10 +59,10 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') as likeCount\n" +
                     "    , enroll_date\n" +
                     "from board b\n" +
-                    "where enroll_date > sysdate - 7\n" +
+                    "where enroll_date > now() - 7\n" +
                     "and (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') >= 10 and delete_yn = 'N' and content_type_no = :contentType\n" +
                     "order by view_count desc)\n" +
-                    "where rownum <= 5",
+                    "limit 5",
             nativeQuery = true
     )
     ArrayList<BoardSideBarProjection> findAllView(@Param(value = "contentType") int contentType);
@@ -75,9 +75,9 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') as likeCount\n" +
                     "    , enroll_date\n" +
                     "from board b\n" +
-                    "where enroll_date > sysdate - 7 and delete_yn = 'N' and content_type_no = :contentType\n" +
+                    "where enroll_date > now() - 7 and delete_yn = 'N' and content_type_no = :contentType\n" +
                     "order by likeCount desc)\n" +
-                    "where rownum <= 5",
+                    "limit 5",
             countQuery = "select count(*) from\n" +
                     "(select board_no, board_title, delete_yn\n" +
                     "    , (select count(*) from reply r where r.board_no = b.board_no and delete_yn = 'N') as replies\n" +
@@ -85,9 +85,9 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                     "    , (select count(*) from content_like_log l where l.content_no = b.board_no and like_yn = 'Y') as likeCount\n" +
                     "    , enroll_date\n" +
                     "from board b\n" +
-                    "where enroll_date > sysdate - 7 and delete_yn = 'N' and content_type_no = :contentType\n" +
+                    "where enroll_date > now() - 7 and delete_yn = 'N' and content_type_no = :contentType\n" +
                     "order by likeCount desc)\n" +
-                    "where rownum <= 5",
+                    "limit 5",
             nativeQuery = true
     )
     ArrayList<BoardSideBarProjection> findAllLike(@Param(value = "contentType") int contentType);
