@@ -3,10 +3,13 @@ package com.ia.indieAn.admin.user.dto;
 
 import com.ia.indieAn.entity.user.Question;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.sql.Date;
 
 @Data
+@NoArgsConstructor
 public class QuestionAdminDto {
 
     private int questionNo;
@@ -16,7 +19,7 @@ public class QuestionAdminDto {
     private String questionContent;
     private String ansYn;
     private Date questionDate;
-    private Date answerDate;
+    private String answerDate;
     private String ansContent;
 
 
@@ -26,7 +29,7 @@ public class QuestionAdminDto {
         this.questionContent = question.getQuestionContent();
         this.ansYn = question.getAnsYn();
         this.questionDate = question.getQuestionDate();
-        this.answerDate = question.getAnsDate();
+        this.answerDate = String.valueOf(question.getAnsDate());
         this.userId = question.getMember().getUserId();
         this.userName = question.getMember().getUserName();
         this.questionNo = question.getQuestionNo();
