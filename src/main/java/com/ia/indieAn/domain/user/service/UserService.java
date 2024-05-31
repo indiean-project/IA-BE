@@ -131,7 +131,11 @@ public class UserService {
         } else if (userRepository.existsByPhoneAndUserNoNot(result.getPhone(), mem.getUserNo())) {
             throw new CustomException(ErrorCode.HAS_PHONE);
         }
-
+        log.info("이미지 저장 정보{}", result.getUserProfileImg());
+        if(result.getUserPwd() ==null){
+            mem.setUserProfileImg(result.getUserProfileImg());
+            return;
+        }
         mem.setNickname(result.getNickname());
         mem.setPhone(result.getPhone());
         mem.setUserContent(result.getUserContent());
