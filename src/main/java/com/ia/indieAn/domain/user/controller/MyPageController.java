@@ -2,12 +2,9 @@ package com.ia.indieAn.domain.user.controller;
 
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
-import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.user.dto.*;
 import com.ia.indieAn.domain.user.service.UserService;
-import com.ia.indieAn.entity.board.ContentReportLog;
 import com.ia.indieAn.entity.user.Member;
-import com.ia.indieAn.entity.user.Question;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +34,17 @@ public class MyPageController {
     @Autowired
     UserService userService;
 
+//    @Value("${savePath}")
+//    private String savePath;
+//
+//    @Value("${userPath}")
+//    private String userPath;
+
+    @Value("${oldUrl}")
+    private String oldUrl;
+
+    @Value("${newUrl}")
+    private String newUrl;
 
     @ResponseBody
     @RequestMapping("/myPage")
@@ -195,65 +203,19 @@ public class MyPageController {
         }
     }
 
-    @RequestMapping("/tempImg")
-    public ResponseEntity<ResponseTemplate> tempImg(@RequestParam(value="image") MultipartFile image) throws IOException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        ResponseTemplate response = new ResponseTemplate();
-
-        String orgName = image.getOriginalFilename();
-
-//        File saveDirectory = new File(savePath);
-//        if (!saveDirectory.exists()) {
-//            saveDirectory.mkdirs(); // 경로가 존재하지 않으면 디렉토리를 생성
-//        }
-//
-//        String currTime = new SimpleDateFormat("yyyyMMdd").format(new Date());
-//        int randNum = (int)(Math.random() * 90000 + 10000);
-//        String ext = orgName.substring(orgName.lastIndexOf("."));
-//
-//        String chgName = currTime + randNum + ext;
-//
-//        image.transferTo(new File(savePath + chgName));
-//        log.info("저장경로 {}", savePath+chgName);
-//
-//        response.setStatus(StatusEnum.SUCCESS);
-//        response.setData(chgName);
-//        log.info("응답값? {}",response.getData());
-//        log.info("진짜 주소? {}", savePath+response.getData());
-
-        return new ResponseEntity<>(response, headers, HttpStatus.OK);
-    }
-
-    @RequestMapping("/imgDelete")
-    public ResponseEntity<ResponseTemplate> imgDelete(@RequestBody String[] imgList) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        ResponseTemplate response = new ResponseTemplate();
-
-//
-//        for (int i = 0; i < imgList.length; i++) {
-//            log.info("{}",savePath + imgList[i]);
-//            new File(savePath + imgList[i]).delete();
-//            // userPath쪽에서 저장된 파일 외에도 지워야 할 것
-//        }
-
-        response.setStatus(StatusEnum.SUCCESS);
-
-        return new ResponseEntity<>(response, headers, HttpStatus.OK);
-    }
-
     @RequestMapping("/imgMove")
-    public ResponseEntity<ResponseTemplate> imgMove(@RequestBody Member member) throws IOException {
-
+    public ResponseEntity<ResponseTemplate> imgMove(@RequestBody UpdatePageDto member) throws IOException {
+        log.info("멤버! {}", member);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
-//        String nUserPath = userPath+member.getUserNo()+"\\";
-//        log.info("nUserPath? {}", nUserPath);
+        log.info("nUserPath? {}", newUrl);
+        userService.updateUser(member);
+
 //
-//        File userSaveDirectory = new File(nUserPath);
+//
+//        File userSaveDirectory = new File(newUrl);
 //
 //        if (!userSaveDirectory.exists()) {
 //            userSaveDirectory.mkdirs(); // 경로가 존재하지 않으면 디렉토리를 생성
@@ -272,10 +234,9 @@ public class MyPageController {
 //                , StandardCopyOption.ATOMIC_MOVE);
 
         response.setStatus(StatusEnum.SUCCESS);
-//        response.setData(nUserPath);
+        response.setData(member.getUserProfileImg());
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
-
 
 }
