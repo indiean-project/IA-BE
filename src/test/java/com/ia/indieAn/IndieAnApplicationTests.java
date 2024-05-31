@@ -223,8 +223,8 @@ class IndieAnApplicationTests {
 			question.setAnsYn("N");
 			question.setQuestionContent("테스트 데이터입니다"+i);
 			question.setQuestionDate(Date.valueOf("2024-05-"+(i+1)));
-			question.setAnsDate(Date.valueOf("2024-06-"+(i+1)));
-			question.setAnsContent("답변 내용입니다."+i);
+			question.setAnsDate(null);
+			question.setAnsContent("");
 
 			questionAdminRepository.save(question);
 
