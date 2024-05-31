@@ -58,7 +58,7 @@ public class ContentReportLog implements Serializable {
     public String toString() {
         return "ContentReportLog{" +
                 "reportNo=" + reportNo +
-                ", userNo=" + member.getUserNo() +
+                ", userName=" + member.getUserNo() +
                 ", reportTypeNo=" + reportTypeNo +
                 ", solveYn='" + solveYn + '\'' +
                 ", reportDate=" + reportDate +

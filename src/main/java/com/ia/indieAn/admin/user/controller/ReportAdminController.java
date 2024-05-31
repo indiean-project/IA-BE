@@ -28,7 +28,7 @@ public class ReportAdminController {
     ReportAdminService reportAdminService;
 
     @ResponseBody
-    @RequestMapping("/report")
+    @RequestMapping("/report/reportList")
     public ResponseEntity<ResponseTemplate> reportList(){
 
         HttpHeaders headers = new HttpHeaders();

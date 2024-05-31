@@ -1,6 +1,7 @@
 package com.ia.indieAn;
 
 import com.ia.indieAn.admin.user.repository.QuestionAdminRepository;
+import com.ia.indieAn.admin.user.repository.ReportAdminRepository;
 import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.domain.artist.repository.ArtistRepository;
@@ -69,11 +70,17 @@ class IndieAnApplicationTests {
 
 	@Autowired
 	ContentLikeLogRepository contentLikeLogRepository;
+
+	@Autowired
+	ReportAdminRepository reportAdminRepository;
+
 	@Autowired
 	ArtistRepository artistRepository;
 
+
 	@Autowired
 	NoticeRepository noticeRepository;
+
     @Autowired
     private QuestionAdminRepository questionAdminRepository;
 
@@ -228,6 +235,18 @@ class IndieAnApplicationTests {
 
 			questionAdminRepository.save(question);
 
+		}
+		for (int i =0; i<20; i++){
+			ContentReportLog reportLog = new ContentReportLog();
+			reportLog.setReportNo(i);
+			reportLog.setMember(userRepository.findByUserNo(i+1));
+			reportLog.setReportTypeNo(ReportTypeEnum.MYUNGYE);
+			reportLog.setSolveYn("N");
+			reportLog.setReportDate(Date.valueOf("2024-05-"+(i+1)));
+			reportLog.setContentNo(i);
+			reportLog.setBrType(BrTypeEnum.BOARD);
+
+			reportAdminRepository.save(reportLog);
 
 		}
 	}

@@ -2,6 +2,7 @@ package com.ia.indieAn.admin.user.dto;
 
 
 import com.ia.indieAn.entity.board.ContentReportLog;
+import com.ia.indieAn.entity.user.Member;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Date;
 public class ReportAdminDto {
 
     private int reportNo;
-    private int userNo;
+    private String nickName;
     private String reportTypeNo;
     private String solveYn;
     private Date reportDate;
@@ -19,7 +20,7 @@ public class ReportAdminDto {
 
     public ReportAdminDto(ContentReportLog report) {
         this.reportNo = report.getReportNo();
-        this.userNo = report.getReportNo();
+        this.nickName = report.getMember().getNickname();
         this.reportTypeNo= report.getReportTypeNo().getValue();
         this.solveYn = report.getSolveYn();
         this.reportDate = report.getReportDate();
