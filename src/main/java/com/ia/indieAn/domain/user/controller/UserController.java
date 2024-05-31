@@ -42,12 +42,13 @@ public class UserController {
 
         LoginUserDto result = userService.loginUser(member);
         System.out.println(result);
-        if(result != null) {
+        if(result != null && result.getDeleteYn().equals("N")) {
             response.setStatus(StatusEnum.SUCCESS);
             response.setData(result);
             return new ResponseEntity<>(response, headers, HttpStatus.OK);
         } else {
             response.setStatus(StatusEnum.FAIL);
+
             return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
         }
     }

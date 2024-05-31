@@ -6,6 +6,7 @@ import com.ia.indieAn.domain.user.dto.*;
 import com.ia.indieAn.domain.user.service.UserService;
 import com.ia.indieAn.entity.user.Member;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -69,6 +70,23 @@ public class MyPageController {
         ResponseTemplate response = new ResponseTemplate();
 
         userService.updateUser(result);
+
+        response.setStatus(StatusEnum.SUCCESS);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+
+    }
+
+    @ResponseBody
+    @RequestMapping("/myPage/delete")
+    public ResponseEntity<ResponseTemplate> deleteUser(@RequestBody DeleteUserDto result){
+
+        log.info("정보 입력 받기 {}", result);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        userService.deleteUser(result);
 
         response.setStatus(StatusEnum.SUCCESS);
 
@@ -184,7 +202,6 @@ public class MyPageController {
         ResponseTemplate response = new ResponseTemplate();
 
         List<ReportSelectDto> reportList = userService.userReportHistory(userNo);
-        log.info("신고 {}", reportList);
         if(reportList != null) {
             response.setStatus(StatusEnum.SUCCESS);
             response.setData(reportList);
