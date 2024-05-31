@@ -17,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -85,7 +83,6 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/find/updatePwd")
-//    public ResponseEntity<ResponseTemplate> findPassword (@RequestParam("userId") String userId, @RequestParam("userPwd") String updatePwd) throws Exception {
     public ResponseEntity<ResponseTemplate> findPassword (@RequestBody Member member) throws Exception {
 
         log.info("비밀번호 변경 아이디 : {}", member.getUserId());

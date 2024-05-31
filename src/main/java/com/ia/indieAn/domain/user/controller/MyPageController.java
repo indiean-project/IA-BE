@@ -13,16 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -201,42 +193,6 @@ public class MyPageController {
             response.setStatus(StatusEnum.FAIL);
             return new ResponseEntity<>(response, headers, HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @RequestMapping("/imgMove")
-    public ResponseEntity<ResponseTemplate> imgMove(@RequestBody UpdatePageDto member) throws IOException {
-        log.info("멤버! {}", member);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        ResponseTemplate response = new ResponseTemplate();
-
-        log.info("nUserPath? {}", newUrl);
-        userService.updateUser(member);
-
-//
-//
-//        File userSaveDirectory = new File(newUrl);
-//
-//        if (!userSaveDirectory.exists()) {
-//            userSaveDirectory.mkdirs(); // 경로가 존재하지 않으면 디렉토리를 생성
-//        }
-//
-//        File[] existingFiles = userSaveDirectory.listFiles();
-//        if (existingFiles != null) {
-//            for (File file : existingFiles) {
-//                file.delete();
-//            }
-//        }
-//        log.info("파일 저장됌? {}", member.getUserProfileImg());
-//
-//        Files.move(Paths.get(savePath+member.getUserProfileImg())
-//                , Paths.get(nUserPath+member.getUserProfileImg())
-//                , StandardCopyOption.ATOMIC_MOVE);
-
-        response.setStatus(StatusEnum.SUCCESS);
-        response.setData(member.getUserProfileImg());
-
-        return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
 }
