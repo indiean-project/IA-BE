@@ -71,6 +71,8 @@ class IndieAnApplicationTests {
 	@Test
 	void contextLoads() throws Exception{
 
+		Concert concert = new Concert();
+
 
 	}
 }

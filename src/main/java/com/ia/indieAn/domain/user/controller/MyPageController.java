@@ -2,9 +2,12 @@ package com.ia.indieAn.domain.user.controller;
 
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
+import com.ia.indieAn.domain.board.dto.BoardDto;
 import com.ia.indieAn.domain.user.dto.*;
 import com.ia.indieAn.domain.user.service.UserService;
+import com.ia.indieAn.entity.board.ContentReportLog;
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.entity.user.Question;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,8 +16,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
