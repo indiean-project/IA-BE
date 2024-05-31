@@ -66,7 +66,7 @@ public class QuestionAdminService {
         } else if (searchDto.getSearchValue().equals("userName")) {
                 Member member = userRepository.findByUserName(searchDto.getKeyword());
                 if (member != null) {
-                    questionList = questionAdminRepository.findByMember(member);
+                    questionList = questionAdminRepository.findByMember_UserNo(member.getUserNo());
                     for (Question question : questionList) {
                         resultList.add(new QuestionAdminDto(question));
                     }

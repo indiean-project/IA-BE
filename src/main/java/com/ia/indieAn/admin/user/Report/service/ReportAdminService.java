@@ -39,17 +39,17 @@ public class ReportAdminService {
         reportAdminRepository.save(reportLog);
     }
 
-    public ArrayList<ReportAdminDto> searchReportList(ReportAdminSearchDto searchDto){
-        ArrayList<ReportAdminDto> resultList = new ArrayList<>();
-
-        ArrayList<ContentReportLog> reportList = new ArrayList<>();
-        if(searchDto.getSearchValue().equals("brType")){
-            ContentReportLog contentReportLog = reportAdminRepository.findByReportNo(Integer.parseInt(searchDto.getKeyword()))
-                    . orElseThrow( () -> new CustomException(ErrorCode.FUND_NOT_FOUND));
-        } else if (searchDto.getSearchValue().equals("reportTypeNo")){
-
-        }
-
-    }
+//    public ArrayList<ReportAdminDto> searchReportList(ReportAdminSearchDto searchDto){
+//        ArrayList<ReportAdminDto> resultList = new ArrayList<>();
+//
+//        ArrayList<ContentReportLog> reportList = new ArrayList<>();
+//        if(searchDto.getSearchValue().equals("brType")){
+//            ContentReportLog contentReportLog = reportAdminRepository.findByReportNo(Integer.parseInt(searchDto.getKeyword()))
+//                    . orElseThrow( () -> new CustomException(ErrorCode.FUND_NOT_FOUND));
+//        } else if (searchDto.getSearchValue().equals("reportTypeNo")){
+//
+//        }
+//
+//    }
 
 }

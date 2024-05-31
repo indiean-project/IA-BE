@@ -6,18 +6,19 @@ import jakarta.persistence.AttributeConverter;
 import java.util.EnumSet;
 import java.util.NoSuchElementException;
 
-public class UserRoleConverter implements AttributeConverter<UserRoleEnum, String> {
+public class UserRoleConverter implements AttributeConverter<UserRoleEnum, Integer> {
 
     @Override
-    public UserRoleEnum convertToEntityAttribute(String dbData) {
+    public Integer convertToDatabaseColumn(UserRoleEnum userRoleEnum) {
+        return userRoleEnum.getCode();
+    }
+
+    @Override
+    public UserRoleEnum convertToEntityAttribute(Integer dbData) {
         return EnumSet.allOf(UserRoleEnum.class).stream()
-                .filter(e->e.getCode().equals(dbData))
+                .filter(e->e.getCode() == dbData)
                 .findAny()
                 .orElseThrow(()-> new NoSuchElementException());
     }
 
-    @Override
-    public String convertToDatabaseColumn(UserRoleEnum userRoleEnum) {
-        return userRoleEnum.getCode();
-    }
 }

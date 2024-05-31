@@ -14,5 +14,6 @@ public interface QuestionAdminRepository extends JpaRepository<Question, Integer
 
  Optional<Question> findByQuestionNo(int questionNo);
  ArrayList<Question> findByQuestionContentContaining(String questionContent);
- ArrayList<Question> findByMember(Member member);
+ ArrayList<Question> findByMember_UserNo(int userNo);
+
 }
