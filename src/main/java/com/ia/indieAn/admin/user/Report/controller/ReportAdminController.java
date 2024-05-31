@@ -40,7 +40,20 @@ public class ReportAdminController {
         response.setData(result);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 
+    @ResponseBody
+    @RequestMapping("/report/selectBoardNo")
+    public ResponseEntity<ResponseTemplate> selectBoardNo(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        ArrayList<ReportAdminDto> result = reportAdminService.selectReportList();
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setData(result);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
 
     }
 }

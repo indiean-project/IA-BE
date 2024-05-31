@@ -5,6 +5,7 @@ import com.ia.indieAn.admin.user.dto.ReportAdminDto;
 import com.ia.indieAn.admin.user.repository.ReportAdminRepository;
 import com.ia.indieAn.entity.board.ContentReportLog;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,7 @@ public class ReportAdminService {
     @Autowired
     ReportAdminRepository reportAdminRepository;
     public ArrayList<ReportAdminDto> selectReportList(){
-        ArrayList<ContentReportLog> reportArrayList = (ArrayList<ContentReportLog>) reportAdminRepository.findAll();
+        ArrayList<ContentReportLog> reportArrayList = (ArrayList<ContentReportLog>) reportAdminRepository.findAll(Sort.by(Sort.Direction.ASC, "reportNo"));
         ArrayList<ReportAdminDto> reportAdminDtoArrayList = new ArrayList<>(); // []
         for(int i=0; i<reportArrayList.size(); i++){
             reportAdminDtoArrayList .add(new ReportAdminDto(reportArrayList.get(i)));
