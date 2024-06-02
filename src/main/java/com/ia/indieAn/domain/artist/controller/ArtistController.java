@@ -66,14 +66,12 @@ public class ArtistController {
         String changeUrl = artistEnrollDto.getArtistInfo().replace("<img src=\"/public/tempImg", "<img src=\"/public/img");
         artistEnrollDto.setArtistInfo(changeUrl);
         Artist artist = artistService.artistEnroll(artistEnrollDto);
-
         if(artist != null){
             response.setStatus(StatusEnum.SUCCESS);
             response.setData(artist.getArtistNo());
         }else{
             response.setStatus(StatusEnum.FAIL);
         }
-
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 

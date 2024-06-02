@@ -71,8 +71,6 @@ public class ArtistService {
         if(imgUrl.size()>0) {
             artistDetailDto.setTitleUrl(imgUrl.get(0).getImgUrl());
         }
-
-
         return artistDetailDto;
     }
     @Transactional
