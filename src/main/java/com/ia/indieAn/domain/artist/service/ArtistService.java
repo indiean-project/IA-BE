@@ -53,7 +53,7 @@ public class ArtistService {
 
     public ArtistDetailDto artistDetail(int artistNo) {
 
-        Artist artist = artistRepository.findByArtistNoAndArtistStatus(artistNo,"Y")
+        Artist artist = artistRepository.findByArtistNoAndArtistStatus(artistNo,"A")
                 .orElseThrow(()->new CustomException(ErrorCode.ARTIST_NOT_FOUND));
 
         ArrayList<ImgUrl> imgUrl = imgUrlRepository.findByContentNoAndFabcTypeAndKcType(artistNo,FabcTypeEnum.ARTIST,KcTypeEnum.KING);
@@ -97,5 +97,11 @@ public class ArtistService {
         Pageable pageable = PageRequest.of(0, 5);
         return artistRepository.getHomeArtist(pageable).getContent().stream()
                 .map(HomeArtistDto::convertToProjection).toList();
+    }
+
+    public Artist confirmation(int userNo) {
+        Artist artist = artistRepository.findByMember_UserNo(userNo);
+
+        return artist;
     }
 }

@@ -15,11 +15,12 @@ public interface ConcertLineupRepository extends JpaRepository<ConcertLineup, In
 
 
     @Query(
-            value = "select artist_name artistName,img_url imgUrl,artist_no artistNo\n" +
-                    "from concert_lineup\n" +
-                    "left join(select content_no,img_url\n" +
-                    "from img_url\n" +
-                    "where fabc_type ='A' and kc_type ='K') on (content_no = concert_no)\n" +
+            value = "select artist_name artistName,img_url imgUrl,A.artist_no artistNo\n" +
+                    "from concert_lineup B\n" +
+                    "left join(select artist_no, img_url\n" +
+                    "from artist\n" +
+                    "join img_url on (content_no = artist_no)\n" +
+                    "where fabc_type ='A' and kc_type ='K') A on (A.artist_no = B.artist_no)\n"+
                     "where concert_no = :concertNo",
             nativeQuery = true
 

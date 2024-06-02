@@ -23,7 +23,7 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
            "from img_url\n" +
            "where fabc_type = 'A' and kc_type = 'K') A on (content_no=artist_no)\n" +
            "where artist_name like '%'|| :name ||'%'\n" +
-           "and artist.artist_status ='Y'\n";
+           "and artist.artist_status ='A'\n";
 
    @Query(
            value = generalFundQuery +
@@ -31,7 +31,7 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
            countQuery = "select count(*)\n"+
                    "from artist\n" +
                    "where artist_name like '%'|| :name ||'%'\n" +
-                   "and artist.artist_status ='Y'",
+                   "and artist.artist_status ='A'",
            nativeQuery = true
    )
    Slice<ArtistDtoProjection> findByArtistListCreate(Pageable pageable, @Param(value = "name") String name);
@@ -41,7 +41,7 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
            countQuery = "select count(*)\n"+
                    "from artist\n" +
                    "where artist_name like '%'|| :name ||'%'\n" +
-                   "and artist.artist_status ='Y'",
+                   "and artist.artist_status ='A'",
            nativeQuery = true
    )
    Slice<ArtistDtoProjection> findByArtistListDebut(Pageable pageable,@Param(value = "name") String keyword);
@@ -60,4 +60,6 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
    Page<HomeArtistProjection> getHomeArtist(Pageable pageable);
 
    Artist findByMember(Member member);
+
+   Artist findByMember_UserNo(int userNo);
 }

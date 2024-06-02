@@ -69,8 +69,8 @@ class IndieAnApplicationTests {
 	NoticeRepository noticeRepository;
 
 	@Test
-	void contextLoads() throws Exception{
-
+	void contextLoads() throws Exception {
 
 	}
+
 }
