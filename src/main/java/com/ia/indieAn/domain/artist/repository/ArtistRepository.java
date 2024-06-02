@@ -53,6 +53,7 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
                    "from artist\n" +
                    "left join img_url on (artist_no = content_no)\n" +
                    "where fabc_type = 'A'\n" +
+                   "and artist_status = 'A'\n" +
                    "order by random()",
            countQuery = "select count(*) from artist",
            nativeQuery = true
