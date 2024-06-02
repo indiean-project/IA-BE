@@ -83,6 +83,7 @@ public class ArtistController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json",Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
+
         Artist artist = artistService.confirmation(userNo);
         if(artist !=null) {
             response.setStatus(StatusEnum.SUCCESS);
