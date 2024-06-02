@@ -71,13 +71,15 @@ public class ArtistService {
         if(imgUrl.size()>0) {
             artistDetailDto.setTitleUrl(imgUrl.get(0).getImgUrl());
         }
-
-
         return artistDetailDto;
     }
     @Transactional
     public Artist artistEnroll(ArtistEnrollDto artistEnrollDto) {
         Member member = userRepository.findByUserNo(artistEnrollDto.getUserNo());
+        Artist checkArtist = artistRepository.findByMember_UserNo(member.getUserNo());
+        if(checkArtist != null){
+            return null;
+        }
         Artist artist = Artist.builder()
                 .member(member)
                 .artistStatus(artistEnrollDto.getArtistStatus())
