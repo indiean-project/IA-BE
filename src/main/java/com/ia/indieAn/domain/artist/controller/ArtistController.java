@@ -113,4 +113,14 @@ public class ArtistController {
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @RequestMapping("/searchList")
+    public ResponseEntity<ResponseTemplate> searchList(@RequestParam (value = "name")String name) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+        log.info("name={}",name);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }

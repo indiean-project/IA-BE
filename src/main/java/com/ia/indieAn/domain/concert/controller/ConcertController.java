@@ -138,6 +138,15 @@ public class ConcertController {
         }
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+    @RequestMapping("/enroll")
+    public ResponseEntity<ResponseTemplate> concertUpdateReply(@RequestBody Concert concert) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
 
 }
 
