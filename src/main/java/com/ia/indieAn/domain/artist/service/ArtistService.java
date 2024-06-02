@@ -94,7 +94,7 @@ public class ArtistService {
     }
 
     public List<HomeArtistDto> getHomeArtist(){
-        Pageable pageable = PageRequest.of(1, 5);
+        Pageable pageable = PageRequest.of(0, 5);
         return artistRepository.getHomeArtist(pageable).getContent().stream()
                 .map(HomeArtistDto::convertToProjection).toList();
     }
