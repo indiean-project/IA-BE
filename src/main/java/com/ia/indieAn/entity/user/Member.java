@@ -10,6 +10,7 @@ import com.ia.indieAn.entity.fund.OrderLog;
 import com.ia.indieAn.type.converter.UserRoleConverter;
 import com.ia.indieAn.type.enumType.UserRoleEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
@@ -42,10 +43,11 @@ public class Member implements Serializable {
 
     @Column(unique = true, nullable = false)
     @Email
+    @Pattern(regexp = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$", message = "유효한 이메일 주소를 입력해주세요.")
     private String userId;
 
     @Column
-    @Pattern(regexp = "^$|^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&+=])(?!.*\\s).{6,16}$", message = "비밀번호는 최소 6자 이상이어야 하며, 알파벳, 숫자, 특수 문자를 포함해야 합니다.")
+    @Pattern(regexp = "^$|^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&+=])(?!.*\\s).{6,16}$", message = "비밀번호는 최소 6자 이상 16자 이하, 알파벳, 숫자, 특수 문자를 포함해야 합니다.")
     private String userPwd;
 
     @Column(nullable = false)
@@ -55,6 +57,7 @@ public class Member implements Serializable {
     private String nickname;
 
     @Column(unique = true, nullable = false)
+    @Pattern(regexp = "^(010-?\\d{4}-?\\d{4}|0\\d{1,2}-?\\d{3,4}-?\\d{4})$", message = "유효한 전화번호를 입력해주세요.")
     private String phone;
 
     private String address;
@@ -76,7 +79,10 @@ public class Member implements Serializable {
     private String socialStatus;
 
     private String userProfileImg;
+
+    @Size(max = 300)
     private String userContent;
+
     private String userFavoriteArtist;
     private String userFavoriteMusic;
 

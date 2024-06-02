@@ -1,6 +1,8 @@
 package com.ia.indieAn.entity.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -36,8 +38,12 @@ public class Question implements Serializable {
     private Date ansDate;
 
     @Column(nullable = false)
+    @Size(max = 4000)
+    @Pattern(regexp = "^(?!\\s*$).+", message = "내용은 공백일 수 없습니다.")
     private String questionContent;
 
+    @Size(max = 4000)
+    @Pattern(regexp = "^(?!\\s*$).+", message = "내용은 공백일 수 없습니다.")
     private String ansContent;
 
     @Override
