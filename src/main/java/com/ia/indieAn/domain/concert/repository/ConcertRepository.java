@@ -20,7 +20,7 @@ public interface ConcertRepository extends JpaRepository<Concert, Integer> {
                     "from concert\n" +
                     "left join (select content_no, img_url\n" +
                     "from img_url\n" +
-                    "where fabc_type = 'C' and kc_type = 'K') on (concert_no = content_no)\n" +
+                    "where fabc_type = 'C' and kc_type = 'K') img on (concert_no = content_no)\n" +
                     "where delete_yn = 'N'\n" +
                     "and concert_title like '%'||:title||'%'\n" +
                     "order by create_date desc",
@@ -33,11 +33,11 @@ public interface ConcertRepository extends JpaRepository<Concert, Integer> {
     Page<ConcertProjection> findConcertCreateList(Pageable pageable,  @Param(value = "title")String title);
 
     @Query(value =
-            "select concert_no as concertNo, concert_title as concertTitle,location ,start_date as startDate, end_date as endDate,img_url imgUrl ,TRUNC(start_date-now()) day\n" +
+            "select concert_no as concertNo, concert_title as concertTitle,location ,start_date as startDate, end_date as endDate,img_url imgUrl\n" +
                     "from concert\n" +
                     "left join (select content_no, img_url\n" +
                     "from img_url\n" +
-                    "where fabc_type = 'C' and kc_type = 'K') on (concert_no = content_no)\n" +
+                    "where fabc_type = 'C' and kc_type = 'K') img on (concert_no = content_no)\n" +
                     "where end_date >now()\n" +
                     "and delete_yn = 'N'\n" +
                     "and concert_title like '%'||:title||'%'\n" +

@@ -16,10 +16,19 @@ public class ConcertLineupDto {
     private String titleUrl;
 
     public static ConcertLineupDto convertToLineupDto(LineupPorjection lp){
-        return builder()
-                .artistName(lp.getArtistName())
-                .artistNo(lp.getArtistNo())
-                .titleUrl(lp.getImgUrl())
-                .build();
+        if(lp.getArtistNo() != null){
+            System.out.println(lp.getImgUrl());
+            return builder()
+                    .artistName(lp.getArtistName())
+                    .artistNo(lp.getArtistNo())
+                    .titleUrl(lp.getImgUrl())
+                    .build();
+        }else{
+            return builder()
+                    .artistName(lp.getArtistName())
+                    .build();
+        }
+
+
     }
 }

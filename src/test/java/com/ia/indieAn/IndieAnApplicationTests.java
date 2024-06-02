@@ -69,10 +69,8 @@ class IndieAnApplicationTests {
 	NoticeRepository noticeRepository;
 
 	@Test
-	void contextLoads() throws Exception{
-
-		Concert concert = new Concert();
-
+	void contextLoads() throws Exception {
 
 	}
+
 }

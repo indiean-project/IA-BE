@@ -31,7 +31,7 @@ public class ColoBoardDto {
         this.coloNo = String.valueOf(board.getBoardColo().getColoNo());
         this.userNo = board.getMember().getUserNo();
         this.nickname = board.getMember().getNickname();
-        this.userRole = board.getMember().getUserRole().getCode();
+        this.userRole = String.valueOf(board.getMember().getUserRole().getCode());
         this.enrollDate = String.valueOf(board.getEnrollDate());
         this.updateDate = String.valueOf(board.getUpdateDate());
         this.boardTitle = board.getBoardTitle();

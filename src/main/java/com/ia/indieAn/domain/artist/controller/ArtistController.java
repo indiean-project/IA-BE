@@ -10,6 +10,7 @@ import com.ia.indieAn.entity.artist.Artist;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.RepositoryQuery;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -73,6 +74,32 @@ public class ArtistController {
             response.setStatus(StatusEnum.FAIL);
         }
 
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+
+    @RequestMapping("/confirmation")
+    public ResponseEntity<ResponseTemplate> confirmation(@RequestParam (value = "userNo") int userNo){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application","json",Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+        Artist artist = artistService.confirmation(userNo);
+        if(artist !=null) {
+            response.setStatus(StatusEnum.SUCCESS);
+            switch (artist.getArtistStatus()) {
+                case "N":
+                    response.setData("심사중인 회원입니다.");
+                    break;
+                case "R":
+                    response.setData("반려되었습니다. 관리자에 문의해주세요.");
+                    break;
+                case "A":
+                    response.setData("등록된 아티스트입니다.");
+                    break;
+            }
+        }else{
+            response.setStatus(StatusEnum.FAIL);
+        }
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
