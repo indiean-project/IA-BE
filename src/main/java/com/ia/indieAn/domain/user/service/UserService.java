@@ -36,6 +36,10 @@ public class UserService {
         Member result = userRepository.findByUserId(member.getUserId())
                 .orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
 
+        if(!result.getDeleteYn().equals("N")) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+
         if (!result.getSocialStatus().equals("N") && result.getUserPwd() == null) {
             return new LoginUserDto(result);
         }
@@ -144,6 +148,13 @@ public class UserService {
         mem.setUserFavoriteMusic(result.getUserFavoriteMusic());
     }
 
+    @Transactional(rollbackFor = CustomException.class)
+    public void deleteUser(DeleteUserDto result) {
+        Member mem = userRepository.findByUserNo(result.getUserNo());
+
+        mem.setDeleteYn(result.getDeleteYn());
+    }
+
     public List<UserBoardDto> userBoardHistory(int userNo) {
         List<UserBoardProjection> boardProjections = userRepository.findUserBoardsByMemberUserNo(userNo);
 
@@ -215,4 +226,5 @@ public class UserService {
 
         questionRepository.save(q);
     }
+
 }
