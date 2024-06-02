@@ -100,7 +100,7 @@ public class FundService {
                         .map(RewardListDto::new)
                         .collect(Collectors.toList()),
                 fund.getOrderLogList().stream()
-                        .mapToInt(OrderLog::getTotalPrice).sum(),
+                        .mapToLong(OrderLog::getTotalPrice).sum(),
                 imgUrlList,
                 artist.getArtistNo()
                 );

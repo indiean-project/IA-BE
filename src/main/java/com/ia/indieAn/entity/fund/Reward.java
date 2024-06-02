@@ -33,7 +33,7 @@ public class Reward implements Serializable {
     private String rewardName;
 
     @Column(nullable = false)
-    private int rewardPrice;
+    private long rewardPrice;
 
     @Column(nullable = false)
     private String rewardInfo;

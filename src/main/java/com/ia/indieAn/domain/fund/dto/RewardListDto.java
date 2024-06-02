@@ -12,7 +12,7 @@ public class RewardListDto {
     private int rewardNo;
     private int fundNo;
     private String rewardName;
-    private int rewardPrice;
+    private long rewardPrice;
     private String rewardInfo;
     private String deliveryYn;
     private String limitYn;

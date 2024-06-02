@@ -47,7 +47,7 @@ public class Fund implements Serializable {
     private String fundDescription;
 
     @Column(nullable = false)
-    private int target;
+    private long target;
 
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
@@ -85,9 +85,11 @@ public class Fund implements Serializable {
     private String rewardInfo;
 
     @Column(nullable = false)
+    @Size(max = 2000)
     private String budgetManage;
 
     @Column(nullable = false)
+    @Size(max = 2000)
     private String schedule;
 
     @Convert(converter = FundStatusConverter.class)

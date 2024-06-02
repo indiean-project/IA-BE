@@ -14,8 +14,8 @@ public interface FundListByRevenueInterface {
     String getFundInfo();
     String getFundTypeNo();
     String getFundDescription();
-    Integer getTarget();
-    Integer getRevenue();
+    Long getTarget();
+    Long getRevenue();
 
     Integer getRate();
     String getArtistName();

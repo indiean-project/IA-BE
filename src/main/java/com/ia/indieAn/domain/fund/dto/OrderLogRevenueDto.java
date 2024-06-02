@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 public class OrderLogRevenueDto {
 
-    private int revenue;
+    private long revenue;
 
 }

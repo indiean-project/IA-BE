@@ -23,7 +23,7 @@ public class FundEnrollDto {
     private Date startDate;
     private Date endDate;
     private Date paymentDate;
-    private int target;
+    private long target;
     private FundStatusEnum fundStatus;
     private List<RewardListDto> reward = new ArrayList<>();
 }

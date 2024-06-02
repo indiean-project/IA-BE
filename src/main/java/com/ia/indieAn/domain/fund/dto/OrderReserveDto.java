@@ -11,7 +11,7 @@ public class OrderReserveDto {
 
     private int userNo;
     private int fundNo;
-    private int totalPrice;
+    private long totalPrice;
     private List<RewardReserveListDto> reward = new ArrayList<>();
     private String receiptId;
     private Date paymentDate;

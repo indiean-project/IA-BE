@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.fund.dto;
 
 import com.ia.indieAn.entity.fund.Fund;
+import com.ia.indieAn.type.enumType.FundStatusEnum;
 import com.ia.indieAn.type.enumType.FundTypeEnum;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class FundDetailDto {
     private int userNo;
     private String fundType;
     private String fundTitle;
-    private int target;
+    private long target;
     private Date startDate;
     private Date endDate;
     private Date paymentDate;
@@ -24,13 +25,14 @@ public class FundDetailDto {
     private String rewardInfo;
     private String budgetManage;
     private String schedule;
-    private int revenue;
+    private long revenue;
     private int people;
     private List<RewardListDto> rewardList = new ArrayList<>();
     private String[] imgUrlList;
     private int artistNo;
+    private FundStatusEnum fundStatus;
 
-    public FundDetailDto(Fund fund , List<RewardListDto> rewardListDtos, int revenue, String[] imgUrlList, int artistNo){
+    public FundDetailDto(Fund fund , List<RewardListDto> rewardListDtos, long revenue, String[] imgUrlList, int artistNo){
         this.fundNo = fund.getFundNo();
         this.userNo = fund.getMember().getUserNo();
         this.fundType = String.valueOf(FundTypeEnum.find(fund.getFundTypeNo().getCode()));
@@ -49,5 +51,6 @@ public class FundDetailDto {
         this.rewardList = rewardListDtos;
         this.imgUrlList = imgUrlList;
         this.artistNo = artistNo;
+        this.fundStatus = fund.getFundStatus();
     }
 }

@@ -32,7 +32,7 @@ public class BoardDto {
         this.updateDate = String.valueOf(board.getUpdateDate());
         this.boardTitle = board.getBoardTitle();
         this.boardContent = board.getBoardContent();
-        this.userRole = board.getMember().getUserRole().getCode();
+        this.userRole = String.valueOf(board.getMember().getUserRole().getCode());
         this.viewCount = board.getViewCount();
         this.likeCount = getLikeCount();
         this.replies = board.getReplies().size();

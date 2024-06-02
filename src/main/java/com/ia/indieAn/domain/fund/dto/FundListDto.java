@@ -19,10 +19,10 @@ public class FundListDto {
     private String fundInfo;
     private String fundType;
     private String fundDescription;
-    private Integer target;
+    private Long target;
 
     //펀딩액 현황
-    private Integer revenue;
+    private Long revenue;
     private Integer rate;
     private String artistName;
     private String imgUrl;

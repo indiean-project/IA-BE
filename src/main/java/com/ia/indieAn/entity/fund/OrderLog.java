@@ -32,7 +32,7 @@ public class OrderLog implements Serializable {
     private Fund fund;
 
     @Column(nullable = false)
-    private int totalPrice;
+    private long totalPrice;
 
     @Column(nullable = false)
     private String receiptId;
