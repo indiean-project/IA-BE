@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -135,6 +137,10 @@ public class UserService {
         } else if (userRepository.existsByPhoneAndUserNoNot(result.getPhone(), mem.getUserNo())) {
             throw new CustomException(ErrorCode.HAS_PHONE);
         }
+
+        if ("N".equals(mem.getSocialStatus()) && (result.getUserPwd() == null || result.getUserPwd().isEmpty())) {
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+        }
         log.info("이미지 저장 정보{}", result.getUserProfileImg());
 
         mem.setNickname(result.getNickname());
@@ -152,7 +158,14 @@ public class UserService {
     public void deleteUser(DeleteUserDto result) {
         Member mem = userRepository.findByUserNo(result.getUserNo());
 
-        mem.setDeleteYn(result.getDeleteYn());
+        if (mem != null) {
+            Date currentDate = Date.valueOf(LocalDate.now());
+            mem.setDeleteYn(result.getDeleteYn());
+            mem.setDeleteDate(currentDate);
+        } else {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+
     }
 
     public List<UserBoardDto> userBoardHistory(int userNo) {
