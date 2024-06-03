@@ -1,6 +1,7 @@
 package com.ia.indieAn.domain.user.dto;
 
 import com.ia.indieAn.entity.user.Member;
+import com.ia.indieAn.type.enumType.UserRoleEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdatePageDto {
     private int userNo;
-//    private String userId;
+    private UserRoleEnum userRole;
+    //    private String userId;
     private String userPwd;
     private String userName;
     private String nickname;
@@ -21,6 +23,7 @@ public class UpdatePageDto {
 
     public UpdatePageDto(Member member) {
         this.userNo = member.getUserNo();
+        this.userRole = member.getUserRole();
 //        this.userId = member.getUserId();
         this.userPwd = member.getUserPwd();
         this.userName = member.getUserName();
