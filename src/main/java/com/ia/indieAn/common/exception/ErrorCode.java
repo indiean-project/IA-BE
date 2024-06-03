@@ -20,6 +20,7 @@ public enum ErrorCode {
     FUND_NOT_FOUND(HttpStatus.NOT_FOUND, "fund-001", "존재하는 펀딩이 없습니다."),
     //콘서트 관련
     CONCERT_NOT_FOUND(HttpStatus.NOT_FOUND, "concert-001", "존재하는 콘서트가 없습니다."),
+    CONCERT_SAVE_ERROR(HttpStatus.NOT_FOUND, "concert-002", "저장에 실패했습니다."),
 
 
     // 게시글 관련

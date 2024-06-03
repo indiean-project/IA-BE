@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,5 +106,14 @@ public class ArtistService {
         Artist artist = artistRepository.findByMember_UserNo(userNo);
 
         return artist;
+    }
+
+    public List<LineupSearchDto> searchList(String name) {
+        List<Artist> artists = artistRepository.findAllByArtistNameContaining(name);
+
+        artists.stream().map(LineupSearchDto::new).toList();
+
+
+        return artists.stream().map(LineupSearchDto::new).toList();
     }
 }
