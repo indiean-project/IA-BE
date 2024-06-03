@@ -205,8 +205,7 @@ class IndieAnApplicationTests {
 			question.setMember(userRepository.findByUserNo(i));
 			question.setAnsYn("N");
 			question.setQuestionContent("테스트 데이터입니다"+i);
-			question.set
-					(Date.valueOf("2024-05-01"));
+			question.setQuestionDate(Date.valueOf("2024-05-01"));
 			question.setAnsDate(null);
 			question.setAnsContent(null);
 
