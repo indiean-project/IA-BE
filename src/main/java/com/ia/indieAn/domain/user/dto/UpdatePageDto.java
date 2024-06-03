@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class UpdatePageDto {
     private int userNo;
     private UserRoleEnum userRole;
-    //    private String userId;
+    private String userId;
     private String userPwd;
     private String userName;
     private String nickname;
@@ -24,7 +24,7 @@ public class UpdatePageDto {
     public UpdatePageDto(Member member) {
         this.userNo = member.getUserNo();
         this.userRole = member.getUserRole();
-//        this.userId = member.getUserId();
+        this.userId = member.getUserId();
         this.userPwd = member.getUserPwd();
         this.userName = member.getUserName();
         this.nickname = member.getNickname();
