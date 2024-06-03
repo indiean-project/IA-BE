@@ -17,7 +17,6 @@ public class ConcertLineupDto {
 
     public static ConcertLineupDto convertToLineupDto(LineupPorjection lp){
         if(lp.getArtistNo() != null){
-            System.out.println(lp.getImgUrl());
             return builder()
                     .artistName(lp.getArtistName())
                     .artistNo(lp.getArtistNo())

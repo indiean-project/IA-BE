@@ -4,12 +4,14 @@ import com.ia.indieAn.common.exception.CustomException;
 import com.ia.indieAn.common.exception.ErrorCode;
 import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.pageDto.PageInfo;
+import com.ia.indieAn.domain.artist.repository.ArtistRepository;
 import com.ia.indieAn.domain.concert.dto.*;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.domain.concert.repository.ConcertLineupRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertReplyRepository;
 import com.ia.indieAn.domain.concert.repository.ConcertRepository;
 import com.ia.indieAn.domain.imgurl.repository.ImgUrlRepository;
+import com.ia.indieAn.entity.artist.Artist;
 import com.ia.indieAn.entity.board.ImgUrl;
 import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.concert.ConcertLineup;
@@ -40,6 +42,7 @@ public class ConcertService {
     private final ConcertLineupRepository concertLineupRepository;
     private final ImgUrlRepository imgUrlRepository;
     private final ConcertReplyRepository concertReplyRepository;
+    private final ArtistRepository artistRepository;
 
     public ListDto concertList(BoardInfoDto bInfo) {
         if (bInfo.getSort().equals("createDate")) {
@@ -138,5 +141,32 @@ public class ConcertService {
             result.setReplyContent(concertReply.getReplyContent());
         }
         return result;
+    }
+
+    @Transactional
+    public Concert concertEnroll(ConcertEnrollDto concert) {
+
+
+        Concert cResult = concertRepository.save(Concert.convertFormConcertEnrollDto(concert));
+        if(cResult == null){
+            new CustomException(ErrorCode.CONCERT_SAVE_ERROR);
+        }
+        List<ConcertLineup> concertLineups = new ArrayList<>();
+        for (int i = 0; i < concert.getConcertLineupList().size(); i++){
+            if (artistRepository.existsByArtistName(concert.getConcertLineupList().get(i).getArtistName())){
+                ConcertLineup concertLineup = new ConcertLineup();
+                concertLineup.setConcert(cResult);
+                concertLineup.setArtist(artistRepository.findByArtistName(concert.getConcertLineupList().get(i).getArtistName()));
+                concertLineup.setArtistName(concert.getConcertLineupList().get(i).getArtistName());
+                concertLineups.add(concertLineup);
+            } else {
+                ConcertLineup concertLineup = new ConcertLineup();
+                concertLineup.setConcert(cResult);
+                concertLineup.setArtistName(concert.getConcertLineupList().get(i).getArtistName());
+                concertLineups.add(concertLineup);
+            }
+        }
+        concertLineupRepository.saveAll(concertLineups);
+        return  cResult;
     }
 }

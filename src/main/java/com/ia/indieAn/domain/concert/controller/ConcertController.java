@@ -6,6 +6,7 @@ import com.ia.indieAn.common.responseEntity.StatusEnum;
 import com.ia.indieAn.domain.concert.dto.ConcertDetailDto;
 import com.ia.indieAn.common.pageDto.ListDto;
 import com.ia.indieAn.domain.concert.dto.ConcertDto;
+import com.ia.indieAn.domain.concert.dto.ConcertEnrollDto;
 import com.ia.indieAn.domain.concert.dto.ConcertReplyDto;
 import com.ia.indieAn.domain.concert.service.ConcertService;
 
@@ -13,6 +14,7 @@ import com.ia.indieAn.entity.concert.Concert;
 import com.ia.indieAn.entity.concert.ConcertReply;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,6 +37,11 @@ public class ConcertController {
 
 
     private final ConcertService concertService;
+    @Value("${oldUrl}")
+    private String oldUrl;
+
+    @Value("${newUrl}")
+    private String newUrl;
 
     @RequestMapping("/concertList")
     public ResponseEntity<ResponseTemplate> concertList(@RequestBody BoardInfoDto bInfo) {
@@ -138,6 +145,20 @@ public class ConcertController {
         }
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+    @RequestMapping("/enroll")
+    public ResponseEntity<ResponseTemplate> concertEnroll(@RequestBody ConcertEnrollDto concert) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        ResponseTemplate response = new ResponseTemplate();
+        concert.setConcertInfo(concert.getConcertInfo().replace(oldUrl, newUrl));
+
+        Concert result = concertService.concertEnroll(concert);
+
+        response.setData(result.getConcertNo());
+        response.setStatus(StatusEnum.SUCCESS);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
 
 }
 

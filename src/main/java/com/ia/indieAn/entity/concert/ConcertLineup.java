@@ -1,5 +1,6 @@
 package com.ia.indieAn.entity.concert;
 
+import com.ia.indieAn.domain.concert.dto.SearchLineupDto;
 import com.ia.indieAn.entity.artist.Artist;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 public class ConcertLineup implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lineupNo;
 
     @ManyToOne
@@ -38,4 +40,6 @@ public class ConcertLineup implements Serializable {
                 ", artistName='" + artistName + '\'' +
                 '}';
     }
+
+
 }

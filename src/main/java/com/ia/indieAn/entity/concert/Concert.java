@@ -1,6 +1,7 @@
 package com.ia.indieAn.entity.concert;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ia.indieAn.domain.concert.dto.ConcertEnrollDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -21,6 +22,7 @@ import java.util.List;
 @DynamicInsert
 @Entity
 @Table(name = "concert")
+@Builder
 public class Concert implements Serializable {
 
     @Id
@@ -77,5 +79,17 @@ public class Concert implements Serializable {
                 ", updateDate=" + updateDate +
                 ", concertLineupList=" + concertLineupList.size() +
                 '}';
+    }
+    public static Concert convertFormConcertEnrollDto(ConcertEnrollDto c){
+        return Concert.builder()
+                .concertTitle(c.getConcertTitle())
+                .location(c.getLocation())
+                .startDate(c.getStartDate())
+                .concertPrice(c.getConcertPrice())
+                .runtime(c.getRuntime())
+                .endDate(c.getEndDate())
+                .concertInfo(c.getConcertInfo())
+                .ticketUrl(c.getTicketUrl())
+                .build();
     }
 }

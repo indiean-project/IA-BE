@@ -143,6 +143,7 @@ public class UserService {
         }
         log.info("이미지 저장 정보{}", result.getUserProfileImg());
 
+        mem.setUserRole(result.getUserRole());
         mem.setNickname(result.getNickname());
         mem.setPhone(result.getPhone());
         mem.setUserContent(result.getUserContent());

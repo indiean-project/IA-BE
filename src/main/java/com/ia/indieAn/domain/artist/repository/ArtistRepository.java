@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ArtistRepository extends JpaRepository<Artist,Integer> {
@@ -63,4 +64,10 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
    Artist findByMember(Member member);
 
    Artist findByMember_UserNo(int userNo);
+
+   List<Artist> findAllByArtistNameContaining(String name);
+
+   boolean existsByArtistName(String artistName);
+
+   Artist findByArtistName(String artistName);
 }
