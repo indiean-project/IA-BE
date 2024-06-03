@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://indiean.cj8qw4waoseq.ap-northeast-2.rds.amazonaws.com:5432/postgres
-    username: indiean
-    password: indieandb
-    driver-class-name: org.postgresql.Driver
