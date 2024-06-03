@@ -51,4 +51,6 @@ public interface ConcertRepository extends JpaRepository<Concert, Integer> {
 
 
     Optional<Concert> findByConcertNo(int concertNo);
+
+
 }

@@ -1,10 +1,7 @@
 package com.ia.indieAn.domain.artist.controller;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
-import com.ia.indieAn.domain.artist.dto.ArtistDetailDto;
-import com.ia.indieAn.domain.artist.dto.ArtistDto;
-import com.ia.indieAn.domain.artist.dto.ArtistEnrollDto;
-import com.ia.indieAn.domain.artist.dto.ArtistSearchDto;
+import com.ia.indieAn.domain.artist.dto.*;
 import com.ia.indieAn.domain.artist.service.ArtistService;
 import com.ia.indieAn.entity.artist.Artist;
 import lombok.RequiredArgsConstructor;
@@ -119,8 +116,9 @@ public class ArtistController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        log.info("name={}",name);
-
+        List<LineupSearchDto> artists = artistService.searchList(name);
+        response.setData(artists);
+        response.setStatus(StatusEnum.SUCCESS);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 }
