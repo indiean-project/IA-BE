@@ -21,7 +21,6 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin
-
 public class AuthorityAdminController {
 
     @Autowired
@@ -29,22 +28,17 @@ public class AuthorityAdminController {
 
 
     @ResponseBody
-    @RequestMapping("/userAuthority")
-    public ResponseEntity<ResponseTemplate> userAuthority() {
+    @RequestMapping("/artist/list")
+    public ResponseEntity<ResponseTemplate> artistList() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
         ArrayList<AuthorityAdminDto> result = authorityAdminService.selectAllAuthorityList();
-        for(int i=0; i<result.size(); i++) {
-            System.out.println(result.get(i));
-        }
-
-        response.setStatus(StatusEnum.SUCCESS);
         response.setData(result);
+        response.setStatus(StatusEnum.SUCCESS);
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
-
     }
 
     @ResponseBody

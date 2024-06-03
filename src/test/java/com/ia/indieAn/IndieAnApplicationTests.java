@@ -198,6 +198,7 @@ class IndieAnApplicationTests {
 //			boardColo.setColRightTitle("후라이드 치킨");
 //			coloBoardRepository.save(boardColo);
 //		}
+<<<<<<< HEAD
 		//문의사항
 		for (int i = 0; i< 15; i++){
 			Question question = new Question();
@@ -208,29 +209,66 @@ class IndieAnApplicationTests {
 			question.setQuestionDate(Date.valueOf("2024-05-01"));
 			question.setAnsDate(null);
 			question.setAnsContent(null);
+=======
+//		//문의사항
+//		for (int i = 0; i< 15; i++){
+//			Question question = new Question();
+//			question.setQuestionNo(i);
+//			question.setMember(userRepository.findByUserNo(i));
+//			question.setAnsYn("N");
+//			question.setQuestionContent("테스트 데이터입니다"+i);
+//			question.setQuestionDate(Date.valueOf("2024-05-01"));
+//			question.setAnsDate(null);
+//			question.setAnsContent(null);
+//
+//			questionAdminRepository.save(question);
+//		}
+//
+//		// 신고사항 (ContentReportLog)
+//		for (int i =0; i<20; i++){
+//			ContentReportLog reportLog = new ContentReportLog();
+//			reportLog.setReportNo(i);
+//			reportLog.setMember(userRepository.findByUserNo(i+1));
+//			reportLog.setReportTypeNo(ReportTypeEnum.MYUNGYE);
+//			reportLog.setSolveYn("N");
+//			reportLog.setReportDate(Date.valueOf("2024-05-"+(i+1)));
+//			reportLog.setContentNo(i);
+//			if (i < 7) {
+//				reportLog.setBrType(BrcTypeEnum.BOARD);
+//			} else if (i >= 7 &&  i<10) {
+//				reportLog.setBrType(BrcTypeEnum.REPLY);
+//			} else if (i >= 10 && i <20) {
+//				reportLog.setBrType(BrcTypeEnum.CONCERTREPLY);
+//			}
+//
+//			reportAdminRepository.save(reportLog);
+//
+//		}
+>>>>>>> a472a58069154476122e374bbfe0091056eb86c0
 
-			questionAdminRepository.save(question);
+		for(int i = 1; i < 20; i++){
+			Artist artist = new Artist();
+			artist.setArtistName("아티스트"+i);
+			artist.setMusicCategory("이런거 저런거");
+			artist.setArtistInfo("<p>\n" +
+					"    반갑습니다.\n" +
+					"</p>\n" +
+					"<div>테스트용 html입니다.</div>\n" +
+					"<b>나는 입니다.</b>\n" +
+					"<ul>\n" +
+					"    <li>설명</li>\n" +
+					"    <li>설명</li>\n" +
+					"    <li>설명</li>\n" +
+					"    <li>설명?</li>\n" +
+					"    <li>설명?</li>\n" +
+					"    <li>설명?</li>\n" +
+					"    <li>설명?</li>\n" +
+					"</ul>");
+			artist.setMember(userRepository.findByUserNo(i));
+			artist.setDebutDate(Date.valueOf("2024-04-"+(i+1)));
+			artist.setArtistStatus("Y");
+			artistRepository.save(artist);
 		}
 
-		// 신고사항 (ContentReportLog)
-		for (int i =0; i<20; i++){
-			ContentReportLog reportLog = new ContentReportLog();
-			reportLog.setReportNo(i);
-			reportLog.setMember(userRepository.findByUserNo(i+1));
-			reportLog.setReportTypeNo(ReportTypeEnum.MYUNGYE);
-			reportLog.setSolveYn("N");
-			reportLog.setReportDate(Date.valueOf("2024-05-"+(i+1)));
-			reportLog.setContentNo(i);
-			if (i < 7) {
-				reportLog.setBrType(BrcTypeEnum.BOARD);
-			} else if (i >= 7 &&  i<10) {
-				reportLog.setBrType(BrcTypeEnum.REPLY);
-			} else if (i >= 10 && i <20) {
-				reportLog.setBrType(BrcTypeEnum.CONCERTREPLY);
-			}
-
-			reportAdminRepository.save(reportLog);
-
-		}
 	}
 }
