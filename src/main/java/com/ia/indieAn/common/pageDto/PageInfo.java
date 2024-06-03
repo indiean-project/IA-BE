@@ -17,7 +17,6 @@ public class PageInfo {
     private int totalPage;
 
     public PageInfo(int totalPage, int currentPage, int totalCount, int boardLimit) {
-        System.out.println(currentPage);
         this.currentPage = currentPage;
         this.startPage = (currentPage - 1) / boardLimit * boardLimit + 1;
         this.endPage = startPage + boardLimit - 1;

@@ -50,7 +50,6 @@ public class FundController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        System.out.println(fundSearchDto);
 
         Slice<FundListDto> fundListDtos = fundService.selectAllFund(fundSearchDto);
         response.setStatus(StatusEnum.SUCCESS);
@@ -90,7 +89,6 @@ public class FundController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        System.out.println(orderReserveDto);
         Fund fund = fundService.selectFund(orderReserveDto.getFundNo());
 
         Bootpay bootpay = new Bootpay(bootPay_key, private_key);

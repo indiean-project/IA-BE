@@ -53,13 +53,11 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping("/myPage")
     public ResponseEntity<ResponseTemplate> userPage(@RequestBody Member member){
-        System.out.println(member);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
         UserPageDto result = userService.userPageInfo(member);
-        System.out.println(result);
         if(result != null) {
             response.setStatus(StatusEnum.SUCCESS);
             response.setData(result);
@@ -75,7 +73,6 @@ public class MyPageController {
     @RequestMapping("/myPage/update")
     public ResponseEntity<ResponseTemplate> updateUser(@RequestBody UpdatePageDto result){
 
-        System.out.println(result.getUserNo());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
@@ -108,7 +105,6 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping("/myPage/board")
     public ResponseEntity<ResponseTemplate> userBoardHistory(@RequestParam(name="userNo") int userNo){
-        System.out.println(userNo);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
@@ -148,7 +144,6 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping("/myPage/fund")
     public ResponseEntity<ResponseTemplate> userFundOrderHistory(@RequestParam(name="userNo") int userNo){
-        System.out.println(userNo);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
@@ -169,7 +164,6 @@ public class MyPageController {
     @RequestMapping("/myPage/fund/reward")
     public ResponseEntity<ResponseTemplate> userRewardOrderHistory(@RequestParam(name="userNo") int userNo,
                                                                    @RequestParam(name="fundNo") int fundNo) {
-        System.out.println(userNo);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();

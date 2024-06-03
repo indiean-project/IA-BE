@@ -34,7 +34,6 @@ public class UserPageDto {
         this.userFavoriteArtist = member.getUserFavoriteArtist();
         this.userFavoriteMusic = member.getUserFavoriteMusic();
 
-        System.out.println(this);
     }
 
 }

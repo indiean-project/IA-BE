@@ -35,13 +35,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/login")
     public ResponseEntity<ResponseTemplate> loginUser(@RequestBody Member member){
-        System.out.println(member);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
 
         LoginUserDto result = userService.loginUser(member);
-        System.out.println(result);
         if(result != null && result.getDeleteYn().equals("N")) {
             response.setStatus(StatusEnum.SUCCESS);
             response.setData(result);
