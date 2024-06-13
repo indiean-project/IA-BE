@@ -18,6 +18,8 @@ public enum ErrorCode {
     ARTIST_NOT_FOUND(HttpStatus.BAD_REQUEST, "artist-001", "존재하지 않는 페이지입니다."),
     //펀딩 관련
     FUND_NOT_FOUND(HttpStatus.NOT_FOUND, "fund-001", "존재하는 펀딩이 없습니다."),
+    FUND_ENROLL_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "fund-002", "펀딩 등록 중 오류가 발생하였습니다."),
+    ORDER_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "fund-003", "처리 과정 중 오류가 발생하였습니다."),
     //콘서트 관련
     CONCERT_NOT_FOUND(HttpStatus.NOT_FOUND, "concert-001", "존재하는 콘서트가 없습니다."),
     CONCERT_SAVE_ERROR(HttpStatus.NOT_FOUND, "concert-002", "저장에 실패했습니다."),

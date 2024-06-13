@@ -121,7 +121,6 @@ public class FundService {
         orderLog.setReceiptId(orderReserveDto.getReceiptId());
         orderLog.setBillingKey(billingKey);
         orderLog.setPaymentDate(orderReserveDto.getPaymentDate());
-        orderLogRepository.save(orderLog);
 
         List<FundLog> fundLogList = orderReserveDto.getReward().stream()
                 .map(e->FundLog.builder()
@@ -130,19 +129,27 @@ public class FundService {
                         .reward(rewardRepository.findByRewardNo(e.getRewardNo()))
                         .rewardAmount(e.getAmount())
                         .build()).toList();
-        fundLogRepository.saveAll(fundLogList);
+        try {
+            orderLogRepository.save(orderLog);
+            fundLogRepository.saveAll(fundLogList);
+        } catch (Exception e){
+            throw new CustomException(ErrorCode.ORDER_FAIL);
+        }
     }
 
     @Transactional(rollbackFor = CustomException.class)
-    public int enrollFund(FundEnrollDto fundEnrollDto) throws ParseException {
+    public int enrollFund(FundEnrollDto fundEnrollDto) {
         fundEnrollDto.setFundStatus(FundStatusEnum.AWAIT);
         Member member = userRepository.findByUserNo(fundEnrollDto.getUserNo());
-        Fund fund = fundRepository.save(Fund.convertFormFundEnrollDto(fundEnrollDto, member));
-
-        List<Reward> rewardList = fundEnrollDto.getReward().stream()
-                .map(e->Reward.convertFromRewardDto(e, fund)).toList();
-        rewardRepository.saveAll(rewardList);
-
+        Fund fund;
+        try {
+            fund = fundRepository.save(Fund.convertFormFundEnrollDto(fundEnrollDto, member));
+            List<Reward> rewardList = fundEnrollDto.getReward().stream()
+                    .map(e->Reward.convertFromRewardDto(e, fund)).toList();
+            rewardRepository.saveAll(rewardList);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.FUND_ENROLL_FAIL);
+        }
         return fund.getFundNo();
     }
 }
