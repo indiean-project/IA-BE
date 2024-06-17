@@ -1,5 +1,6 @@
 package com.ia.indieAn.domain.fund.dto;
 
+import com.ia.indieAn.entity.fund.FundLog;
 import com.ia.indieAn.entity.fund.Reward;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class RewardListDto {
         this.rewardInfo = reward.getRewardInfo();
         this.deliveryYn = reward.getDeliveryYn();
         this.limitYn = reward.getLimitYn();
-        this.limitAmount = reward.getLimitAmount();
+        this.limitAmount = reward.getLimitAmount() - (reward.getFundLogList().stream()
+                .mapToInt(FundLog::getRewardAmount).sum());
     }
 }
