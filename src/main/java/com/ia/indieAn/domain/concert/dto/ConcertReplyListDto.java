@@ -9,7 +9,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ConcertReplyDto {
+public class ConcertReplyListDto {
 
     private int concertReplyNo;
 
@@ -25,7 +25,7 @@ public class ConcertReplyDto {
 
     private String deleteYn;
 
-    public ConcertReplyDto(ConcertReply concertReply){
+    public ConcertReplyListDto(ConcertReply concertReply){
         this.concertReplyNo = concertReply.getConcertReplyNo();
         this.nickName = concertReply.getMember().getNickname();
         this.concertNo = concertReply.getConcert().getConcertNo();
