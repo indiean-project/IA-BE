@@ -3,11 +3,8 @@ package com.ia.indieAn.domain.concert.controller;
 import com.ia.indieAn.common.pageDto.BoardInfoDto;
 import com.ia.indieAn.common.responseEntity.ResponseTemplate;
 import com.ia.indieAn.common.responseEntity.StatusEnum;
-import com.ia.indieAn.domain.concert.dto.ConcertDetailDto;
+import com.ia.indieAn.domain.concert.dto.*;
 import com.ia.indieAn.common.pageDto.ListDto;
-import com.ia.indieAn.domain.concert.dto.ConcertDto;
-import com.ia.indieAn.domain.concert.dto.ConcertEnrollDto;
-import com.ia.indieAn.domain.concert.dto.ConcertReplyDto;
 import com.ia.indieAn.domain.concert.service.ConcertService;
 
 import com.ia.indieAn.entity.concert.Concert;
@@ -25,7 +22,6 @@ import java.nio.charset.Charset;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -48,7 +44,6 @@ public class ConcertController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-
         ListDto result = concertService.concertList(bInfo);
         response.setData(result);
         response.setStatus(StatusEnum.SUCCESS);
@@ -89,7 +84,7 @@ public class ConcertController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        List<ConcertReplyDto> result = concertService.cocnertReplyList(concertNo);
+        List<ConcertReplyListDto> result = concertService.cocnertReplyList(concertNo);
 
         if (result != null) {
             response.setData(result);
@@ -104,11 +99,11 @@ public class ConcertController {
     }
 
     @RequestMapping("/addReply")
-    public ResponseEntity<ResponseTemplate> concertAddReply(@RequestBody ConcertReply concertReply) {
+    public ResponseEntity<ResponseTemplate> concertAddReply(@RequestBody ConcertReplyDto concertReplyDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        ConcertReply result = concertService.concertAddReply(concertReply);
+        ConcertReply result = concertService.concertAddReply(concertReplyDto);
         if (result != null) {
             response.setStatus(StatusEnum.SUCCESS);
         } else {
@@ -122,7 +117,7 @@ public class ConcertController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        log.info("contentNo={}", contentNo);
+
         ConcertReply result = concertService.concertDeleteReply(contentNo);
         if (result != null) {
             response.setStatus(StatusEnum.SUCCESS);
@@ -133,11 +128,11 @@ public class ConcertController {
     }
 
     @RequestMapping("/updateReply")
-    public ResponseEntity<ResponseTemplate> concertUpdateReply(@RequestBody ConcertReply concertReply) {
+    public ResponseEntity<ResponseTemplate> concertUpdateReply(@RequestBody ConcertReplyDto concertReplyDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         ResponseTemplate response = new ResponseTemplate();
-        ConcertReply result = concertService.concertUpdateReply(concertReply);
+        ConcertReply result = concertService.concertUpdateReply(concertReplyDto);
         if (result != null) {
             response.setStatus(StatusEnum.SUCCESS);
         } else {
